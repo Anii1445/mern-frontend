@@ -10,6 +10,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { MdEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { BsBoxSeamFill } from "react-icons/bs";
+const API = import.meta.env.VITE_API_URL;
 
 
 export default function AdminUsers() {
@@ -88,7 +89,7 @@ export default function AdminUsers() {
               // Your delete logic here
               try {
                 const response = await fetch(
-                  `http://localhost:5000/api/admin/user/delete/${id}`,
+                  `${API}/api/admin/user/delete/${id}`,
                   {
                     method: "DELETE",
                     headers: {
@@ -133,7 +134,7 @@ export default function AdminUsers() {
 
   const getAllUsers = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/admin/users?name=${search}`, {
+      const response = await fetch(`${API}/api/admin/users?name=${search}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

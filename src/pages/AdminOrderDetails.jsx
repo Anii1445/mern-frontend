@@ -9,6 +9,7 @@ import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { IoCalendarOutline } from "react-icons/io5";
+const API = import.meta.env.VITE_API_URL;
 
 export default function AdminOrderDetails(){
 
@@ -20,7 +21,7 @@ export default function AdminOrderDetails(){
     useEffect(()=> {
         const fetchOrderDetails = async () => {
             try {
-            const response = await fetch(`http://localhost:5000/api/admin/getOrderById/${id}`,{
+            const response = await fetch(`${API}/api/admin/getOrderById/${id}`,{
                 method: "GET",
                 headers: {
                              Authorization: `Bearer ${token}`,

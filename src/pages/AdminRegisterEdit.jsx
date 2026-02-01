@@ -4,6 +4,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+const API = import.meta.env.VITE_API_URL;
 
 
 export default function AdminRegisterEdit(){
@@ -14,7 +15,7 @@ export default function AdminRegisterEdit(){
 
     const getData = async() => {       
         try {
-            const response = await fetch(`http://localhost:5000/api/admin/getUserByID/${user?.userId}`,{
+            const response = await fetch(`$${API}/api/admin/getUserByID/${user?.userId}`,{
             method: "GET",
             headers: {
                  Authorization: `Bearer ${token}`,

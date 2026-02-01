@@ -38,6 +38,7 @@ export default function AdminProduct() {
   const [fssai, setFssai] = useState("");
   const [servingSize, setServingSize] = useState("");
   const [proteinPerScoop, setProteinPerScoop] = useState("");
+const API = import.meta.env.VITE_API_URL;
 
 
   // Dynamic fields state
@@ -98,7 +99,7 @@ export default function AdminProduct() {
 
   const getCategory = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/admin/category`, {
+      const response = await fetch(`${API}/api/admin/category`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -114,7 +115,7 @@ export default function AdminProduct() {
 
   const getFlavour = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/admin/flavour`, {
+      const response = await fetch(`${API}/api/admin/flavour`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -130,7 +131,7 @@ export default function AdminProduct() {
 
   const getWeight = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/admin/weight`,{
+      const response = await fetch(`${API}/api/admin/weight`,{
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -145,7 +146,7 @@ export default function AdminProduct() {
 
   const getBrands = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/admin/brand`,{
+      const response = await fetch(`${API}/api/admin/brand`,{
         method:"GET",
         headers:{
           Authorization: `Bearer ${token}`
@@ -204,7 +205,7 @@ export default function AdminProduct() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/admin/add/product`,
+        `${API}/api/admin/add/product`,
         {
           method: "POST",
           headers: {

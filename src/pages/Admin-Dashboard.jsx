@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../store/auth-ContextAPI";
 import { FaArrowTrendUp } from "react-icons/fa6";
+const API = import.meta.env.VITE_API_URL;
+
 
 export default function AdminDashboard() {
   const { token } = useAuth();
@@ -11,7 +13,7 @@ export default function AdminDashboard() {
     const fetchOrders = async () => {
       try {
         const response = await fetch(
-          "http://localhost:5000/api/admin/getAllOrders",
+          `${API}/api/admin/getAllOrders`,
           {
             method: "GET",
             headers: {
