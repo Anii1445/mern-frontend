@@ -1,0 +1,12 @@
+.carousel-indicators {
+  bottom: 0; /* push it to the bottom */
+  margin-bottom: 1rem; /* optional: adds spacing from the bottom */
+}
+
+
+#carouselExampleCaptions .carousel-indicators {
+  position: absolute;
+  bottom: 0;
+  justify-content: center;
+  margin-bottom: -4rem; /* optional spacing */
+}

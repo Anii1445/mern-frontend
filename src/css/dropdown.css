@@ -1,0 +1,21 @@
+.dropdown-menu .dropdown-item:active,
+.dropdown-menu .dropdown-item:focus,
+.dropdown-menu .dropdown-item {
+  text-decoration: none !important;
+}
+.dropdown-menu .dropdown-item:focus-visible {
+  background-color: transparent !important;
+  color: #3D3C3A !important;
+}
+
+.dropdown-menu .dropdown-item:hover {
+  background-color: #f5f7fa !important;
+}
+
+.dropdown-menu li {
+  cursor: pointer;
+}
+
+.dropdown-menu{
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15)
+}

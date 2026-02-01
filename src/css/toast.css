@@ -1,0 +1,7 @@
+
+/* Override default toast styles */
+.Toastify__toast {
+  font-size: 13px;
+  padding: 16px;
+  min-width: 300px;
+}

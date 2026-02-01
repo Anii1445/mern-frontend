@@ -1,0 +1,25 @@
+.account-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* pushes arrow to right */
+  width: 100%;
+}
+
+.username {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* truncate long names */
+  max-width: 160px; /* adjust if needed */
+}
+
+.arrow-icon {
+  flex-shrink: 0; /* prevents arrow from shrinking */
+  font-size: 20px;
+}
+
+.account-row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  width: 100%;
+}

@@ -1,0 +1,134 @@
+import { useEffect, useState } from "react"
+import { useAuth } from "../store/auth-ContextAPI";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
+
+export default function AdminRegisterEdit(){
+
+    const { token, user } = useAuth();
+    const [editData, setEditData] = useState({});
+    const navigate = useNavigate();
+
+    const getData = async() => {       
+        try {
+            const response = await fetch(`http://localhost:5000/api/admin/getUserByID/${user?.userId}`,{
+            method: "GET",
+            headers: {
+                 Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            }
+        });
+
+        if(response.ok){
+            setEditData(await response.json())
+        }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+    useEffect(() => {
+        if(user?.userId){
+            getData();
+        }
+    },[user])
+
+    const handleChange = (e) => {
+        setEditData({...editData,[e.target.name]:e.target.value})
+    }
+
+    const [errors, setErrors] = useState(false);
+    const [emailErrors, setEmailErrors] = useState(false);
+
+    const Edit = async() => {
+
+        try {
+            const response = await fetch(`http://localhost:5000/api/admin/editUserData/${user?.userId}`,{
+                method: "PATCH",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(editData)
+            });
+
+            const res_data = await response.json();
+            if(response.ok){
+                toast.success("Data Updated Successfully!", {
+                    position: "top-center",
+                    autoClose: 2000, 
+             })
+                navigate("/admin/users")
+            }
+            else{
+                if (res_data.extraDetails) {
+                    setErrors(res_data.extraDetails[0].field)
+                        toast.error(res_data.extraDetails[0].message, {
+                           position: "top-center",
+                           autoClose: 2000, 
+                      });
+                    
+                }
+                setEmailErrors(res_data.msg)
+                toast.error(res_data.msg && res_data.msg, {
+                position: "top-center",
+                autoClose: 2000, 
+             });
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    
+
+    return(
+    <>
+    <div className="container">
+        <div className="justify-content-center">
+            <div className="card">
+                <div className="card-body">
+                    <h4 className="mb-4">Edit Personal Information</h4>
+                    <form className='row g-3'>
+                                            <div className="col-md-6">
+                                                <TextField type="text" label="Name" variant="outlined" size="small"
+                                                    value={editData.name || ""} onChange={handleChange} name="name" fullWidth
+                                                    required
+                                                    error={errors === "name"} />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <TextField type="email" label="Email" variant="outlined" size="small"
+                                                    value={editData.email || ""} onChange={handleChange} name="email" fullWidth
+                                                    required
+                                                    error={errors === "eamil" || emailErrors === "Email already exists"} />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <TextField type="text" label="Phone" variant="outlined" size="small" disabled style={{backgroundColor: "#EEEEEE"}}
+                                                    value={editData.phone || ""} onChange={handleChange} name="phone" fullWidth
+                                                    required />
+                                            </div>
+   
+                                        </form>
+
+                                        <div className="row g-3 mt-3">
+                                            <div className="col-md-6">
+                                                <Button variant="contained" onClick={Edit} sx={{ marginRight: "5px" }}>
+                                                   Save
+                                                </Button>
+                                                 <Button variant="outlined" onClick={() => navigate("/admin/users")}>
+                                                   Back
+                                                </Button>
+                                            </div>
+                                            
+                                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    </>)
+}

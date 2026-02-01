@@ -1,0 +1,9 @@
+.row-category {
+  display: grid;
+  grid-template-columns: 20% 80%; /* 2 columns */
+  gap: 10px;
+}
+
+.column {
+  padding: 20px;
+}

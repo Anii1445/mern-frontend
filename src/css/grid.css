@@ -1,0 +1,9 @@
+.row-container {
+  display: grid;
+  grid-template-columns: 10% 40% 50%; /* 3 equal columns */
+  gap: 10px;
+}
+
+.col {
+  padding: 20px;
+}

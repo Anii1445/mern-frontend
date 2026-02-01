@@ -1,0 +1,19 @@
+.order-scroll {
+  max-height: 580px;
+  overflow-y: auto;
+}
+
+/* Chrome, Edge, Safari */
+.order-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* Firefox */
+.order-scroll {
+  scrollbar-width: none;
+}
+
+/* IE / old Edge */
+.order-scroll {
+  -ms-overflow-style: none;
+}

@@ -1,0 +1,43 @@
+.filter-column {
+  border: 1px solid #e0e0e0;
+  background-color: #f9fafb;
+  border-radius: 10px;
+  padding: 14px;
+  position: sticky;
+  top: 90px;
+  height: fit-content;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.filter-title {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.price-range {
+  font-size: 13px;
+  color: #555;
+}
+
+.clear-filter-btn {
+  margin-top: 16px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 992px) {
+  .filter-column {
+    position: relative;
+    top: unset;
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-column {
+    padding: 10px;
+  }
+
+  .filter-title {
+    font-size: 14px;
+  }
+}
