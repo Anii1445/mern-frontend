@@ -52,6 +52,7 @@ const API = import.meta.env.VITE_API_URL;
 
 export default function Home() {
 
+
    const {
     user,
     ApiWeight,
@@ -144,8 +145,7 @@ export default function Home() {
   const getCartByUser = async () => {
     if (isLoggedIn) {
       try {
-        const response = await fetch(
-          `${API}/api/auth/getUserCart/${user.userId}`,
+        const response = await fetch(`${API}/api/auth/getUserCart/${user.userId}`,
           {
             method: "GET",
             headers: {
