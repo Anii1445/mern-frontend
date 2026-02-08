@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { IoCalendarOutline } from "react-icons/io5";
 const API = import.meta.env.VITE_API_URL;
+import { FaArrowLeft } from "react-icons/fa6";
 
 export default function AdminOrderDetails(){
 
@@ -17,9 +18,11 @@ export default function AdminOrderDetails(){
     const [orderDetails, setOrderDetails] = useState([]);
     const { token } = useAuth();
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(()=> {
         const fetchOrderDetails = async () => {
+            setIsLoading(true);
             try {
             const response = await fetch(`${API}/api/admin/getOrderById/${id}`,{
                 method: "GET",
@@ -31,11 +34,14 @@ export default function AdminOrderDetails(){
 
             if(response.ok){
                 const data = await response.json();
-                setOrderDetails(data[0])
+                setOrderDetails(data[0]);
+                setIsLoading(false);
             }
                 
             } catch (error) {
                 console.log(error)
+            }finally{
+                setIsLoading(false)
             }
         }
 
@@ -51,12 +57,21 @@ export default function AdminOrderDetails(){
             <>
             <div className="container">
                 <div className="justify-content-center">
+                    {isLoading ?  <div
+    className="d-flex justify-content-center align-items-center"
+    style={{ minHeight: "clamp(300px, 70vh, 800px)" }}
+  >
+    <div className="spinner-grow text-secondary" role="status">
+    </div>
+    <div className="text-muted">Loading...</div>
+
+  </div>  : <>
                     <div className="card mb-1 shadow-sm">
                     <div className="card-body">
 <div className="d-flex justify-content-between align-items-center">
                                     <h4 className="mb-0">Order Details</h4>
                                     <div>
-                        <Button variant="contained" onClick={() => {navigate(`/admin/userOrders/${orderDetails?.user_id}`)}}>
+                        <Button variant="contained" onClick={() => {navigate(`/admin/userOrders/${orderDetails?.user_id}`)}} startIcon={<FaArrowLeft/>}>
                             Back
                         </Button> 
                      </div>
@@ -67,7 +82,7 @@ export default function AdminOrderDetails(){
                         <div className="col-6">
                             <div className="card h-100 shadow-sm">
                             <div className="card-body">
-                                <div>Order ID: <strong>{`FF-${orderDetails?._id?.toString().slice(0,13).toUpperCase()}`}</strong> <MdOutlineContentCopy style={{ cursor: "pointer" }}/></div>
+                                <div>Order ID: <strong>#{orderDetails?._id?.toUpperCase()}</strong> <MdOutlineContentCopy style={{ cursor: "pointer" }}/></div>
                                 <div>Order On: <IoCalendarOutline/> <strong>{new Date(orderDetails?.createdAt).toLocaleDateString("en-GB", {
     day: "2-digit",
     month: "short",
@@ -159,7 +174,7 @@ export default function AdminOrderDetails(){
                         </div>
                     </div>
 
-
+                               </> }
                 </div>
             </div>
     

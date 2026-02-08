@@ -4,9 +4,10 @@ import Box from "@mui/material/Box";
 import { MdOutlineEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Stepper from "@mui/material/Stepper";
-import { IoMdRadioButtonOff } from "react-icons/io";
+import { IoIosMoon, IoMdRadioButtonOff } from "react-icons/io";
 import { MdOutlineRadioButtonChecked } from "react-icons/md";
 import { BsBoxSeam } from "react-icons/bs";
+import { useTheme, useMediaQuery } from "@mui/material";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import { IoMdInformationCircleOutline } from "react-icons/io";
@@ -46,6 +47,11 @@ export default function Checkout() {
   const { orderInfo, selectedAddress } = useSelector((state) => state.checkout);
   const steps = ["Cart", "Add address", "Payment"];
   const [deliver, setDeliver] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [updateLoading, setUpdateLoading] = useState(null);
+  const [getEditLoading, setGetEditLoading] = useState(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
 
   const getInitialAddress = (userId) => ({
@@ -68,8 +74,11 @@ export default function Checkout() {
   };
 
   const [errors, setErrors] = useState("");
+  const [loadingButton, setLoadingButton] = useState(false);
 
   const add = async () => {
+    setLoadingButton(true);
+
     if (isLoggedIn) {
       const payload = {...address, user_id: user?.userId}
       try {
@@ -91,6 +100,7 @@ export default function Checkout() {
                 position: "top-center",
                 autoClose: 2000, 
              });
+          setLoadingButton(false);   
           setAddress(getInitialAddress(user?.userId));
           setDeliver(data._id);
           getAllUSerAddress();
@@ -104,10 +114,13 @@ export default function Checkout() {
                 position: "top-center",
                 autoClose: 2000, 
              });
+             setLoadingButton(false);
           }
         }
       } catch (error) {
         console.log(error);
+      }finally{
+        setLoadingButton(false);
       }
     }
   };
@@ -152,6 +165,7 @@ export default function Checkout() {
 
   const [userAddress, setUserAddress] = useState([]);
   const getAllUSerAddress = async () => {
+    setLoading(true);
     try {
       const response = await fetch(
         `${API}/api/auth/getUserAddressByID/${user?.userId}`,
@@ -167,25 +181,29 @@ export default function Checkout() {
       if (response.ok) {
         setDeliver(selectedAddress)
         setUserAddress(data);
+        setLoading(false);
       }
     } catch (error) {
       console.log(error);
     }
+    finally{
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    if (user) {
+  
       getStates();
       getCities();
       getAllUSerAddress();
       setAddress(getInitialAddress(user?.userId));
-    }
-  }, [user]);
+  
+  }, [user, selectedAddress]);
 
 
   const [editAddress, setEditAddress] = useState({});
   const Edit = async (id) => {
-    
+    setGetEditLoading(id);
       try {
         const response = await fetch(`${API}/api/auth/getAddressByIdForEdit/${id}`,{
           method: "GET",
@@ -197,9 +215,12 @@ export default function Checkout() {
 
         if(response.ok){
           setEditAddress(await response.json());
+          setGetEditLoading(null);
         }
       } catch (error) {
         console.log(error)
+      }finally{
+        setGetEditLoading(null)
       }
     };
 
@@ -265,6 +286,7 @@ export default function Checkout() {
   }
 
   const edit = async(id) => {
+    setUpdateLoading(id);
     try {
       const response = await fetch(`${API}/api/auth/editUserAddressByID/${id}`,{
         method: "PATCH",
@@ -283,6 +305,8 @@ export default function Checkout() {
              });
         getAllUSerAddress();
         setEditAddress({});
+        setUpdateLoading(null);
+        setDeliver(id);
         setEditModal(false);
       }
       else{
@@ -292,9 +316,13 @@ export default function Checkout() {
                 position: "top-center",
                 autoClose: 2000, 
              });
+             setUpdateLoading(null);
       }}
     } catch (error) {
       console.log(error)
+    }
+    finally{
+      setUpdateLoading(null);
     }
   }
 
@@ -305,10 +333,10 @@ export default function Checkout() {
     <>
       <div
         className="container justify-content-center"
-        style={{ marginTop: "10%" }}
+        style={{ paddingTop: isMobile ? "20%" : "10%" }}
       >
         <div className="row">
-          <div className="col-7">
+          <div className="col-12 col-md-7">
             <Box sx={{ width: "100%", marginBottom: "3%" }}>
               <Stepper activeStep={1} alternativeLabel>
                 {steps.map((label) => (
@@ -331,7 +359,15 @@ export default function Checkout() {
                   >
                     Add New Address
             </Button>
-            {userAddress.length > 0 &&
+            {loading ? <div
+    className="d-flex justify-content-center align-items-center"
+    style={{ minHeight: "clamp(300px, 70vh, 800px)" }}
+  >
+   <div className="spinner-grow text-secondary" role="status">
+    </div>
+    <div className="text-muted">Loading...</div>
+
+  </div> : userAddress.length > 0 &&
             <div className="card mt-2" style={{ boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)"}}>
               <div className="card-body">
                 <div
@@ -358,8 +394,8 @@ export default function Checkout() {
                       onClick={() => setDeliver(u._id)}
                       style={{ cursor: "pointer" }}
                     >
-                      <div className="row">
-                        <div className="col-10">
+                      <div className="row align-items-start">
+                        <div className="col-12 col-md-10">
                           <div className="mb-3">
                              {deliver !== u._id ? <IoMdRadioButtonOff style={{ marginRight: "5px", color: "grey", fontSize: "20px" }} /> :
                               <MdOutlineRadioButtonChecked style={{ marginRight: "5px", color: "#1769aa", fontSize: "20px" }} />}
@@ -381,6 +417,8 @@ export default function Checkout() {
 
                           <Button
                             variant="contained"
+                             fullWidth={isMobile}
+                             size={isMobile ? "small" : "medium"}
                             disabled={deliver !== u._id && true}
                             startIcon={deliver === u._id && <FaCheckSquare/>}
                             onClick={(e) => {
@@ -391,7 +429,13 @@ export default function Checkout() {
                           </Button>
                         </div>
                         
-                          <div className="col-2 d-flex justify-content-end">
+                          <div className="col-12 col-md-2 d-flex justify-content-end gap-2 mt-2 mt-md-0" 
+                          style={{ position: isMobile && "absolute",
+                                  top: isMobile && "10px",
+                                  right: isMobile && "10px",
+                                  display: isMobile && "flex",
+                                  gap: isMobile && "10px",
+                                  zIndex: isMobile && 2,}}>
                             {deliver === u._id && (
                             <MdOutlineEdit
                               style={{ color: "grey" }}
@@ -404,12 +448,10 @@ export default function Checkout() {
                             {deliver !== u._id && (
                               <>
                             <MdOutlineEdit
-                            data-bs-toggle="modal"
-                            data-bs-target="#staticBackdrop_1"
                             style={{ color: "grey" }}
                               className="me-2"
                               onClick={(e) => {
-                                e.stopPropagation(), Edit(u._id);
+                                e.stopPropagation(), Edit(u._id); setEditModal(true);
                               }}
                             />
 
@@ -428,12 +470,11 @@ export default function Checkout() {
                   </div>
                 ))}
               </div>
-            </div>
-            }
+            </div> }
           </div>
 
-          <div className="col-5">
-            <div className="card" style={{ boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)"}} >
+          <div className="col-12 col-md-5 mt-4 mt-md-0">
+            <div className="card" style={{ boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)"}}  >
               <div className="card-body">
                 <h4>
                   <BsBoxSeam style={{ marginRight: "3%" }} />
@@ -517,6 +558,12 @@ export default function Checkout() {
             </div>
           </div>
         </div>
+        {isMobile && (
+                  <div className="mobile-fixed-buybar d-flex justify-content-between" style={{ backgroundColor: "#b3e5fc"}}>
+                            
+                             <h5>Total Amount</h5> 
+                             <h5>₹{orderInfo?.cartTotalMRP ? orderInfo?.cartTotalPRICE.toLocaleString("en-IN") : orderInfo?.price.toLocaleString("en-IN")}</h5>
+                  </div>)}
       </div>
 
       {/* <!---------------------------- Modal Trigger -------------------------------------> */}
@@ -530,7 +577,7 @@ export default function Checkout() {
         <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-5" id="staticBackdropLabel">
+              <h1 className="modal-title fs-5">
                 Add New Address
               </h1>
               <button
@@ -718,9 +765,9 @@ export default function Checkout() {
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-primary"  onClick={async () => {
+              <button type="button" disabled={loadingButton} className="btn btn-primary"  onClick={async () => {
                   await add() }} >
-                Save Address
+                {loadingButton ? "Saving...":"Save Address"}
               </button>
             </div>
           </div>
@@ -739,7 +786,7 @@ export default function Checkout() {
         <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-5" id="staticBackdropLabel">
+              <h1 className="modal-title fs-5">
                 Edit Address
               </h1>
               <button
@@ -750,6 +797,17 @@ export default function Checkout() {
                 aria-label="Close"
               ></button>
             </div>
+            
+            {getEditLoading ? 
+              <div
+    className="d-flex justify-content-center align-items-center"
+    style={{ minHeight: "300px" }}
+  >
+    <div className="spinner-grow text-secondary" role="status">
+       <span className="visually-hidden">Loading...</span>
+    </div>
+
+  </div> :  <>
             <div className="modal-body">
               <div className="row">
                 <div className="col my-2 py-0">
@@ -927,14 +985,15 @@ required
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-primary" onClick={()=>edit(editAddress._id)}>
-                Update Address
+              <button type="button" className="btn btn-primary" disabled={updateLoading} onClick={()=>edit(editAddress._id)}>
+                {updateLoading ? "Updating...": "Update Address"}
               </button>
               <button type="button" className="btn btn-primary" onClick={()=>{ setEditAddress({});
-        setEditModal(false);}}>
+                setEditModal(false);}}>
                 Back
               </button>
             </div>
+            </>}
           </div>
         </div>
       </div>}

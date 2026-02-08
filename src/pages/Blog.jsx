@@ -3,7 +3,7 @@
 export default function Blog() {
   return (
     <div className="container my-5">
-      <h2 className="text-dark mb-4 text-center" style={{ marginTop: "10%", fontWeight: "bold"}}>Blog</h2>
+      <h2 className="text-dark mb-4 text-center" style={{ paddingTop: "10%", fontWeight: "bold"}}>Blog</h2>
       <p>Fitness tips, nutrition guides, and updates.</p>
       <div className="card mb-2">
         <div className="card-body">

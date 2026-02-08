@@ -33,6 +33,7 @@ import { setDeliverAddress } from "../store/checkoutSlice";
 import swal from 'sweetalert';
 import confetti from "canvas-confetti";
 const API = import.meta.env.VITE_API_URL;
+import { useTheme, useMediaQuery } from "@mui/material";
 
 
 export default function Payment() {
@@ -41,6 +42,9 @@ export default function Payment() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { orderInfo, deliverAddress } = useSelector((state) => state.checkout);
+    const [loadingAddress, setLoadingAddress] = useState(false);
+    const theme = useTheme();  
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const steps = [
      'Cart',
@@ -58,6 +62,7 @@ export default function Payment() {
 
     const [userAddress, setUserAddress] = useState({})
     const getUserAddress = async() => {
+      setLoadingAddress(true)
       try {
         const response = await fetch(`${API}/api/auth/getAddressByID/${deliverAddress}`,{
           method: "GET",
@@ -69,9 +74,13 @@ export default function Payment() {
 
         if(response.ok){
           setUserAddress(await response.json());
+          setLoadingAddress(false);
         }
       } catch (error) {
         console.log(error)
+      }
+      finally{
+        setLoadingAddress(false);
       }
     }
 
@@ -218,7 +227,7 @@ const handlePay = async() => {
                         totalOrderMRP: orderInfo?.cartTotalMRP ? orderInfo?.cartTotalMRP : orderInfo?.mrp,
                         paymentMode: "Card",
                         paymentStatus: "Success",
-                        orderStatus: "Placed",
+                        orderStatus: "Processing",
                         deliverAddress: userAddress
 
                       }),
@@ -268,7 +277,7 @@ const handleUPIPay = async() => {
                         totalOrderMRP: orderInfo?.cartTotalMRP ? orderInfo?.cartTotalMRP : orderInfo?.mrp,
                         paymentMode: "UPI",
                         paymentStatus: "Success",
-                        orderStatus: "Placed",
+                        orderStatus: "Processing",
                         deliverAddress: userAddress
                       }),
     });
@@ -294,9 +303,9 @@ const handleUPIPay = async() => {
 console.log(orderInfo)
   return (
     <>
-    <div className="container justify-content-center"style={{ marginTop: "10%" }}>
+    <div className="container justify-content-center"style={{ paddingTop : isMobile ? "20%" : "10%" }}>
       <div className="row">
-          <div className="col-7">
+          <div className="col-12 col-md-7 order-2 order-md-1">
             <Box sx={{ width: '100%', marginBottom: "3%"}}>
       <Stepper activeStep={2} alternativeLabel>
         {steps.map((label) => (
@@ -313,36 +322,76 @@ console.log(orderInfo)
       </div>
     </div>
           <div className="card" style={{ boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)"}}>
+            {loadingAddress ? <div
+    className="d-flex justify-content-center align-items-center"
+    style={{ minHeight: "clamp(300px, 70vh, 800px)" }}
+  >
+   <div className="spinner-grow text-secondary" role="status">
+    </div>
+    <div className="text-muted">Loading...</div>
+
+  </div> :
             <div className="card-body">
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "2%" }}>  
                 <h5>Delivery Address</h5>
                 <Button variant="outlined" size="small" onClick={change}>Change</Button> 
                 </div> 
                 <div className="row">
-                  <div className="col-2 d-flex align-items-center" style={{ color: "#1769aa"}}><IoLocationSharp style={{ marginRight: "5px" }}/><b>{userAddress.address_type}</b></div>
-                  <div className="col-10"> 
-                  <small>
-                    <strong>{userAddress.full_name}</strong>, <br/>
-                    {userAddress.house_no}, {userAddress.landmark}, {userAddress.area}, {userAddress?.city?.toUpperCase()}, {userAddress?.stateInfo?.name?.toUpperCase()}, {userAddress.pincode}. 
-                    Phone: +91 {userAddress.phone}
-                  </small>
+                  <div className="col-12 col-md-2 mb-2 mb-md-0 d-flex align-items-center" style={{ color: "#1769aa"}}>
+                    <div><IoLocationSharp style={{ marginRight: "5px" }}/></div>
+                    <div><b>{userAddress.address_type}</b></div>
+                  </div>
+                  <div className="col-12 col-md-10"> 
+                   <small>
+                     <strong>{userAddress.full_name}</strong>, <br/>
+                     {userAddress.house_no}, {userAddress.landmark}, {userAddress.area}, {userAddress?.city?.toUpperCase()}, {userAddress?.stateInfo?.name?.toUpperCase()}, {userAddress.pincode}. 
+                     Phone: +91 {userAddress.phone}
+                   </small>
                   </div>
                 </div>
             </div>
+            }
           </div>
           <div className="card mt-3" style={{ boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)"}}>
             <div className="card-body">
               <h5 className="mb-3">Payment Method</h5>
-              <p style={{ display: "inline-flex", marginRight: "2%", backgroundColor: "#DCDCDC", padding:"1%", cursor: "pointer" }} onClick={upi}>Pay Using UPI <img src="/upi.svg"/></p>
-              <p style={{ display: "inline-flex", marginRight: "2%", backgroundColor: "#DCDCDC", padding:"1%", cursor: "pointer" }} onClick={debit}>Debit/Credit Card <img src="/visa.svg"/><img src="/rupay.svg"/><img src="/master.svg"/></p>
-              <p style={{ display: "inline-flex", backgroundColor: "#DCDCDC", padding:"1%", cursor: "pointer" }} onClick={cash}>Cash On Delivery</p>
+              <p  style={{
+    display: "inline-flex",
+    marginRight: isMobile ? "0" : "2%",
+    marginBottom: isMobile ? "8px" : "4px",
+    backgroundColor: "#DCDCDC",
+    padding: "8px",
+    cursor: "pointer",
+    width: isMobile ? "100%" : "auto",
+    justifyContent: "center",
+  }} onClick={upi}>Pay Using UPI <img src="/upi.svg" style={{ width: "40px", marginLeft: "5px"}}/></p>
+              <p  style={{
+    display: "inline-flex",
+    marginRight: isMobile ? "0" : "2%",
+    marginBottom: isMobile ? "8px" : "4px",
+    backgroundColor: "#DCDCDC",
+    padding: "8px",
+    cursor: "pointer",
+    width: isMobile ? "100%" : "auto",
+    justifyContent: "center",
+  }} onClick={debit}>Debit/Credit Card <img src="/visa.svg" style={{ width: "40px", marginLeft: "5px"}}/><img src="/rupay.svg" style={{ width: "40px"}}/><img src="/master.svg"/></p>
+              <p  style={{
+    display: "inline-flex",
+    marginRight: isMobile ? "0" : "2%",
+    marginBottom: isMobile ? "8px" : "0",
+    backgroundColor: "#DCDCDC",
+    padding: "8px",
+    cursor: "pointer",
+    width: isMobile ? "100%" : "auto",
+    justifyContent: "center",
+  }} onClick={cash}>Cash On Delivery <img src="/cash-money-svgrepo-com.svg" style={{ width: "20px", marginLeft: "5px"}}/></p>
 
-              <Divider sx={{ backgroundColor: "black", marginBottom: "5%"}}/>
+              <Divider sx={{ backgroundColor: "black", marginBottom: "5%", marginTop:"2%"}}/>
 
               {UPI === true &&
               <>
               <div className="row">
-                          <div className="col my-2 py-0">
+                          <div className="col-9 col-md-10  py-0">
                             <TextField name="upi_id" value={UPI_Id} label="Please enter your UPI ID" variant="standard" size="small" fullWidth 
                             onChange={(e) => {setUPI_Id(e.target.value); setUpiError(""); setVerifyId(null); setDisabled(true)}}
                             error={verifyId === false}
@@ -351,12 +400,12 @@ console.log(orderInfo)
                              style: { color: verifyId === false ? "red" : "green" }
                            }}/>
                           </div>  
-                          <div className="col my-2 py-0">
-                            <Button variant="outlined" size="large" disabled={UPI_Id ? false : true} onClick={verify}>Verify</Button>
+                          <div className="col-3 col-md-2 my-2 py-0">
+                            <Button variant="outlined" size={isMobile ? "medium" : "large"} disabled={UPI_Id ? false : true} onClick={verify}>Verify</Button>
                           </div>
               </div>
               <div>
-              <Button variant="contained" disabled={disabled} sx={{marginTop: "4%"}} onClick={handleUPIPay}>Pay ₹{orderInfo?.cartTotalPRICE ? orderInfo?.cartTotalPRICE.toLocaleString("en-IN") : orderInfo?.price.toLocaleString("en-IN")}</Button>
+              <Button variant="contained" fullWidth={isMobile} size={isMobile ? "medium" : "large"} disabled={disabled} sx={{marginTop: "4%"}} onClick={handleUPIPay}>Pay ₹{orderInfo?.cartTotalPRICE ? orderInfo?.cartTotalPRICE.toLocaleString("en-IN") : orderInfo?.price.toLocaleString("en-IN")}</Button>
               </div>
               </>
               }
@@ -391,21 +440,21 @@ console.log(orderInfo)
                           </div>
               </div>
               <div className="mt-4">
-              <Button variant="contained" size="large" onClick={ handlePay } disabled={cardData ? false : true}>Pay ₹{orderInfo?.cartTotalPRICE ? orderInfo?.cartTotalPRICE.toLocaleString("en-IN") : orderInfo?.price.toLocaleString("en-IN")}</Button>
+              <Button variant="contained" fullWidth={isMobile} size="large" onClick={ handlePay } disabled={cardData ? false : true}>Pay ₹{orderInfo?.cartTotalPRICE ? orderInfo?.cartTotalPRICE.toLocaleString("en-IN") : orderInfo?.price.toLocaleString("en-IN")}</Button>
               </div>
               </>
             }
 
             {Cash === true &&
             <div>
-              <Button variant="contained">Pay via COD ₹{orderInfo?.cartTotalPRICE ? orderInfo?.cartTotalPRICE.toLocaleString("en-IN") : orderInfo?.price.toLocaleString("en-IN")}</Button>
+              <Button variant="contained" fullWidth={isMobile} size={isMobile ? "medium" : "large"}>Pay via COD ₹{orderInfo?.cartTotalPRICE ? orderInfo?.cartTotalPRICE.toLocaleString("en-IN") : orderInfo?.price.toLocaleString("en-IN")}</Button>
             </div>
             }
             </div>
           </div>
         </div>
         
-        <div className="col-5">
+        <div className="col-12 col-md-5 order-2 order-md-1 mt-3">
           <div className="card" style={{ boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)"}}>
             <div className="card-body">
               <h4><BsBoxSeam style={{ marginRight: "3%" }}/>Order Summary ({orderInfo?.cartProducts? orderInfo?.cartProducts?.length : 1} Items)</h4>
@@ -445,6 +494,7 @@ console.log(orderInfo)
         </div>
       
       </div>
+
     </div>
 
 

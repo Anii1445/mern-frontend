@@ -28,7 +28,8 @@ export default function AllUserOrders(){
     const [myOrder, setMyOrder] = useState([]);
     const [open, setOpen] = useState(false);
     const [order, setOrder] = useState("all");
-    
+    const [isLoading, setIsLoading] = useState(false);
+
       const handleClickOpen = () => {
         setOpen(true);
       };
@@ -38,8 +39,11 @@ export default function AllUserOrders(){
       };
 
 
+      const [ok,setOk] = useState("");
+
     useEffect(()=>{
         const fetchOrders = async() => {
+            setIsLoading(true);
             try {
         const response = await fetch(`${API}/api/admin/getOrderByUser/${id}?months=${order}`,{
                         method: "GET",
@@ -52,24 +56,34 @@ export default function AllUserOrders(){
         if(response.ok){
             const data = await response.json();
             setMyOrder(data);
-            console.log(data);
+            setIsLoading(false);
         }
                 
            } catch (error) {
-                
+                console.log(error)
+        }finally{
+            setIsLoading(false);
         }
     }
 
      if (id) {
        fetchOrders();
       }
-    },[id, order]);
+    },[id, ok]);
 
     return (
         <>
         <div className="container">
             <div className="justify-content-center">
-                {myOrder?.length === 0 ? (
+                {isLoading ?  <div
+    className="d-flex justify-content-center align-items-center"
+    style={{ minHeight: "clamp(300px, 70vh, 800px)" }}
+  >
+   <div className="spinner-grow text-secondary" role="status">
+    </div>
+    <div className="text-muted">Loading...</div>
+
+  </div>  : myOrder?.length === 0 ? (
                 <div className="text-center">
               <img
                 src="/wishlist.svg"
@@ -112,7 +126,7 @@ export default function AllUserOrders(){
                                 </DialogContent>
                                 <DialogActions>
                                   <Button  variant="contained" onClick={handleClose}>Cancel</Button>
-                                  <Button variant="outlined" onClick={handleClose}>Ok</Button>
+                                  <Button variant="outlined" onClick={() => {handleClose(); setOk(order);}}>Ok</Button>
                                 </DialogActions>
                               </Dialog>
                             </div> 
@@ -122,7 +136,7 @@ export default function AllUserOrders(){
                     
                         <div className="card mb-3 shadow-sm">
                             <div className="card-body">
-                                <div><small>Order ID: <strong>{`FF-${o?._id?.toString().slice(0,13).toUpperCase()}`}</strong></small> <MdOutlineContentCopy style={{ cursor: "pointer" }}/></div>
+                                <div><small>Order ID: <strong>#{o?._id?.toUpperCase()}</strong></small> <MdOutlineContentCopy style={{ cursor: "pointer" }}/></div>
                                 <div><strong style={{ fontSize: "15px" }}>{o.items.length} Item | ₹{o.totalOrderPrice}</strong></div>
                                 <div style={{ marginBottom: "10px", fontSize: "15px"}}><NavLink to={`/admin/userOrderDetails/${o._id}`}>View Details</NavLink></div>
                                 {o.items.map((i) => (

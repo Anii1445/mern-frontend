@@ -1,0 +1,15 @@
+
+
+.carousel-inner {
+  min-height: 420px; /* adjust if needed */
+}
+
+.carousel-item {
+  height: 420px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  align-items: center;
+  display: flex;
+}

@@ -11,6 +11,7 @@ import { Button } from "@mui/material";
 import { toast } from "react-toastify";
 import { BsBoxSeam } from "react-icons/bs";
 const API = import.meta.env.VITE_API_URL;
+import { useTheme, useMediaQuery } from "@mui/material";
 
 
 export default function OrderDetails(){
@@ -19,9 +20,13 @@ export default function OrderDetails(){
     const [orderDetails, setOrderDetails] = useState([]);
     const { token, user } = useAuth();
     const navigate = useNavigate();
+    const theme = useTheme();
+    const [isLoading, setIsLoading] = useState(null);
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     useEffect(()=> {
         const fetchOrderDetails = async () => {
+            setIsLoading(true)
             try {
             const response = await fetch(`${API}/api/auth/getOrderById/${id}`,{
                 method: "GET",
@@ -33,11 +38,15 @@ export default function OrderDetails(){
 
             if(response.ok){
                 const data = await response.json();
-                setOrderDetails(data[0])
+                setOrderDetails(data[0]);
+                setIsLoading(false);
             }
                 
             } catch (error) {
                 console.log(error)
+            }
+            finally{
+                setIsLoading(false);
             }
         }
 
@@ -59,11 +68,20 @@ export default function OrderDetails(){
 
     return(
             <>
-            <div className="container" style={{ marginTop: "10%"}}>
+            <div className="container" style={{ paddingTop: isMobile ? "5%":"10%"}}>
+                {isLoading ? <div
+    className="d-flex justify-content-center align-items-center"
+    style={{ minHeight: "clamp(300px, 70vh, 800px)" }}
+  >
+    <div className="spinner-grow text-secondary" role="status">
+    </div>
+    <div className="text-muted">Loading...</div>
+
+  </div> :
                 <div className="justify-content-center">
                     <div className="card mb-1 shadow-sm">
                     <div className="card-body">
-                        <div className="d-flex justify-content-between align-items-center">
+                        <div className="d-flex align-items-center flex-md-row gap-2 justify-content-between align-items-md-center">
                                     <h4 className="mb-0">Order Details</h4>
                                     <div>
                         <Button variant="contained" onClick={() => {navigate(`/myaccount/myorders`)}}>
@@ -75,7 +93,7 @@ export default function OrderDetails(){
                         </div>
                         </div>  
                     <div className="row align-items-stretch g-2">
-                        <div className="col-6">
+                        <div className="col-12 col-md-6">
                             <div className="card h-100 shadow-sm">
                             <div className="card-body">
                                 <div>Order ID: <strong>{`FF-${orderDetails?._id?.toString().slice(0,13).toUpperCase()}`}</strong> <MdOutlineContentCopy style={{ cursor: "pointer" }}onClick={() => copyLink(orderDetails?._id)}/></div>
@@ -103,7 +121,7 @@ export default function OrderDetails(){
                             </div>
                         </div>
                         </div>
-                        <div className="col-6">
+                        <div className="col-12 col-md-6">
                             <div className="card h-100 shadow-sm">
                             <div className="card-body">
                                 <div style={{ marginBottom: "35px" }}><h5><BsBoxSeam style={{ marginRight: "10px", fontSize: "25px" }}/> Order Summary ({orderDetails?.items?.length} Items)</h5></div>
@@ -154,11 +172,11 @@ export default function OrderDetails(){
                                 <div className="card-body">
                                     {orderDetails?.items?.map((o, index) => (
                                                                      
-                                    <div className="row d-flex align-items-center g-3">
-                                    <div className="col-1 text-center border rounded-3 py-3">
+                                    <div className="row align-items-center g-3">
+                                    <div className="col-3 col-md-1 text-center border rounded-3 py-3">
                                         <img  className="img-fluid" src={o?.variant?.image[0]} style={{ maxWidth: "50px", cursor: "pointer" }}  onClick={ ()=> {navigate(`/product/view/${o?.product?._id}`)}}/>
                                     </div>
-                                    <div className="col-11">
+                                    <div className="col-9 col-md-11">
                                         <div><small>{o?.product?.name}</small></div>
                                         <div style={{ color: "grey" }}><small>{o?.variant?.weight > 999 ? `${o?.variant?.weight/1000}Kg` : `${o?.variant?.weight}g`} | {o?.variant?.flavour}</small></div>
                                         <div style={{ color: "grey" }}><small>Qty: {o?.qty}</small></div>
@@ -172,7 +190,7 @@ export default function OrderDetails(){
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>}
             </div>
     
     

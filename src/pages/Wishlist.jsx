@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../store/auth-ContextAPI";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
-import { useNavigate } from "react-router-dom";
+import { useAsyncError, useNavigate } from "react-router-dom";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaRegHeart } from "react-icons/fa";
 import { IoBagCheck } from "react-icons/io5";
@@ -12,14 +12,23 @@ import { useLocation } from "react-router-dom";
 import Carts from "./Carts";
 import { setCartTotal } from "../store/checkoutSlice";
 const API = import.meta.env.VITE_API_URL;
+import { RiLoader2Line } from "react-icons/ri";
+import { useDispatch } from "react-redux";
+import { useTheme, useMediaQuery } from "@mui/material";
+
 
 export default function Whislist() {
   const { user, token, isLoggedIn, products } = useAuth();
   const [wishlists, setWishlists] = useState([]);
   const navigate = useNavigate();
   const [carts, setCarts] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   const { pathname } = useLocation();
+  const dispatch = useDispatch()
+  const [deleteLoading, setDeleteLoading] = useState(null);
+  const [movetocartLoading, setMovetocartLoading] = useState(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(()=>{
      window.scrollTo(0,0);
@@ -30,7 +39,7 @@ export default function Whislist() {
     if (isLoggedIn) {
       try {
         const response = await fetch(
-          `${API}/api/auth/getUserCart/${user.userId}`,
+          `${API}/api/auth/getUserCart/${user?.userId}`,
           {
             method: "GET",
             headers: {
@@ -39,10 +48,10 @@ export default function Whislist() {
           }
         );
 
-        const data = await response.json();
         if (response.ok) {
+          const data = await response.json();
           setCarts(data);
-          dispatchEvent(setCartTotal(data))
+          dispatch(setCartTotal(data))
         }
       } catch (error) {
         console.log(error);
@@ -50,11 +59,13 @@ export default function Whislist() {
     }
   };
 
+  console.log(carts)
 
   const getWishlists = async () => {
+    setLoading(true);
     if (isLoggedIn) {
       try {
-        const response = await fetch(`${API}/api/auth/UserWishlistJoin/${user.userId}`,
+        const response = await fetch(`${API}/api/auth/UserWishlistJoin/${user?.userId}`,
           {
             method: "GET",
             headers: {
@@ -65,16 +76,19 @@ export default function Whislist() {
 
         if (response.ok) {
           setWishlists(await response.json());
+          setLoading(false);
         }
       } catch (error) {
         console.log(error);
+      }finally{
+        setLoading(false);
       }
     }
   };
 
 
   useEffect(() => {
-    if(user && user.userId){
+    if(user){
          getWishlists();
          getCartByUser();
     }
@@ -93,7 +107,7 @@ export default function Whislist() {
   }
 
   const AddtoCart = async (wishlist_id, product_id, variant_id, product_price, product_weight, product_flavour, product_mrp, image) => {
-
+   setMovetocartLoading(variant_id);
     if (isLoggedIn) {
       try {
         const response = await fetch(`${API}/api/auth/cart`, {
@@ -108,7 +122,6 @@ export default function Whislist() {
             variant_id: variant_id,
             product_price: product_price,
             product_weight: product_weight,
-            product_weightUnit: product_weightUnit,
             product_flavour: product_flavour,
             product_mrp: product_mrp,
             product_qty: 1,
@@ -121,14 +134,18 @@ export default function Whislist() {
                 position: "top-center",
                 autoClose: 2000, 
              });
+          getCartByUser();
           Delete(wishlist_id);
           setWishlists(prev =>
              prev.filter(item => item._id !== wishlist_id)
           );
-
+          setMovetocartLoading(null);
         }
       } catch (error) {
         console.log(error);
+      }
+      finally{
+        setMovetocartLoading(null);
       }
     } else {
       toast.warning("Please Login for better experience!", {
@@ -141,7 +158,7 @@ export default function Whislist() {
   
 
   const Delete = async (wishlist_id) => {
-  
+  setDeleteLoading(wishlist_id);
     try {
       const response = await fetch(`${API}/api/auth/deleteWhislistByID`,{
         method: "DELETE",
@@ -155,12 +172,20 @@ export default function Whislist() {
         })
       });
       if(response.ok){
+        toast.success("Removed from Wishlist",{
+                position: "top-center",
+                autoClose: 2000, 
+             });
        setWishlists(prev =>
               prev.filter(item => item._id !== wishlist_id)
         );
+        setDeleteLoading(null);
      }
     } catch (error) {
       console.log(error)
+    }
+    finally{
+      setDeleteLoading(null);
     }
   } 
 
@@ -171,9 +196,18 @@ export default function Whislist() {
   
   return (
     <>
-      <div className="container" style={{ marginTop: "10%" }}>
+      <div className="container" style={{ paddingTop: isMobile ? "20%":"10%" }}>
         <div className="justify-content-center">
-          {wishlists.length === 0 ? (
+          {loading ?   
+          <div
+    className="d-flex justify-content-center align-items-center"
+    style={{ minHeight: "clamp(300px, 70vh, 800px)" }}
+  >
+    <div className="spinner-grow text-secondary" role="status">
+    </div>
+    <div className="text-muted">Loading...</div>
+
+  </div>  : wishlists.length === 0 ? (
             <div className="text-center">
               <img
                 src="/wishlist.svg"
@@ -194,35 +228,59 @@ export default function Whislist() {
                   <div className="card-body">
                     <h5 className="mb-4 pt-2">Your Whishlist</h5>
                     {wishlists.map((c, index) => {
-
+                      const isLoading = deleteLoading === c._id;
+                      const load = movetocartLoading === c.variant_id
                       return (
                         <div className="card mb-3" key={index}>
                           <div className="card-body">
                             <div className="row">
-                              <div className="col text-center">
-                                <img className="img-fluid" src={c.product?.variant?.image[0]} style={{ maxWidth: "60%", cursor: "pointer"}} onClick={ ()=> {navigate(`/product/view/${c.product_id}`)}}/>
+                              <div className="col-12 col-md-2 text-center mb-2 mb-md-0">
+                                <img className="img-fluid" src={c.product?.variant?.image[0]} style={{ maxWidth: isMobile ? "30%":"60%", cursor: "pointer"}} onClick={ ()=> {navigate(`/product/view/${c.product_id}`)}}/>
                               </div>
-                              <div className="col-7">
-                                <p style={{ fontSize: "15px", marginBottom: "5px"}}>
+                              <div className="col-12 col-md-7">
+                                <p style={{ fontSize: isMobile ? "14px":"15px", marginBottom: "5px"}}>
                                   {c.product.brand.toUpperCase()}, {c.product.name}, {c.product?.variant?.weight > 999 ? `${c.product?.variant?.weight/1000}Kg` : `${c.product?.variant?.weight}g`}{" "}
                                   {c.product_flavour}
                                 </p>
                                 <h5 style={{ display: "inline", marginRight: "3%" }}>Price: ₹{c.product?.variant?.price}</h5>
-                                <h6 style={{ color: "#50C878", display: "inline" }}>( You Saved ₹{Number(c.product?.variant?.mrp - c.product?.variant?.price)} )</h6>
-                                {!carts.some( ct => ct.variant_id === c.variant_id) ? <p style={{ fontSize: "15px", display: "flex", cursor: "pointer",
-                                   alignItems: "center", gap: "5px", marginTop: "4%" }} onClick={(e) => { AddtoCart(c._id, c.product_id, c.product.variant._id, c.product.variant.price, c.product.variant.weight, c.product.variant.flavour, c.product.variant.mrp, c.product.variant.image) }}>
-                                     <IconButton sx={{ backgroundColor: "#EEEEEE" }}><IoBagCheck style={{ color: "grey", fontSize: "18px" }}/></IconButton>
-                                       Move to cart
+                                <h6 style={{ color: "#50C878", display: "inline", fontSize: isMobile && "14px" }}>( You Saved ₹{Number(c.product?.variant?.mrp - c.product?.variant?.price)} )</h6>
+                                {!carts.some( ct => ct.variant_id === c.variant_id) ? <p   style={{
+    fontSize: "15px",
+    display: "flex",
+    alignItems: "center",
+    gap: "6px",
+    marginTop: "12px",
+    cursor: "pointer",
+  }}
+  className="justify-content-start justify-content-md-start" onClick={(e) => { AddtoCart(c._id, c.product_id, c.product.variant._id, c.product.variant.price, c.product.variant.weight, c.product.variant.flavour, c.product.variant.mrp, c.product.variant.image) }}>
+                                     <IconButton sx={{ backgroundColor: "#EEEEEE" }}>
+                                      {load ? <RiLoader2Line  style={{ color: "grey", fontSize: "18px" }}/> :<IoBagCheck style={{ color: "grey", fontSize: "18px" }}/>}</IconButton>
+                                       {load ? "Moving...":"Move to cart"}
                                 </p> :
-                                <p style={{ fontSize: "15px", display: "flex", cursor: "pointer",
-                                   alignItems: "center", gap: "5px", marginTop: "4%" }} onClick={ GotoCart }>
+                                <p   style={{
+                                  cursor:"pointer",
+    fontSize: "15px",
+    display: "flex",
+    alignItems: "center",
+    gap: "6px",
+    marginTop: "12px",
+  }}
+  className="justify-content-start justify-content-md-start" onClick={ GotoCart }>
                                      <IconButton sx={{ backgroundColor: "#EEEEEE" }}><IoBagCheck style={{ color: "grey", fontSize: "18px" }}/></IconButton>
                                        Go to cart
                                 </p>}
                               </div>
-                              <div className="col-3 text-end align-items-center gap-1">
-                                <b>Added</b> on {c.date} |
-                                <RiDeleteBin6Line onClick={ () => Delete(c._id) } style={{ marginLeft: "3px", fontSize: "20px", color: "dark grey", cursor: "pointer"}}/>
+                              <div className="col-12 col-md-3 d-flex justify-content-md-end align-items-md-top gap-2 mt-2 mt-md-0">
+                                <div><b>Added</b> on {c.date} |</div>
+                                <div>
+                                {isLoading ? 
+                                
+                                   <RiLoader2Line style={{ fontSize: "20px", color: "dark grey"}}/>
+                                 :
+                                
+                                  <RiDeleteBin6Line onClick={ () => Delete(c._id) } style={{ fontSize: "20px", color: "dark grey", cursor: "pointer"}}/>
+                                }
+                                </div>
                               </div>
                             </div>
                           </div>

@@ -1,0 +1,11 @@
+.carousel-img-ad {
+  width: 100vw;
+  height: 60vh;        /* desktop height */
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .carousel-img {
+    height: 35vh;      /* mobile height */
+  }
+}

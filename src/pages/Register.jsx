@@ -13,6 +13,8 @@ import { RxCross1 } from "react-icons/rx";
 import "../css/hover.css";
 import { Carousel } from "bootstrap";
 import { useEffect } from 'react';
+import { RiLoader2Line } from "react-icons/ri";
+import { useTheme, useMediaQuery } from "@mui/material";
 const API = import.meta.env.VITE_API_URL;
 
 export default function Register() {
@@ -25,6 +27,10 @@ export default function Register() {
         phone: "",
         password: ""
     });
+    const [isLoading, setLoading] = useState(false);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
 
     const handleChange = (e) => {
         setUserData({ ...userData, [e.target.name]: e.target.value });
@@ -43,7 +49,7 @@ export default function Register() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+        setLoading(true);
         try {
             const response = await fetch(`${API}/api/auth/register`, {
                 method: "POST",
@@ -67,6 +73,7 @@ export default function Register() {
                 position: "top-center",
                 autoClose: 2000, 
              })
+             setLoading(false);
                 navigate("/login");
 
             }
@@ -84,12 +91,15 @@ export default function Register() {
                 position: "top-center",
                 autoClose: 2000, 
              });
+             setLoading(false);
             }
 
 
 
         } catch (error) {
             console.log("Registration:", error);
+        }finally{
+          setLoading(false);
         }
     }
 
@@ -127,14 +137,14 @@ export default function Register() {
             </div>
 
 <form onSubmit={handleSubmit}>
-            <div className="d-flex justify-content-center">
-                <div className="border rounded-4" style={{ width: "80%", marginTop: "6%" }}>
-              <div className="row">
-                <div className="col-6 bg-secondary-subtle rounded-start-4">
+          <div className="d-flex justify-content-center">
+            <div className="border rounded-4 w-75 w-md-75" style={{ marginTop: isMobile ? "28%":"9%" }}>
+              <div className="row g-0">
+                <div className="col-12 col-md-6 d-none d-md-block bg-secondary-subtle rounded-start-4">
                   <div id="carouselExampleCaptions" className="carousel slide" data-bs-ride="carousel"
                     data-bs-interval="2500" style={{ position: "relative" }}>
 
-                    <div className="carousel-indicators">
+                    <div className="carousel-indicators"  style={{ bottom: "17%" }}>
                       <button
                         type="button"
                         data-bs-target="#carouselExampleCaptions"
@@ -159,9 +169,9 @@ export default function Register() {
                       ></button>
                     </div>     
             
-                    <div className="carousel-inner" style={{ marginTop: "18%"}}>
+                    <div className="carousel-inner" style={{ paddingTop: "18%"}}>
                       <div className="carousel-item active">
-                        <img src="login_slide1.svg" className="d-block" style={{width: "50%", marginLeft: "auto", marginRight: "auto"}} alt="..." />
+                        <img src="login_slide1.svg" className="d-block" style={{maxWidth: "50%", marginLeft: "auto", marginRight: "auto"}} alt="..." />
                         <div className="text-center" style={{ marginTop: "14.8%" }}>
                           <h5>Wide range of Original & Authentication Nutrition Products</h5>
                           <small>
@@ -170,7 +180,7 @@ export default function Register() {
                         </div>
                       </div>
                       <div className="carousel-item">
-                        <img src="login_slide2.svg" className="d-block" style={{width: "50%", marginLeft: "auto", marginRight: "auto"}} alt="..." />
+                        <img src="login_slide2.svg" className="d-block" style={{maxWidth: "50%", marginLeft: "auto", marginRight: "auto"}} alt="..." />
                         <div className="text-center" style={{ marginTop: "12%" }}>
                           <h5>Get Personalized Diet Plans and Fitness Advice</h5>
                           <small>
@@ -179,7 +189,7 @@ export default function Register() {
                         </div>
                       </div>
                       <div className="carousel-item">
-                        <img src="login_slide3.svg" className="d-block" style={{width: "50%", marginLeft: "auto", marginRight: "auto"}} alt="..." />
+                        <img src="login_slide3.svg" className="d-block" style={{maxWidth: "50%", marginLeft: "auto", marginRight: "auto"}} alt="..." />
                         <div className="text-center" style={{ marginTop: "12%" }}>
                           <h5>Great offers on Top Brands</h5>
                           <small>
@@ -217,26 +227,26 @@ export default function Register() {
 
                   </div>
                 </div>
-                <div className='col-6' style={{ padding: "7%", marginTop: "5%" }}>
-                    <h2 className='text-center mb-4'>Sign-up</h2>
+                <div className='col-12 col-md-6 px-4 px-md-5 py-4'>
+                    <h2 className='text-center mb-4 mt-2 mt-md-5'>Sign-up</h2>
 
                     <div className='row g-3 needs-validation'>
-                        <div className="col-md-6">
+                        <div className="col-12 col-md-6">
                             <TextField type="text" label="Name" variant="outlined" size="small"
                                 value={userData.name} onChange={handleChange} name="name" fullWidth
                                 required placeholder='e.g Joel'/>
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-12 col-md-6">
                             <TextField type="email" label="Email" variant="outlined" size="small"
                                 value={userData.email} onChange={handleChange} name="email" fullWidth
                                 required placeholder='e.g you@gmail.com' />
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-12 col-md-6">
                             <TextField type="text" label="Phone" variant="outlined" size="small"
                                 value={userData.phone} onChange={handleChange} name="phone" fullWidth
                                 required placeholder='e.g 9876354109'/>
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-12 col-md-6">
                             <TextField type={showPasssword ? "text" : "password"} label="Password" variant="outlined" size="small"
                                 value={userData.password} onChange={handleChange} name="password"
                                 placeholder='***********'
@@ -255,11 +265,11 @@ export default function Register() {
                         </div>
 
                         <div className='col-12'>
-                            <Button variant="contained" fullWidth size="large" type="submit">Sign up</Button>
+                            <Button variant="contained" disabled={isLoading} fullWidth size="large" type="submit" startIcon={isLoading && <RiLoader2Line/>}>{isLoading ? "Signing...":"Sign up"}</Button>
                             <div className='mt-2 text-center'><small>Already have an Account?</small> <NavLink to="/login" className="text-dark">Sign in</NavLink></div>
                         </div>
                     </div>
-                    <div style={{ marginTop: "20%"}}>
+                    <div className='mt-4 mt-md-5 text-center'>
                     <small>
                       By continuing, I agree to Terms & Conditions & Privacy
                       Policy

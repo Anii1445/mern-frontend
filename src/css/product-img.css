@@ -1,0 +1,22 @@
+
+
+.carousel-img{
+    height: 150px;
+    width: 150px;
+    cursor: pointer;
+}
+
+.carousel-text{
+    font-size: 16px;
+}
+
+@media (max-width: 768px){
+    .carousel-img {
+        height: 60px;
+        width: 60px;
+        cursor: pointer;
+    }
+    .carousel-text {
+        font-size: 8px;
+    }
+}

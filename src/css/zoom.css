@@ -16,3 +16,10 @@
 .zoom-container:hover .zoom-image {
   transform: scale(1.6); /* zoom level */
 }
+
+@media (max-width: 768px) {
+  table {
+    font-size: 12px;
+  }
+}
+

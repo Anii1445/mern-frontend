@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { useAuth } from "../store/auth-ContextAPI";
 import { BiSolidXCircle } from "react-icons/bi";
 import Divider from "@mui/material/Divider";
+import { useTheme, useMediaQuery } from "@mui/material";
 
 
 export default function AdminProduct() {
@@ -22,6 +23,8 @@ export default function AdminProduct() {
   const [ApiWeight, setApiWeight] = useState([]);
   const { token } = useAuth();
   const [loading, setLoading] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   // Static fields state
   const [name, setName] = useState("");
@@ -292,7 +295,7 @@ console.log(errors)
             </div>
             <div className="card-body">
               <div className="row mb-2">
-                <div className="col-4"> 
+                <div className="col-12 col-md-4 mb-2"> 
                   <TextField
                     type="text"
                     label="Name"
@@ -306,7 +309,7 @@ console.log(errors)
                     error={errors === "name"}                
                     />
                 </div>
-                <div className="col-4">
+                <div className="col-12 col-md-4 mb-2">
                   <FormControl fullWidth size="small" error={errors === "brand"} >
                           <InputLabel id="demo-simple-small-label">
                             Brand
@@ -335,7 +338,7 @@ console.log(errors)
                           </Select>
                         </FormControl>
                 </div>
-                <div className="col-4">
+                <div className="col-12 col-md-4 mb-2">
                   <FormControl fullWidth size="small" error={errors === "category"} >
                     <InputLabel id="demo-simple-small-label">
                       Category
@@ -363,7 +366,7 @@ console.log(errors)
               </div>
 
               <div className="row mb-2">
-                <div className="col-8">
+                <div className="col-12 col-md-8 mb-2">
                   <TextField
                     type="text"
                     label="Product Description"
@@ -379,7 +382,7 @@ console.log(errors)
                   />
                 </div>
 
-                <div className="col-4">
+                <div className="col-12 col-md-4">
                   <TextField
                     type="text"
                     label="Supplier"
@@ -387,8 +390,9 @@ console.log(errors)
                     value={supplier}
                     onChange={(e) => setSupplier(e.target.value)}
                     name="supplier"
+                    size={isMobile && "small"}
                     fullWidth
-                    sx={{ marginBottom: "12px"}}
+                    sx={{ marginBottom: isMobile ? "8px":"12px"}}
                     required
                     error={errors === "supplier"} 
                   />
@@ -396,6 +400,7 @@ console.log(errors)
                     type="text"
                     label="Manufacturer"
                     variant="outlined"
+                    size={isMobile && "small"}
                     value={manufacturer}
                     onChange={(e) => setManufacturer(e.target.value)}
                     name="manufacturer"
@@ -407,7 +412,7 @@ console.log(errors)
               </div>
 
               <div className="row mb-2">
-                <div className="col-4">
+                <div className="col-12 col-md-4 mb-2">
                   <TextField
                     type="text"
                      size="small"
@@ -421,7 +426,7 @@ console.log(errors)
                     error={errors === "allergens"} 
                   />
                   </div>
-                  <div className="col-2">
+                  <div className="col-12 col-md-2 mb-2">
                   <FormControl fullWidth size="small" error={errors === "form"} >
                     <InputLabel id="demo-simple-small-label">
                       Form
@@ -444,7 +449,7 @@ console.log(errors)
                     </Select>
                   </FormControl>
                   </div>
-                  <div className="col-2">
+                  <div className="col-12 col-md-2 mb-2">
                    <TextField
                     type="text"
                      size="small"
@@ -459,7 +464,7 @@ console.log(errors)
                   />
                 </div>
 
-                <div className="col-2">
+                <div className="col-12 col-md-2 mb-2">
                   <FormControl fullWidth size="small" error={errors === "dietaryPreference"} >
                     <InputLabel id="demo-simple-small-label">
                       Dietary Preference
@@ -483,7 +488,7 @@ console.log(errors)
                   </FormControl>
                   </div>
                   
-                <div className="col-2">
+                <div className="col-12 col-md-2">
                   <TextField
                   size="small"
                     type="text"
@@ -501,7 +506,7 @@ console.log(errors)
                 
               </div>
               <div className="row mb-2">
-                <div className="col-6">
+                <div className="col-12 col-md-6 mb-2">
                   <TextField
                     type="text"
                     label="Ingredients"
@@ -518,7 +523,7 @@ console.log(errors)
                   </div>
               
               
-                <div className="col-2">
+                <div className="col-12 col-md-2 mb-2">
                   <TextField
                   size="small"
                     type="text"
@@ -534,7 +539,7 @@ console.log(errors)
                  
                 </div>
                 
-                <div className="col-2">
+                <div className="col-12 col-md-2 mb-2">
                   <TextField
                   size="small"
                     type="text"
@@ -553,7 +558,7 @@ console.log(errors)
               <Divider sx={{ backgroundColor: "black", marginTop: "1%"}}/>
               <Button
                 variant="outlined"
-                sx={{marginTop: "1%"}}
+                sx={{marginTop: isMobile ? "4%":"1%"}}
                 size="small"
                 startIcon={<IoIosAddCircleOutline />}
                 onClick={addNewField}
@@ -564,9 +569,9 @@ console.log(errors)
               <div className="card mb-3 mt-3">
                 <div className="card-body">
                   {variant.map((field, index) => (
-                    <div className="row mb-1" id={`row${index}`} key={index}>
+                    <div className="row mb-1 g-2" id={`row${index}`} key={index}>
 
-                      <div className="col-4">
+                      <div className="col-12 col-md-4">
                       <input
                           type="file"
                           multiple
@@ -620,7 +625,7 @@ console.log(errors)
 
                       </div>
 
-                      <div className="col-2">
+                      <div className="col-12 col-md-2 ">
                         <FormControl fullWidth size="small">
                           <InputLabel id="demo-simple-small-label">
                             Weight In Grams
@@ -649,31 +654,7 @@ console.log(errors)
                         </FormControl>
                       </div>
 
-                      {/* <div className="col-1">
-                        <FormControl fullWidth size="small">
-                          <InputLabel id="demo-simple-small-label">
-                            Unit
-                          </InputLabel>
-                          <Select
-                            labelId="demo-simple-small-label"
-                            id="demo-simple-small"
-                            label="Unit"
-                            name="weightUnit"
-                            value={field.weightUnit}
-                            onChange={(e) =>
-                              handleChange(index, "weightUnit", e.target.value)
-                            }
-                            required
-                          >
-                            
-                                <MenuItem value="g">g</MenuItem>
-                                <MenuItem value="kg">kg</MenuItem>
-                              
-                          </Select>
-                        </FormControl>
-                      </div> */}
-
-                      <div className="col-2">
+                      <div className="col-12 col-md-2">
                         <FormControl fullWidth size="small">
                           <InputLabel id="demo-simple-small-label">
                             Flavour
@@ -703,7 +684,7 @@ console.log(errors)
                         </FormControl>
                       </div>
                       
-                      <div className="col-1">
+                      <div className="col-6 col-md-1">
                         <TextField
                           type="text"
                           label="Stock"
@@ -719,7 +700,7 @@ console.log(errors)
                         />
                       </div>
 
-                      <div className="col-1">
+                      <div className="col-6 col-md-1">
                         <TextField
                           type="text"
                           label="MRP"
@@ -736,7 +717,7 @@ console.log(errors)
                       </div>
 
 
-                      <div className="col-1">
+                      <div className="col-6 col-md-1">
                         <TextField
                           type="text"
                           label="Price"
@@ -751,14 +732,23 @@ console.log(errors)
                           required
                         />
                       </div>
-                      <div className="col-1">
-                        <button
-                          type="button"
-                          className="btn border border-primary rounded-pill"
+                      <div className="col-12 col-md-1">
+                        {isMobile ? <Button
+                          variant="outlined"
                           onClick={() => Delete(index)}
+                          fullWidth
+                          size="medium"
+                          startIcon={<MdDeleteForever/>}
                         >
-                          <MdDeleteForever fontSize="20" color="#1976d2" />
-                        </button>
+                          {isMobile && "Delete"}
+                        </Button> :
+                        <Button variant="outlined"
+                          onClick={() => Delete(index)}
+                          fullWidth
+                          size="large">
+                              <MdDeleteForever style={{fontSize: "24px"}}/>
+                        </Button>
+                        }
                       </div>
                     </div>
                   ))}
@@ -766,8 +756,8 @@ console.log(errors)
               </div>
 
               <Button loading={loading}
-                  loadingPosition="start"
-                  startIcon={ loading && <ImSpinner8 /> } variant="outlined" onClick={add}>
+                  loadingPosition="start" fullWidth
+                  startIcon={ loading && <ImSpinner8 /> } variant="contained" onClick={add}>
                 ADD
               </Button>
             </div>

@@ -1,7 +1,14 @@
+import { useTheme, useMediaQuery } from "@mui/material";
+
+
 export default function AboutUs() {
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <div className="container my-5">
-      <h2 className="text-dark text-center mb-4" style={{ marginTop: "10%", fontWeight: "bold" }}>
+      <h2 className="text-dark text-center mb-4" style={{ paddingTop: "10%", fontWeight: "bold" }}>
         About Us
       </h2>
 

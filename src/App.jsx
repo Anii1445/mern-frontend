@@ -39,6 +39,9 @@ import Blog from "./pages/Blog";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import About_Us from "./pages/About_Us";
 import ContactUs from "./pages/ContactUs";
+import AllProducts from "./pages/AllProducts";
+import ProductVariants from "./pages/ProductVariants";
+
 
 function App() {
   const location = useLocation();
@@ -79,7 +82,7 @@ function App() {
         <Route path="/logout" element={<ProtectedRoute><Logout /></ProtectedRoute>} />
         
         <Route path="/carts" element={<ProtectedRoute><Carts/></ProtectedRoute>} />
-        <Route path="/whishlist" element={<ProtectedRoute><Whislist/></ProtectedRoute>}/>
+        <Route path="/wishlist" element={<ProtectedRoute><Whislist/></ProtectedRoute>}/>
         <Route path="/checkout" element={<ProtectedRoute><Checkout/></ProtectedRoute>}/>
         <Route path="/payment" element={<PaymentRoute><Payment/></PaymentRoute>}/>
         <Route path="/myaccount" element={<ProtectedRoute><MyAccount/></ProtectedRoute>}>
@@ -95,7 +98,9 @@ function App() {
           <Route path="users" element={<AdminUsers />} />
           <Route path="userEdit/:id" element={<AdminRegisterEdit/>}/>
           <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="products" element={<AdminProduct />} />
+          <Route path="allproducts" element={<AllProducts />} />
+          <Route path="productVariants/:id" element={<ProductVariants />} />
+          <Route path="addproducts" element={<AdminProduct />} />
           <Route path="servicecenter" element={<ServiceCenter/>} />
           <Route path="userOrders/:id" element={<AllUserOrders />} />
           <Route path="userOrderDetails/:id" element={<AdminOrderDetails/>}/>

@@ -17,7 +17,7 @@ export default function AdminUsers() {
   const { token } = useAuth();
   const [allUsers, setAllUsers] = useState([]);
   const navigate = useNavigate();
-
+  const [isloading, setisLoading] = useState(false);
 
   console.log(allUsers);
   const columns = [
@@ -30,11 +30,13 @@ export default function AdminUsers() {
       name: "Email",
       selector: (row) => row.email,
       sortable: true,
+      hide: "sm"
     },
     {
       name: "Phone",
       selector: (row) => row.phone,
       sortable: true,
+      hide: "sm"
     },
     {
       name: "Role",
@@ -46,7 +48,7 @@ export default function AdminUsers() {
       button: "true",
       width: "160px",
       cell: (row) => (row.isAdmin ?
-        <div className="d-flex w-100">
+        <div className="d-flex flex-md-row gap-1 w-100">
         <button
           className="btn btn-white border border-success btn-sm w-100"
           onClick={() => handleEdit(row._id)}
@@ -55,7 +57,7 @@ export default function AdminUsers() {
         </button>
         </div>
         :
-        <div className="d-flex gap-1 w-100">
+        <div className="d-flex flex-md-row gap-1 w-100">
         <button
           className="btn btn-white border border-danger btn-sm w-100"
           onClick={() => handleDelete(row._id)}
@@ -133,6 +135,10 @@ export default function AdminUsers() {
   const [search, setSearch] = useState("");
 
   const getAllUsers = async () => {
+    
+    if(!search){
+       setisLoading(true);
+    }
     try {
       const response = await fetch(`${API}/api/admin/users?name=${search}`, {
         method: "GET",
@@ -141,11 +147,16 @@ export default function AdminUsers() {
         },
       });
 
+      if(response){
       const data = await response.json();
       setAllUsers(data);
+      setisLoading(false);
+      }
       
     } catch (error) {
       console.log(error);
+    }finally{
+      setisLoading(false);
     }
   };
 
@@ -167,14 +178,9 @@ export default function AdminUsers() {
   };
 
   const TableHeader = (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <h4 style={{ margin: 0 }}>Users List</h4>
+    <div className="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-md-center">
+    
+      <h4 style={{ margin: 0 }}>Users List <small className="fs-6 text-muted">(Total Users: {allUsers.filter(a => !a.isAdmin).length})</small></h4>
       <TextField
         variant="outlined"
         placeholder="Search Users..."
@@ -208,12 +214,21 @@ export default function AdminUsers() {
 
   return (
     <> 
-    <div className="container">
+    <div className="container-fluid container-md">
       <div className="justify-content-center">
+        {isloading ?  <div
+    className="d-flex justify-content-center align-items-center"
+    style={{ minHeight: "clamp(300px, 70vh, 800px)" }}
+  >
+    <div className="spinner-grow text-secondary" role="status">
+    </div>
+    <div className="text-muted">Loading...</div>
+
+  </div>  : 
         <div className="card shadow-sm">
           <div className="card-body">
             {allUsers ? (
-              <>
+              <div className="table-responsive">
                 <DataTable
                   title={TableHeader}
                   columns={columns}
@@ -223,12 +238,12 @@ export default function AdminUsers() {
                   pagination
                   highlightOnHover
                 />
-              </>
+              </div>
             ) : (
               <h3>Access Denied, Not an Admin</h3>
             )}
           </div>
-        </div>
+        </div>}
       </div>
     </div>
     </>

@@ -12,10 +12,13 @@ export default function AdminRegisterEdit(){
     const { token, user } = useAuth();
     const [editData, setEditData] = useState({});
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
 
-    const getData = async() => {       
+
+    const getData = async() => {  
+        setIsLoading(true);     
         try {
-            const response = await fetch(`$${API}/api/admin/getUserByID/${user?.userId}`,{
+            const response = await fetch(`${API}/api/admin/getUserByID/${user?.userId}`,{
             method: "GET",
             headers: {
                  Authorization: `Bearer ${token}`,
@@ -24,10 +27,14 @@ export default function AdminRegisterEdit(){
         });
 
         if(response.ok){
-            setEditData(await response.json())
+            setEditData(await response.json());
+            setIsLoading(false);
         }
         } catch (error) {
             console.log(error)
+        }
+        finally{
+            setIsLoading(false);
         }
     }
 
@@ -91,6 +98,16 @@ export default function AdminRegisterEdit(){
     <>
     <div className="container">
         <div className="justify-content-center">
+            {isLoading ?   
+          <div
+    className="d-flex justify-content-center align-items-center"
+    style={{ minHeight: "clamp(300px, 70vh, 800px)" }}
+  >
+    <div className="spinner-grow text-secondary" role="status">
+    </div>
+    <div className="text-muted">Loading...</div>
+
+  </div> :
             <div className="card">
                 <div className="card-body">
                     <h4 className="mb-4">Edit Personal Information</h4>
@@ -127,7 +144,7 @@ export default function AdminRegisterEdit(){
                                             
                                         </div>
                 </div>
-            </div>
+            </div>}
         </div>
     </div>
     

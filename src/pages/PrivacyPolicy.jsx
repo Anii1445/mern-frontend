@@ -3,7 +3,7 @@ export default function PrivacyPolicy() {
     <div className="container my-5">
       <h2
         className="text-dark text-center mb-4"
-        style={{ marginTop: "10%", fontWeight: "bold" }}
+        style={{ paddingTop: "10%", fontWeight: "bold" }}
       >
         Privacy Policy
       </h2>

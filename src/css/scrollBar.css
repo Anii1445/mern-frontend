@@ -17,3 +17,8 @@
 .order-scroll {
   -ms-overflow-style: none;
 }
+
+.order-scroll {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}

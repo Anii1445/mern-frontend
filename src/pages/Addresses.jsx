@@ -27,6 +27,8 @@ import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import { IoWarningOutline } from "react-icons/io5";
 import "../css/wave.css"
+import { useTheme, useMediaQuery } from "@mui/material";
+
 const API = import.meta.env.VITE_API_URL;
 
 export default function Addresses(){
@@ -36,7 +38,16 @@ export default function Addresses(){
       const [userAddress, setUserAddress] = useState([]); 
       const dispatch = useDispatch();
       const { orderInfo, selectedAddress } = useSelector((state) => state.checkout);
-  
+      const [loading, setLoading] = useState(false);
+      const [showModal, setShowModal] = useState(false);
+      const [showEditModal, setShowEditModal] = useState(false);
+      const [errors, setErrors] = useState(false);
+      const [addLoadingButton, setAddLoadingButton] = useState(false);
+      const [editLoadingButton, setEditLoadingButton] = useState(false);
+      const [getEditLoading, setGetEditLoading] = useState(false);
+
+const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
         const getInitialAddress = (userId) => ({
         full_name: "",
@@ -59,6 +70,7 @@ export default function Addresses(){
 
 
       const getAllUSerAddress = async () => {
+        setLoading(true)
         try {
           const response = await fetch(
             `${API}/api/auth/getUserAddressByID/${user?.userId}`,
@@ -73,10 +85,13 @@ export default function Addresses(){
            const data = await response.json();
           if (response.ok) {
             setDeliver(selectedAddress)
+            setLoading(false);
             setUserAddress(data);
           }
         } catch (error) {
           console.log(error);
+        }finally{
+          setLoading(false);
         }
       };
 
@@ -85,7 +100,7 @@ export default function Addresses(){
       }
     
        const add = async () => {
-          if (isLoggedIn) {
+        setAddLoadingButton(true);
             const payload = {...address, user_id: user?.userId}
             try {
               const response = await fetch(
@@ -109,19 +124,25 @@ export default function Addresses(){
                 setAddress(getInitialAddress(user?.userId));
                 setDeliver(data._id);
                 getAllUSerAddress();
+                setShowModal(false);
+                setAddLoadingButton(false);
               }
               else{
-                if(data.extraDetails){
-                  toast.error(data.extraDetails[0], {
+                if(data.extraDetails[0]){
+               setErrors(data.extraDetails[0].field)
+               toast.error(data.extraDetails[0].message, {
                 position: "top-center",
                 autoClose: 2000, 
              });
-                }
+      }
+                setAddLoadingButton(false);
               }
             } catch (error) {
               console.log(error);
+            }finally{
+              setAddLoadingButton(false);
             }
-          }
+
         };
 
 
@@ -164,6 +185,7 @@ export default function Addresses(){
         };
     
       const edit = async(id) => {
+        setEditLoadingButton(true);
         try {
           const response = await fetch(`${API}/api/auth/editUserAddressByID/${id}`,{
             method: "PATCH",
@@ -181,22 +203,30 @@ export default function Addresses(){
                 autoClose: 2000, 
              });
             getAllUSerAddress();
+            setShowEditModal(false);
+            setEditLoadingButton(false);
           }
           else{
-            toast.error(data.extraDetails[0], {
+           if(data.extraDetails[0]){
+          setErrors(data.extraDetails[0].field)
+          toast.error(data.extraDetails[0].message, {
                 position: "top-center",
                 autoClose: 2000, 
              });
+      }
+      setEditLoadingButton(false);
           }
         } catch (error) {
           console.log(error)
+        }finally{
+          setEditLoadingButton(false);
         }
       }
 
 
         const [editAddress, setEditAddress] = useState({});
         const Edit = async (id) => {
-          
+          setGetEditLoading(true)
             try {
               const response = await fetch(`${API}/api/auth/getAddressByIdForEdit/${id}`,{
                 method: "GET",
@@ -208,9 +238,12 @@ export default function Addresses(){
       
               if(response.ok){
                 setEditAddress(await response.json());
+                setGetEditLoading(false);
               }
             } catch (error) {
               console.log(error)
+            }finally{
+              setGetEditLoading(false);
             }
           };
       
@@ -289,29 +322,37 @@ useEffect(() => {
         <>
         <div className="container">
             <div className="justify-content-center">
-                <div className="card" style={{ marginTop: "10%" }}>
+              {loading ? <div
+    className="d-flex justify-content-center align-items-center"
+    style={{ minHeight: "clamp(300px, 70vh, 800px)" }}
+  >
+    <div className="spinner-grow text-secondary" role="status">
+    </div>
+    <div className="text-muted">Loading...</div>
+
+  </div> :
+                <div className="card" style={{ marginTop: isMobile ? "5%" :"10%" }}>
                     <div className="card-body">
                         <div style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    marginBottom: "2%",
-                  }}>
-                        <h5 className="mb-4">My Addresses</h5>
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                              marginBottom: isMobile ? "4%":"2%",
+                       }}>
+                        <div><h5>My Addresses</h5></div>
                         <Button
                     variant="outlined"
                     startIcon={<FiPlus />}
-                    size="small"
-                    data-bs-toggle="modal"
-                    data-bs-target="#staticBackdrop"
+                    onClick={()=> setShowModal(true)}
                   >
                     Add New Address
                   </Button>
                   </div>
 
-            <div className="row">
+            <div className="row g-3">
                 {userAddress.map((u, i) => (
                 <>
-                <div className="col-6">
+                <div className="col-12 col-md-6">
                                   <div
                                     key={i}
                                     className="card"
@@ -337,12 +378,11 @@ useEffect(() => {
 
                                              <div className="justify-content-end">
                                                                       <MdOutlineEdit
-                                                                      data-bs-toggle="modal"
-                                                                      data-bs-target="#staticBackdrop_1"
+                                                                      
                                                                       style={{ color: "grey" }}
                                                                         className="me-2"
                                                                         onClick={(e) => {
-                                                                          e.stopPropagation(), Edit(u._id);
+                                                                          e.stopPropagation(), Edit(u._id), setShowEditModal(true);
                                                                         }}
                                                                       />
                                           
@@ -365,6 +405,7 @@ useEffect(() => {
                                           </p>
                                                                   <Button
                                                                     variant="contained"
+                                                                    fullWidth={isMobile}
                                                                     disabled={deliver !== u._id && true}
                                                                     startIcon={deliver === u._id && <FaCheckSquare/>}
                                                                     onClick={(e) => {
@@ -386,20 +427,17 @@ useEffect(() => {
                         </div>
                         </div>
                         </div>
+}
                     </div>
                 </div>
 
 
                  {/* <!---------------------------- Modal Trigger -------------------------------------> */}
-                
+                {showModal && 
                       <div
-                        className="modal fade"
-                        id="staticBackdrop"
-                        data-bs-backdrop="static"
-                        data-bs-keyboard="false"
-                        tabIndex="-1"
-                        aria-labelledby="staticBackdropLabel"
-                        aria-hidden="true"
+                        className="modal fade show"
+        style={{ display: "block", marginTop: "2%",backgroundColor: "rgba(0,0,0,0.40)"  }}
+        tabIndex="-1"
                       >
                         <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                           <div className="modal-content">
@@ -410,9 +448,7 @@ useEffect(() => {
                               <button
                                 type="button"
                                 className="btn-close"
-                                data-bs-dismiss="modal"
-                                onClick={()=>{setAddress(getInitialAddress(user?.userId))}}
-                                aria-label="Close"
+                                onClick={()=>{setAddress(getInitialAddress(user?.userId)); setShowModal(false)}}
                               ></button>
                             </div>
                             <div className="modal-body">
@@ -426,6 +462,8 @@ useEffect(() => {
                                     size="small"
                                     fullWidth
                                     onChange={handleChange}
+                                    error={errors === "full_name"}
+                                    required
                                   />
                                 </div>
                                 <div className="col my-2 py-0">
@@ -437,6 +475,8 @@ useEffect(() => {
                                     size="small"
                                     fullWidth
                                     onChange={handleChange}
+                                    error={errors === "phone"}
+                                    required
                                   />
                                 </div>
                               </div>
@@ -450,6 +490,8 @@ useEffect(() => {
                                     size="small"
                                     fullWidth
                                     onChange={handleChange}
+                                    error={errors === "house_no"}
+                                    required
                                   />
                                 </div>
                               </div>
@@ -463,6 +505,8 @@ useEffect(() => {
                                     size="small"
                                     fullWidth
                                     onChange={handleChange}
+                                    error={errors === "area"}
+                                    required
                                   />
                                 </div>
                               </div>
@@ -476,6 +520,8 @@ useEffect(() => {
                                     size="small"
                                     fullWidth
                                     onChange={handleChange}
+                                    error={errors === "landmark"}
+                                    required
                                   />
                                 </div>
                                 <div className="col my-2 py-0">
@@ -487,13 +533,15 @@ useEffect(() => {
                                     size="small"
                                     fullWidth
                                     onChange={handleChange}
+                                    error={errors === "pincode"}
+                                    required
                                   />
                                 </div>
                               </div>
                               <div className="row">
                                 <div className="col my-2 py-0">
                                   <FormControl size="small" fullWidth>
-                                    <InputLabel id="demo-select-small-label">State</InputLabel>
+                                    <InputLabel id="demo-select-small-label">State *</InputLabel>
                                     <Select
                                       labelId="demo-select-small-label"
                                       id="demo-select-small"
@@ -501,6 +549,8 @@ useEffect(() => {
                                       label="State"
                                       name="state"
                                       onChange={handleChange}
+                                      error={errors === "state"}
+                                      required
                                     >
                                       {states.map((s, i) => (
                                         <MenuItem key={i} value={s.state_id}>
@@ -513,7 +563,7 @@ useEffect(() => {
                                 <div className="col my-2 py-0">
                                   <FormControl size="small" fullWidth>
                                     <InputLabel id="demo-select-small-label">
-                                      City/ District
+                                      City/ District *
                                     </InputLabel>
                                     <Select
                                       labelId="demo-select-small-label"
@@ -523,6 +573,8 @@ useEffect(() => {
                                       name="city"
                                       onChange={handleChange}
                                       fullWidth
+                                      error={errors === "city"}
+                                      required
                                     >
                                       {cities
                                         .filter((c) => c.state_id === address.state)
@@ -539,7 +591,7 @@ useEffect(() => {
                                 <div className="col my-2 py-0">
                                   <FormControl>
                                     <FormLabel id="demo-row-radio-buttons-group-label">
-                                      Address Type
+                                      Address Type *
                                     </FormLabel>
                                     <RadioGroup
                                       row
@@ -552,11 +604,23 @@ useEffect(() => {
                                         value="Home"
                                         control={<Radio size="small" />}
                                         label="Home"
+                                         sx={{
+                           color: errors === "address_type" ? "error.main" : "",
+                              "&.Mui-checked": {
+                           color: errors === "address_type" ? "error.main" : "",
+            },
+          }}
                                       />
                                       <FormControlLabel
                                         value="Office"
                                         control={<Radio size="small" />}
                                         label="Office"
+                                         sx={{
+                           color: errors === "address_type" ? "error.main" : "",
+                              "&.Mui-checked": {
+                           color: errors === "address_type" ? "error.main" : "",
+            },
+          }}
                                       />
                                     </RadioGroup>
                                   </FormControl>
@@ -564,26 +628,21 @@ useEffect(() => {
                               </div>
                             </div>
                             <div className="modal-footer">
-                              <button type="button" className="btn btn-primary" onClick={add}>
-                                Save And Deliver
+                              <button type="button" disabled={addLoadingButton} className="btn btn-primary" onClick={add}>
+                                {addLoadingButton ? "Saving..." : "Save Address" }
                               </button>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div>}
                 
                 
                       {/* ------------------------ Edit Modal for address ----------------------------- */}
-                
+                {showEditModal && 
                       <div
-                        className="modal fade"
-                        id="staticBackdrop_1"
-                        data-bs-backdrop="static"
-                        data-bs-keyboard="false"
-                        tabIndex="-1"
-                        aria-labelledby="staticBackdropLabel"
-                        aria-hidden="true"
-                        style={{ marginTop: "2%" }}
+                        className="modal fade show"
+        style={{ display: "block", marginTop: "2%",backgroundColor: "rgba(0,0,0,0.40)"  }}
+        tabIndex="-1"
                       >
                         <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                           <div className="modal-content">
@@ -594,17 +653,26 @@ useEffect(() => {
                               <button
                                 type="button"
                                 className="btn-close"
-                                data-bs-dismiss="modal"
-                                onClick={()=>{setAddress(getInitialAddress(user?.userId))}}
-                                aria-label="Close"
+                                onClick={()=>{setAddress(getInitialAddress(user?.userId)); setShowEditModal(false);}}
                               ></button>
                             </div>
+                            {getEditLoading ? 
+              <div
+    className="d-flex justify-content-center align-items-center"
+    style={{ minHeight: "300px" }}
+  >
+    <div className="spinner-grow text-secondary" role="status">
+       <span className="visually-hidden">Loading...</span>
+    </div>
+
+  </div> :<>
                             <div className="modal-body">
+                              
                               <div className="row">
                                 <div className="col my-2 py-0">
                                   <TextField
                                     name="full_name"
-                                    value={editAddress.full_name}
+                                    value={editAddress.full_name || ""}
                                     label="Full Name"
                                     variant="outlined"
                                     size="small"
@@ -615,7 +683,7 @@ useEffect(() => {
                                 <div className="col my-2 py-0">
                                   <TextField
                                     name="phone"
-                                    value={editAddress.phone}
+                                    value={editAddress.phone || ""}
                                     label="Mobile Number"
                                     variant="outlined"
                                     size="small"
@@ -628,7 +696,7 @@ useEffect(() => {
                                 <div className="col my-2 py-0">
                                   <TextField
                                     name="house_no"
-                                    value={editAddress.house_no}
+                                    value={editAddress.house_no || ""}
                                     label="Flat/House No./ Apartment(Optional)"
                                     variant="outlined"
                                     size="small"
@@ -641,7 +709,7 @@ useEffect(() => {
                                 <div className="col my-2 py-0">
                                   <TextField
                                     name="area"
-                                    value={editAddress.area}
+                                    value={editAddress.area || ""}
                                     label="Locality/ Area/ Street"
                                     variant="outlined"
                                     size="small"
@@ -654,7 +722,7 @@ useEffect(() => {
                                 <div className="col my-2 py-0">
                                   <TextField
                                     name="landmark"
-                                    value={editAddress.landmark}
+                                    value={editAddress.landmark || ""}
                                     label="Landmark(Optional)"
                                     variant="outlined"
                                     size="small"
@@ -665,7 +733,7 @@ useEffect(() => {
                                 <div className="col my-2 py-0">
                                   <TextField
                                     name="pincode"
-                                    value={editAddress.pincode}
+                                    value={editAddress.pincode || ""}
                                     label="Pincode"
                                     variant="outlined"
                                     size="small"
@@ -745,16 +813,18 @@ useEffect(() => {
                                     </RadioGroup>
                                   </FormControl>
                                 </div>
-                              </div>
+                              </div> 
                             </div>
                             <div className="modal-footer">
-                              <button type="button" className="btn btn-primary" onClick={()=>edit(editAddress._id)}>
-                                Save And Deliver
+                              <button type="button" disabled={editLoadingButton} className="btn btn-primary" onClick={()=>edit(editAddress._id)}>
+                                {editLoadingButton ? "Updating..." : "Update Address" }
                               </button>
                             </div>
+                            </>}
                           </div>
                         </div>
                       </div>
+}
                 
                 
             

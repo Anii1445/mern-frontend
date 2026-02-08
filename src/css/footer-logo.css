@@ -1,0 +1,19 @@
+.footer-logo-main {
+  background: white;
+  color: #1976d2;
+  padding: 8px;
+  font-size: 18px;
+}
+
+.footer-logo-sub {
+  border: 1px solid white;
+  padding: 7px 12px;
+  font-size: 18px;
+}
+
+@media (min-width: 768px) {
+  .footer-logo-main,
+  .footer-logo-sub {
+    font-size: 22px;
+  }
+}

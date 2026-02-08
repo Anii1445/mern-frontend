@@ -19,6 +19,8 @@ import Select from '@mui/material/Select';
 import { FaHistory } from "react-icons/fa";
 import "../css/scrollBar.css";
 const API = import.meta.env.VITE_API_URL;
+import { useTheme, useMediaQuery } from "@mui/material";
+
 
 export default function MyOrder(){
 
@@ -28,6 +30,10 @@ export default function MyOrder(){
 
     const [open, setOpen] = useState(false);
     const [order, setOrder] = useState("all");
+    const [loading, setLoading] = useState(null);
+
+const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -37,8 +43,9 @@ export default function MyOrder(){
       setOpen(false);
   };
 
-    useEffect(()=>{
+  useEffect(()=>{
         const fetchOrders = async() => {
+            setLoading(true);
             try {
         const response = await fetch(`${API}/api/auth/getOrderByUser/${user.userId}?months=${order}`,{
                         method: "GET",
@@ -51,11 +58,13 @@ export default function MyOrder(){
         if(response.ok){
             const data = await response.json();
             setMyOrder(data);
-            console.log(data);
+            setLoading(false);
         }
                 
-           } catch (error) {
-                
+           } catch{
+                console.log("error")
+        }finally{
+            setLoading(false);
         }
     }
 
@@ -77,9 +86,17 @@ export default function MyOrder(){
 
     return (
         <>
-        <div className="container" style={{ marginTop: "10%"}}>
+        <div className="container" style={{ paddingTop: isMobile ? "5%" : "10%"}}>
             <div className="justify-content-center">
-                {myOrder?.length === 0 ? (
+                {loading ? <div
+    className="d-flex justify-content-center align-items-center"
+    style={{ minHeight: "clamp(300px, 70vh, 800px)" }}
+  >
+    <div className="spinner-grow text-secondary" role="status">
+    </div>
+    <div className="text-muted">Loading...</div>
+
+  </div> : myOrder?.length === 0 ? (
                 <div className="text-center">
               <img
                 src="/wishlist.svg"
@@ -95,8 +112,8 @@ export default function MyOrder(){
             </div>) : (
                 <> 
                 <div className="card mb-1 shadow-sm">
-                    <div className="card-body d-flex justify-content-between align-items-center">
-                        <div><h4>My Order ({myOrder?.length})</h4></div>
+                    <div className="card-body d-flex align-items-center flex-md-row gap-2 justify-content-between align-items-md-center">
+                        <div><h4 className="mb-0">My Order ({myOrder?.length})</h4></div>
                         <div>
                         <Button variant="outlined" onClick={handleClickOpen} startIcon={<FaHistory/>}>Sort By Order Date</Button>
                         </div>
@@ -141,13 +158,13 @@ export default function MyOrder(){
                                 {o.items.map((i) => (
                                 <div className="card mb-2">
                                     <div className="card-body">
-                                <div className="row d-flex align-items-center">
-                                    <div className="col-1">
+                                <div className="row align-items-center">
+                                    <div className="col-3 col-md-1 text-center">
                                         <img className="img-fluid" src={i.variant.image[0]} style={{ maxwidth: "50px", cursor: "pointer"}} onClick={ ()=> {navigate(`/product/view/${i?.product?._id}`)}}/>
                                     </div>
-                                    <div className="col-11">
-                                        <div><small>{i.product.name}</small></div>
-                                        <div style={{ color: "grey" }}><small>{i.variant.weight > 999 ? `${i.variant.weight/1000}Kg` : `${i.variant.weight}g`}, {i.variant.flavour}</small></div>
+                                    <div className="col-9 col-md-11">
+                                        <div><small  className="d-block">{i.product.name}</small></div>
+                                        <div><small className="text-muted">{i.variant.weight > 999 ? `${i.variant.weight/1000}Kg` : `${i.variant.weight}g`}, {i.variant.flavour}</small></div>
                                     </div>    
                                 </div>
                                 </div>

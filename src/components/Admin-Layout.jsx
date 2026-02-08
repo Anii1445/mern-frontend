@@ -30,6 +30,7 @@ import { MdKeyboardArrowRight } from "react-icons/md";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { RiCustomerService2Fill } from "react-icons/ri";
 import { IoBagSharp } from "react-icons/io5";
+import { useTheme, useMediaQuery } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -62,15 +63,19 @@ const Drawer = styled(MuiDrawer, {
 export default function AdminLayout() {
   const [open, setOpen] = useState(false);
   const { user, isLoggedIn, LogoutUser } = useAuth();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  
   return (
+    
     <Box>
       <CssBaseline />
 
       {/* ================= APP BAR ================= */}
       <AppBar position="fixed" open={open}>
         <Toolbar>
-          {!open && (
+          {!open && !isMobile && (
             <IconButton color="inherit" onClick={() => setOpen(true)} style={{ fontSize: "30px" }}>
               <IoMenu />
             </IconButton>
@@ -142,6 +147,7 @@ export default function AdminLayout() {
       </AppBar>
 
       {/* ================= DRAWER ================= */}
+      {!isMobile && 
       <Drawer variant="permanent" open={open}>
          <Box
     sx={{
@@ -166,7 +172,7 @@ export default function AdminLayout() {
         <List>
           {[
             { text: "Dashboard", icon: <VscGraph />, path: "/admin/dashboard" },
-            { text: "Products", icon: <FaBoxOpen />, path: "/admin/products" },
+            { text: "Products", icon: <FaBoxOpen />, path: "/admin/allproducts" },
             { text: "Users", icon: <FaUsers />, path: "/admin/users" },
             { text: "Customer Service", icon: <RiCustomerService2Fill />, path: "/admin/servicecenter" },
           ].map((item) => (
@@ -240,7 +246,7 @@ export default function AdminLayout() {
   </List>
 </Box>
         </Box>
-      </Drawer>
+      </Drawer>}
 
       {/* ================= MAIN CONTENT ================= */}
       <Box
@@ -248,11 +254,45 @@ export default function AdminLayout() {
         sx={{
           flexGrow: 1,
           p: 3,
-          marginLeft: open ? `${drawerWidth}px` : "56px",
+          marginLeft: isMobile ? "0px" : open ? `${drawerWidth}px` : "56px",
           transition: "margin 0.3s",
         }}
       >
         <Toolbar />
+         <div className="d-block d-md-none" style={{ paddingTop: isMobile && "11%",  position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    zIndex: 1050,
+    background: "white"}} >
+  <div className="card rounded-0">
+    <div className="card-body p-0">
+      <div className="col-12 d-flex overflow-auto">
+        {[
+                 { label: "Dashboard", icon: <VscGraph />, path: "/admin/dashboard" },
+            { label: "Products", icon: <FaBoxOpen />, path: "/admin/allproducts" },
+            { label: "Users", icon: <FaUsers />, path: "/admin/users" },
+            { label: "Customer Service", icon: <RiCustomerService2Fill />, path: "/admin/servicecenter" },
+                ].map((item) => (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    className={({ isActive }) =>
+                      `flex-fill text-center px-3 py-3 text-decoration-none ${
+                        isActive ? "active-item" : "text-dark"
+                      }`
+                    }
+                  >
+                    <div style={{ fontSize: "18px" }}>{item.icon}</div>
+                    <small>{item.label}</small>
+                  </NavLink>
+                ))}
+</div>
+</div>
+</div>
+</div>
+<div style={{ height: isMobile && "70px" }} />
+
         <Outlet />
       </Box>
     </Box>

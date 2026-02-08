@@ -2,10 +2,13 @@ import { useAuth } from "../store/auth-ContextAPI";
 import "../css/hover.css";
 import "../css/category.css";
 import "../css/accordion.css";
+import "../css/product-img.css";
+import { Box } from "@mui/material";
 import InputAdornment from '@mui/material/InputAdornment';
 import "../css/underline.css";
 import { PiSortAscendingBold } from "react-icons/pi";
 import "../css/product-card.css";
+import { useTheme, useMediaQuery } from "@mui/material";
 import { FaArrowRight } from "react-icons/fa6";
 import { ImStarFull } from "react-icons/im";
 import { TiThMenu } from "react-icons/ti";
@@ -24,6 +27,7 @@ import { BsCart2 } from "react-icons/bs";
 import { GiElectric } from "react-icons/gi";
 import TextField from "@mui/material/TextField";
 import "../css/filter.css";
+import { Drawer } from "@mui/material";
 import { FaAngleUp } from "react-icons/fa";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
@@ -48,6 +52,7 @@ import { useRef } from "react";
 import { useSelector } from "react-redux";
 import { FiFilter } from "react-icons/fi";
 import { setSearchText } from "../store/searchSlice";
+import { RiLoader2Line } from "react-icons/ri";
 const API = import.meta.env.VITE_API_URL;
 
 export default function Home() {
@@ -63,13 +68,17 @@ export default function Home() {
     isLoggedIn,
     authLoading
   } = useAuth();
+  const theme = useTheme();
+const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const productsRef = useRef(null);
   const { searchText } = useSelector((state) => state.search);
-
-
+  const [loading, setLoading] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(null);
+  const [wishlistLoading, setWishlistLoading] = useState(null);
+  const [filterOpen, setFilterOpen] = useState(false);
 
   useEffect(() => {
   const el = document.querySelector("#carouselExampleDark");
@@ -145,7 +154,7 @@ export default function Home() {
   const getCartByUser = async () => {
     if (isLoggedIn) {
       try {
-        const response = await fetch(`${API}/api/auth/getUserCart/${user.userId}`,
+        const response = await fetch(`${API}/api/auth/getUserCart/${user?.userId}`,
           {
             method: "GET",
             headers: {
@@ -166,7 +175,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (user && user.userId) {
+    if (user && user?.userId) {
        getWishlists();
        getCartByUser();
     }
@@ -174,6 +183,7 @@ export default function Home() {
 
  
   const Delete = async (variant_id) => {
+    setWishlistLoading(variant_id);
     try {
       const response = await fetch(
         `${API}/api/auth/deleteWishlistByProductID`,
@@ -191,10 +201,14 @@ export default function Home() {
       );
       if(response.ok){
         getWishlists();
+        setWishlistLoading(null);
       }
 
     } catch (error) {
       console.log(error);
+    }
+    finally{
+      setWishlistLoading(null);
     }
   };
 
@@ -220,6 +234,7 @@ export default function Home() {
   let fullDate = `${day} ${months[month]} ${year}`;
 
   const Save = async (p_id, variant_id) => {
+        setWishlistLoading(variant_id);
     try {
         const response = await fetch(
           `${API}/api/auth/wishlist`,
@@ -244,9 +259,12 @@ export default function Home() {
                 autoClose: 2000, 
              });
           getWishlists();
+          setWishlistLoading(null);
         }
     } catch (error) {
       console.log(error);
+    }finally{
+      setWishlistLoading(null);
     }
   };
 
@@ -302,6 +320,7 @@ export default function Home() {
 
 
   const AddtoCart = async (id, variant_id, weight, flavour, price, mrp, img) => {
+    setButtonLoading(variant_id);
     if (isLoggedIn) {
         try {
           const response = await fetch(`${API}/api/auth/cart`, {
@@ -329,12 +348,16 @@ export default function Home() {
                 autoClose: 2000, 
              });
             getCartByUser();
+            setButtonLoading(null);
           }
         } catch (error) {
           console.log(error);
+        }finally{
+          setButtonLoading(null);
         }
       
     } else {
+      setButtonLoading(null);
       toast.warning("Please Login for better experience!", {
                 position: "top-center",
                 autoClose: 2000, 
@@ -346,6 +369,7 @@ export default function Home() {
 
   const BuyNow = async(id, variant_id, weight, flavour, price, mrp, img) => {
     const included = carts.some(a => a.product_id === id && a.variant_id === variant_id);
+    setButtonLoading(variant_id);
     if(isLoggedIn){
       if(!included){
      try {
@@ -370,19 +394,24 @@ export default function Home() {
 
           if (response.ok) {
             getCartByUser();
+            setButtonLoading(null);
             let cartProducts = [{product_id:id, variant_id, product_price: price, product_qty: 1}]
             dispatch(setOrderInfo({mrp, price, cartProducts}))
             navigate("/checkout");
           }
         } catch (error) {
           console.log(error);
+        }finally{
+          setButtonLoading(null)
         }}
       else{
             let cartProducts = [{product_id:id, variant_id, product_price: price, product_qty: 1}]
             dispatch(setOrderInfo({mrp, price, cartProducts}))
+            setButtonLoading(null);
             navigate("/checkout");
       }}
         else{
+          setButtonLoading(null);
           toast.warning("Please Login for better experience!", {
                 position: "top-center",
                 autoClose: 2000, 
@@ -466,6 +495,9 @@ export default function Home() {
     } catch (error) {
       console.log(error)
     }
+    finally{
+      setLoading(false);
+    }
   }
 
 
@@ -488,7 +520,9 @@ export default function Home() {
      behavior: "smooth",
      block: "start",
   });
-    sort();
+
+  setLoading(true);
+  sort();
 }, [sortOrder, maxValue, selectWeight, searchText, page, selectFlavour, selectBrand, selectCategory]);
 
 
@@ -503,17 +537,17 @@ const clearAll = () => {
   return (
     <>
       <div className="container">
-        <div className="justify-content-center" style={{ marginTop: "10%" }}>
+        <div className="justify-content-center" style={{ paddingTop: isMobile ? "20%" : "10%"}}>
           <div className="card mb-4">
             <div className="card-body">
               <div className="text-center mb-3 d-flex align-items-center justify-content-center gap-3">
                 
                   <BsStars style={{ color: "orange", fontSize: "30px" }} /> 
-                     <h1 className="section-title" style={{background: "linear-gradient(90deg, #007bff, #00c6ff)",
+                     <h3 className="section-title" style={{background: "linear-gradient(90deg, #007bff, #00c6ff)",
                         WebkitBackgroundClip: "text",
                         WebkitTextFillColor: "transparent",
                         fontWeight: "bold",
-                            }}>Top Categories For You</h1>
+                            }}>Top Categories For You</h3>
                   <BsStars style={{ color: "orange", fontSize: "30px"  }} />
                 
               </div>
@@ -524,13 +558,13 @@ const clearAll = () => {
                 <Stack
                   direction="row"
                   // divider={<Divider orientation="vertical" flexItem />}
-                  spacing={5}
+                  spacing={isMobile ? 1 : 5}
                   sx={{
                     overflowX: "auto", // Enables horizontal scroll
                     whiteSpace: "nowrap", // Prevents wrapping
                     padding: 2, // Optional: Adds space
                     "&::-webkit-scrollbar": {
-                      height: 8,
+                      height: 3,
                     },
                     "&::-webkit-scrollbar-thumb": {
                       backgroundColor: "grey",
@@ -542,15 +576,21 @@ const clearAll = () => {
                   }}
                 >
                   {ApiCategory.map((c, i)=> {return(
-                  <Item key={i} onClick={(e) => {setSelectCategory(c.category); productsRef.current?.scrollIntoView({
+                  <Item key={i} onClick={(e) => {
+                    setSelectCategory(c.category); 
+                    dispatch(setSearchText("")); 
+                    setSelectBrand(""); 
+                    setSelectFlavour("");
+                    setSelectWeight("");
+                    productsRef.current?.scrollIntoView({
      behavior: "smooth",
      block: "start"
   })}} sx={{ cursor: "pointer", border: "1px solid #D3D3D3"}}>
                     <img
                       src={c.img}
-                      style={{ maxWidth: "180px", maxHeight: "180px" }}
+                     className="carousel-img"
                     />
-                    <div className="mt-2">{c.category}</div>
+                    <div className="mt-2 carousel-text">{c.category}</div>
                   </Item>)})}
                 </Stack>
               </div>
@@ -562,7 +602,7 @@ const clearAll = () => {
 
           <div
             id="carouselExampleDark"
-            className="carousel carousel-dark mb-4 slide border border-secondary-subtle rounded"
+            className="carousel carousel-dark mb-4 slide"
             data-bs-ride="carousel"
             data-bs-interval="2500"
             // data-bs-pause="hover"
@@ -644,7 +684,7 @@ const clearAll = () => {
                   className="img-fluid mx-auto d-block"
                 />
               </div>
-              <div className="carousel-item  active text-center">
+              <div className="carousel-item active text-center">
                 <img
                   src="/HK_Vitals.webp"
                   alt="..."
@@ -710,28 +750,28 @@ const clearAll = () => {
               <div className="text-center mb-3 d-flex align-items-center justify-content-center gap-3">
                 
                   <BsStars style={{ color: "orange", fontSize: "30px" }} /> 
-                     <h1 className="section-title" style={{
+                     <h3 className="section-title" style={{
  background: "linear-gradient(90deg, #007bff, #00c6ff)",
   WebkitBackgroundClip: "text",
   WebkitTextFillColor: "transparent",
   fontWeight: "bold",
-}}>Brand Range</h1>
+}}>Brand Range</h3>
                   <BsStars style={{ color: "orange", fontSize: "30px"  }} />
                 
               </div>
 
               <div>
-                {/* // --------------------------- Shop by category -------------------------- // */}
+                {/* // --------------------------- Shop by Brand -------------------------- // */}
 
                 <Stack
                   direction="row"
-                  spacing={10}
+                  spacing={isMobile ? 4 : 8}
                   sx={{
                     overflowX: "auto", // Enables horizontal scroll
                     whiteSpace: "nowrap", // Prevents wrapping
                     padding: 2, // Optional: Adds space
                     "&::-webkit-scrollbar": {
-                      height: 8,
+                      height: 3,
                     },
                     "&::-webkit-scrollbar-thumb": {
                       backgroundColor: "grey",
@@ -746,9 +786,15 @@ const clearAll = () => {
                     b.brand && b.img &&
                     (
                   
-                    <img key={i} onClick={(e) => {setSelectBrand(b.brand); dispatch(setSearchText(""))}}
+                    <img key={i} onClick={(e) => {
+                      setSelectBrand(b.brand); 
+                      dispatch(setSearchText("")); 
+                      setSelectCategory("");
+                      setSelectFlavour("");
+                      setSelectWeight("");
+                  }}
                       src={b.img}
-                      style={{ maxWidth: "180px", maxHeight: "120px", cursor: "pointer" }}
+                      className="carousel-img"
                     />))}
                 </Stack>
               </div>
@@ -756,21 +802,36 @@ const clearAll = () => {
           </div>
 
           {/* -------------------- Products Listing Section ------------------------ */}
-{sortProducts.length === 0 ? 
+          {loading ? (
+  /* 1️⃣ LOADING STATE */
+  <div
+    ref={productsRef}
+    className="d-flex justify-content-center align-items-center"
+    style={{ minHeight: "clamp(300px, 70vh, 800px)" }}
+  >
+    <div className="spinner-grow text-secondary" role="status">
+    </div>
+    <div className="text-muted">Loading...</div>
+
+  </div>
+) : sortProducts.length === 0 ? (
           <div ref={productsRef} className="text-center" style={{ marginTop: "1%"}}>
-                  <img src="/no-results.svg"/>
-                  <h5 style={{ marginBottom: "2px"}}>We tried hard to find results for you.</h5>
+                  <img src="/no-results.svg" style={{ width: isMobile && "100%"}}/>
+                  <h5 style={{ marginBottom: "2px", fontSize: isMobile && "18px"}}>We tried hard to find results for you.</h5>
                   <small>Try searching with a different keyword.</small>
           </div>
-          :
+) : (
           <>
           <div ref={productsRef} className="row-filter">
             <div className="column-filter">
-              <h6><FiFilter style={{ fontSize: "20px" }}/> Filters</h6>
+              <h6 style={{ display:"flex", alignItems: "center", cursor:"pointer" }} onClick={() => setFilterOpen(true)}>
+                <FiFilter style={{ fontSize: "20px", marginRight: "5px" }}/>
+                  Filters
+              </h6>
             </div>
             
             <div className="column-filter">
-              <h6>All Products <span style={{ color: "grey", fontSize: "16px" }}>{selectBrand && `/ ${selectBrand}`} {selectCategory && `/ ${selectCategory}`} {selectFlavour && `/ ${selectFlavour}`} </span></h6>
+              <h6>All Products <span style={{ color: "grey", fontSize: "15px" }}>{selectBrand && `/ ${selectBrand}`} {selectCategory && `/ ${selectCategory}`} {selectFlavour && `/ ${selectFlavour}`} </span></h6>
             </div>
             <div className="column-filter text-end">
               <FormControl sx={{ m: 1, minWidth: 160 }} size="small">
@@ -790,12 +851,12 @@ const clearAll = () => {
             </div>
           </div>
           <div className="row-category">
-            <div className="filter-column">
+            <Box className="filter-column" sx={{ display: { xs: "none", md: "block" } }}>
   
   {/* CATEGORY */}
   <Accordion disableGutters >
     <AccordionSummary expandIcon={<FaAngleUp />}>
-      <Typography className="filter-title fw-bold">Category</Typography>
+      <Typography className="filter-title">Category</Typography>
     </AccordionSummary>
     <AccordionDetails>
       {ApiCategory.map((c, index) => (
@@ -817,7 +878,7 @@ const clearAll = () => {
   {/* BRAND */}
   <Accordion disableGutters>
     <AccordionSummary expandIcon={<FaAngleUp />}>
-      <Typography className="filter-title fw-bold">Brand</Typography>
+      <Typography className="filter-title">Brand</Typography>
     </AccordionSummary>
     <AccordionDetails>
       {ApiBrands.map((b, index) => (
@@ -839,7 +900,7 @@ const clearAll = () => {
   {/* WEIGHT */}
   <Accordion disableGutters>
     <AccordionSummary expandIcon={<FaAngleUp />}>
-      <Typography className="filter-title fw-bold">Weight / Quantity</Typography>
+      <Typography className="filter-title">Weight</Typography>
     </AccordionSummary>
     <AccordionDetails>
       {weightRanges.map((w, i) => (
@@ -861,7 +922,7 @@ const clearAll = () => {
   {/* PRICE */}
   <Accordion disableGutters>
     <AccordionSummary expandIcon={<FaAngleUp />}>
-      <Typography className="filter-title fw-bold">Price</Typography>
+      <Typography className="filter-title">Price</Typography>
     </AccordionSummary>
     <AccordionDetails>
       <Slider
@@ -880,7 +941,7 @@ const clearAll = () => {
   {/* FLAVOUR */}
   <Accordion disableGutters>
     <AccordionSummary expandIcon={<FaAngleUp />}>
-      <Typography className="filter-title fw-bold">Flavour</Typography>
+      <Typography className="filter-title">Flavour</Typography>
     </AccordionSummary>
     <AccordionDetails>
       {ApiFlavour.map((f, index) => (
@@ -910,7 +971,7 @@ const clearAll = () => {
   >
     Clear All Filters
   </Button>
-</div>
+</Box>
 
             <div className="columns">
               <div style={{ marginBottom: "8px", backgroundColor: "#F5F5F5", padding: "6px 6px 6px 6px", borderRadius: "5px", display: "flex", justifyContent: "space-between" }}>
@@ -923,6 +984,8 @@ const clearAll = () => {
                    r => r.variant_id === p.variant[0]._id
                 );
 
+                const isLoading = buttonLoading === p.variant[0]._id;
+
             const avgRating =
             productReviews.length > 0
             ? (
@@ -930,9 +993,9 @@ const clearAll = () => {
              productReviews.length
             ).toFixed(1) : 0;
 
-
+            const wishlistLoad = wishlistLoading === p.variant[0]._id
             return (
-                    <div className="col-4 align-items-stretch" key={index}>
+                    <div className="col-12 col-sm-6 col-md-4 align-items-stretch" key={index}>
                       <div className="card h-100 d-flex flex-column onHover product-card">
                         <div
                           className="card-header"
@@ -941,11 +1004,15 @@ const clearAll = () => {
                           }}
                           style={{ cursor: "pointer" }}
                         >
-                          
-                          <PiHeartDuotone
+                          <Box sx={{ fontSize: { xs: "20px", sm: "24px"} }}>
+                          {wishlistLoad ? 
+                          <RiLoader2Line style={{
+                              float: "right",
+                              marginBottom: "8px",
+                              color: "grey"}}/> :
+                                 <PiHeartDuotone
                             style={{
                               float: "right",
-                              fontSize: "25px",
                               marginBottom: "8px",
                               color: ApiWishlists?.some(a => a.variant_id === p.variant[0]._id)
                                 ? "red"
@@ -959,13 +1026,17 @@ const clearAll = () => {
                               );
                             }} // <-- stops triggering card header click
                           />
-                          <div  style={{
-    height: "180px",
+ }
+ </Box>
+                        <Box
+  sx={{
+    height: { xs: "140px", sm: "180px" },
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     overflow: "hidden",
-  }}>
+  }}
+>
                             <img
                               src={p?.variant?.[0]?.image?.[0]}
                               alt="Product_img"
@@ -978,23 +1049,24 @@ const clearAll = () => {
       padding: "7px 7px 7px 7px"
     }}
                             />
-                          </div>
+                          </Box>
                           <div className="flex-grow-1 d-flex" style={{ justifyContent: "space-between"}}>
                             <div>
-                              <h6
-                                style={{
+                              <Box
+                                sx={{
                                   color: "white",
-                                  fontSize: "13px",
+                                  fontSize: { xs: "10px", sm: "13px" }
                                 }}
                               >
                                 <span className="px-2 py-1 bg-warning"  style={{
                                  display: "inline-flex",
+                                 alignItems: "center",
                                  gap: "5px",
                                  }}>
                                   {avgRating || 0}{" "}
                                   <ImStarFull />
                                 </span>
-                              </h6>
+                              </Box>
                             </div>
                             <div>
                               <img src={`${p.dietaryPreference === "Veg" ? "/veg.svg" : "/non-veg.svg"}`}
@@ -1058,7 +1130,7 @@ const clearAll = () => {
                               variant="outlined"
                               startIcon={<FaArrowRight />}
                               sx={{
-                                marginRight: "10px",
+                                fontSize: { xs: "12px", sm: "13.5px", md: "14px" },
                                 marginBottom: "10px",
                                 marginTop: "5%",
                               }}
@@ -1070,9 +1142,10 @@ const clearAll = () => {
                           ) : (
                             <Button
                               variant="outlined"
-                              startIcon={<BsCart2 />}
+                              disabled={isLoading}
+                              startIcon={isLoading ? <RiLoader2Line/> : <BsCart2/>}
                               sx={{
-                                marginRight: "10px",
+                                fontSize: { xs: "12px", sm: "13.5px", md: "14px" },
                                 marginBottom: "10px",
                                 marginTop: "5%",
                               }}
@@ -1089,13 +1162,14 @@ const clearAll = () => {
                                 );
                               }}
                             >
-                              Add To Cart
+                               {isLoading ? "Adding..." : "Add To Cart"}
                             </Button>
                           )}
                           <Button
                             variant="contained"
                             startIcon={<GiElectric />}
                             fullWidth
+                            sx={{ fontSize: { xs: "12px", sm: "13.5px", md: "14px" } }}
                             onClick={() => {
                               BuyNow(
                                 p._id,
@@ -1120,21 +1194,169 @@ const clearAll = () => {
             </div>
           </div>
           </>
-          }
+          )}
           
         </div>
       </div>
 
       <div className="container mt-5">
       <div className="d-flex justify-content-center align-items-center gap-3">
-        <Typography>Page: {totalPages > 0 ? page : 0}</Typography>
-        <Stack spacing={2}>
+        <Typography  sx={{ mt: { xs: 2, sm: 4 } }} >Page: {totalPages > 0 ? page : 0}</Typography>
+        <Stack spacing={2} sx={{ mt: { xs: 2, sm: 4 } }}>
            <Pagination count={totalPages}  page={page}
               onChange={(e, value) => setPage(value)} variant="outlined" color="primary" />
         </Stack>
       </div>
       </div>
       
+              {/* ----------------------- Filter Drawer -----------------------  */}
+      <Drawer
+  anchor="bottom"
+  open={filterOpen}
+  onClose={() => setFilterOpen(false)}
+  sx={{ display: { xs: "block", md: "none" } }}
+>
+  <Box sx={{ p: 2 }}>
+    <Typography variant="h6" mb={1} sx={{display: "flex", alignItems: "center", gap:"3px"}}>
+      <FiFilter/> Add Filters
+    </Typography>
+
+    {/* SAME filter-column content */}
+    <div className="filter-column">
+      {/* Category, Brand, Price, etc */}
+       <Accordion disableGutters >
+    <AccordionSummary expandIcon={<FaAngleUp />}>
+      <Typography className="filter-title">Category</Typography>
+    </AccordionSummary>
+    <AccordionDetails>
+      {ApiCategory.map((c, index) => (
+        <div key={index} className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            checked={selectCategory === c.category}
+            onChange={(e) =>
+              setSelectCategory(e.target.checked ? c.category : "")
+            }
+          />
+          <label className="form-check-label">{c.category}</label>
+        </div>
+      ))}
+    </AccordionDetails>
+  </Accordion>
+
+  {/* BRAND */}
+  <Accordion disableGutters>
+    <AccordionSummary expandIcon={<FaAngleUp />}>
+      <Typography className="filter-title">Brand</Typography>
+    </AccordionSummary>
+    <AccordionDetails>
+      {ApiBrands.map((b, index) => (
+        <div key={index} className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            checked={selectBrand === b.brand}
+            onChange={(e) =>
+              setSelectBrand(e.target.checked ? b.brand : "")
+            }
+          />
+          <label className="form-check-label">{b.brand}</label>
+        </div>
+      ))}
+    </AccordionDetails>
+  </Accordion>
+
+  {/* WEIGHT */}
+  <Accordion disableGutters>
+    <AccordionSummary expandIcon={<FaAngleUp />}>
+      <Typography className="filter-title ">Weight</Typography>
+    </AccordionSummary>
+    <AccordionDetails>
+      {weightRanges.map((w, i) => (
+        <div key={i} className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            checked={selectWeight?.label === w.label}
+            onChange={(e) =>
+              setSelectWeight(e.target.checked ? w : null)
+            }
+          />
+          <label className="form-check-label">{w.label}</label>
+        </div>
+      ))}
+    </AccordionDetails>
+  </Accordion>
+
+  {/* PRICE */}
+  <Accordion disableGutters>
+    <AccordionSummary expandIcon={<FaAngleUp />}>
+      <Typography className="filter-title">Price</Typography>
+    </AccordionSummary>
+    <AccordionDetails>
+      <Slider
+        value={maxValue}
+        valueLabelDisplay="auto"
+        onChange={(e, v) => setMaxValue(v)}
+        min={599}
+        max={40000}
+      />
+      <small className="price-range">
+        ₹399 – ₹{maxValue.toLocaleString("en-IN")}
+      </small>
+    </AccordionDetails>
+  </Accordion>
+
+  {/* FLAVOUR */}
+  <Accordion disableGutters>
+    <AccordionSummary expandIcon={<FaAngleUp />}>
+      <Typography className="filter-title">Flavour</Typography>
+    </AccordionSummary>
+    <AccordionDetails>
+      {ApiFlavour.map((f, index) => (
+        <div key={index} className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            checked={selectFlavour === f.flavour}
+            onChange={(e) =>
+              setSelectFlavour(e.target.checked ? f.flavour : "")
+            }
+          />
+          <label className="form-check-label">{f.flavour}</label>
+        </div>
+      ))}
+    </AccordionDetails>
+  </Accordion>
+
+    </div>
+<div className="row mb-2">
+<div className="col-6">
+    <Button
+      fullWidth
+      variant="contained"
+      size="medium"
+      onClick={() => setFilterOpen(false)}
+    >
+      Apply Filters
+    </Button>
+    </div>
+    <div className="col-6">
+    <Button
+    variant="contained"
+    fullWidth
+    size="medium"
+    className="clear-filter-btn"
+    onClick={() => {clearAll();  setFilterOpen(false);}}
+  >
+    Clear All Filters
+  </Button>
+  </div>
+  </div>
+  </Box>
+</Drawer>
+
     </>
   );
 }

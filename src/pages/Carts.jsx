@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../store/auth-ContextAPI";
 import Button from "@mui/material/Button";
+import { FaArrowRight } from "react-icons/fa6";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { useNavigate } from "react-router-dom";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -21,12 +22,17 @@ import { toast } from "react-toastify";
 import "../css/wave.css"
 import "../css/confirmAlert.css";
 const API = import.meta.env.VITE_API_URL;
+import { useTheme, useMediaQuery } from "@mui/material";
+
 
 export default function Carts() {
   const { user, token, isLoggedIn, products } = useAuth();
   const [carts, setCarts] = useState([]);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(null);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const steps = [
      'Cart',
@@ -37,6 +43,7 @@ export default function Carts() {
   
 
   const getJoinCartByUserID = async () => {
+    setLoading(true);
     if (isLoggedIn) {
       try {
         const response = await fetch(
@@ -51,11 +58,14 @@ export default function Carts() {
 
         const data = await response.json();
         if (response.ok) {
+          setLoading(false);
           setCarts(data);
           dispatch(setCartTotal(data));
         }
       } catch (error) {
         console.log(error);
+      }finally{
+        setLoading(false);
       }
     }
   };
@@ -98,8 +108,9 @@ export default function Carts() {
   const cartTotalPRICE = carts.reduce(
     (acc, item) => acc + item.product_price * item.product_qty, 0 ); 
 
-console.log(carts)
+
   const Delete = async (cart_id) => {
+    
     try {
       confirmAlert({
         customUI: ({ onClose }) => {
@@ -118,6 +129,7 @@ console.log(carts)
               <Button
                 variant="contained"
                 onClick={async () => {
+                  try{
                   const response = await fetch(
                     `${API}/api/auth/deleteCartsItemsByID`,
                     {
@@ -135,11 +147,17 @@ console.log(carts)
 
                   if(response.ok){
                   onClose();
+                  toast.success("Item Deleted", {
+                        position: "top-center",
+                        autoClose: 2000, 
+                  })
                   getJoinCartByUserID();
+                  }}catch{
+                    console.log("error")
                   }
                 }}
               >
-                Delete
+               Delete
               </Button>
             </div>
           );
@@ -304,9 +322,14 @@ console.log(carts)
 
   return (
     <>
-      <div className="container" style={{ marginTop: "10%" }}>
+      <div className="container" style={{ paddingTop: isMobile ? "20%" : "10%" }}>
         <div className="justify-content-center">
-          {carts.length === 0 ? (
+          {loading ? <div  className="d-flex justify-content-center align-items-center" style={{ minHeight: "clamp(300px, 70vh, 800px)" }}>
+                  <div className="spinner-grow text-secondary" role="status">
+    </div>
+    <div className="text-muted">Loading...</div>
+                </div> : 
+          carts.length === 0 ? (
             <div className="text-center">
               <img
                 src="/empty-cart.svg"
@@ -326,7 +349,7 @@ console.log(carts)
             </div>
           ) : (
             <div className="row">
-              <div className="col-8">
+              <div className="col-12 col-md-8">
                  <Box sx={{ width: '100%', marginBottom: "3%"}}>
       <Stepper activeStep={0} alternativeLabel>
         {steps.map((label) => (
@@ -343,24 +366,25 @@ console.log(carts)
                       return (
                         <div className="card mb-3" key={index} >
                           <div className="card-body">
-                            <div className="row">
-                              <div className="col text-center">
+                            <div className="row align-items-start">
+                              <div className="col-4 col-md-2 text-center align-self-center">
                                 <img src={c.product_img[0]}  className="img-fluid" style={{ maxWidth: "80%", cursor: "pointer"}} onClick={ ()=> {navigate(`/product/view/${c.product_id}`)}}/>
                               </div>
-                              <div className="col-8">
+                              <div className="col-8 col-md-8">
                                 <p style={{ fontSize: "15px", marginBottom: "5px"}}>
                                   {c.product.brand}, {c.product.name}, {c.product_weight > 999 ? `${c.product_weight/1000}Kg` : `${c.product_weight}g`}, {c.product_flavour}
                                 </p>
                                 <h5 style={{ display: "inline", marginRight: "4%" }}>₹{(c.product_price * c.product_qty).toLocaleString("en-IN")}</h5>
                                 <p style={{ display: "inline", color:"grey" }}>MRP: <del>₹{(c.product_mrp * c.product_qty).toLocaleString("en-IN")}</del></p>
-                                <h6 style={{ display: "inline", marginLeft: "4%", color: "#50C878" }}>( You Saved ₹{(c.product_mrp * c.product_qty - c.product_price * c.product_qty).toLocaleString("en-IN")} )</h6>
+                                <h6 style={{ display: "inline", marginLeft: "4%", color: "#50C878", fontSize: isMobile && "15px" }}>( You Saved ₹{(c.product_mrp * c.product_qty - c.product_price * c.product_qty).toLocaleString("en-IN")} )</h6>
                                 <div><ButtonGroup
                                 size="small"
                                   variant="outlined"
                                   aria-label="Basic button group"
                                   sx={{
-                                    marginRight: "25px",
-                                    marginTop: "10px",
+                                     
+    mt: 1,
+    width: { xs: "100%", md: "auto" }
                                   }}
                                 >
                                   <Button onClick={() => minus(c._id)}>
@@ -373,7 +397,7 @@ console.log(carts)
                                 </ButtonGroup>
                                 </div>
                               </div>
-                              <div className="col-2 d-flex justify-content-end align-items-start gap-3">
+                              <div className="col-12 col-md-2 d-flex justify-content-end gap-3 mt-2 mt-md-0">
                                 <RiDeleteBin6Line
                                   onClick={() => Delete(c._id)}
                                   style={{
@@ -404,7 +428,7 @@ console.log(carts)
                   </div>
                 </div>
               </div>
-              <div className="col-4">
+              <div className="col-12 col-md-4 mt-4 mt-md-0">
                 <div className="card" style={{ boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)"}}>
                   <div className="card-body">
                     <h4><BsBoxSeam style={{ marginRight: "3%" }}/>Order Summary ({carts.length} Items)</h4>
@@ -436,7 +460,7 @@ console.log(carts)
                       <div style={{ display: "flex", justifyContent: "space-between"}}>
                         <h5>Payable Amount</h5>
                         <h5 style={{ textAlign: "end" }}>
-                          ₹{cartTotalPRICE > 500 ? (cartTotalPRICE + 0).toLocaleString("en-IN") : (cartTotalPRICE + 50).toLocaleString("en-IN")}
+                          ₹{cartTotalPRICE ? (cartTotalPRICE + 0).toLocaleString("en-IN") : (cartTotalPRICE + 50).toLocaleString("en-IN")}
                         </h5>
                       </div>
                       <div style={{ backgroundColor: "lightgreen", padding: "4px 10px 4px 10px", borderRadius: "6px"}} className="saving-wave">
@@ -445,13 +469,28 @@ console.log(carts)
 
                     </div>
                 </div>
-                <Button variant="outlined" size="large" fullWidth sx={{ marginTop: "5%"}} onClick={()=>checkout(cartTotalMRP, cartTotalPRICE, carts)}>
-                        Checkout
-                </Button>
+                {!isMobile &&
+                <Button variant="contained" size="large" fullWidth sx={{ marginTop: "5%" }} startIcon={<FaArrowRight />} onClick={()=>checkout(cartTotalMRP, cartTotalPRICE, carts)}>
+                        Checkout 
+                </Button>}
               </div>
             </div>
           )}
         </div>
+
+         {isMobile && (
+          <div className="mobile-fixed-buybar">
+                    <Button
+                      variant="contained" fullWidth
+                      startIcon={<FaArrowRight />}
+                      onClick={()=>checkout(cartTotalMRP, cartTotalPRICE, carts)}
+                      size="large"
+                    >
+                        Checkout ₹{cartTotalPRICE ? (cartTotalPRICE + 0).toLocaleString("en-IN") : (cartTotalPRICE + 50).toLocaleString("en-IN")}
+
+                    </Button>
+          </div>)}
+        
       </div>
 
       {/* <!-- Modal --> */}

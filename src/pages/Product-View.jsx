@@ -1,7 +1,10 @@
 import { NavLink, useLocation, useParams } from "react-router-dom";
 import "../css/grid.css";
+import { RiLoader2Line } from "react-icons/ri";
 import { PiSortAscendingBold } from "react-icons/pi";
+import { FaUsersLine } from "react-icons/fa6";
 import { FaStar } from "react-icons/fa";
+import { Typography } from "@mui/material";
 import { IoMdHome } from "react-icons/io";
 import InputAdornment from "@mui/material/InputAdornment";
 import { GiCheckMark } from "react-icons/gi";
@@ -42,12 +45,13 @@ import { toast } from "react-toastify";
 import TextField from "@mui/material/TextField";
 import { PiHeartDuotone } from "react-icons/pi";
 import { Swiper, SwiperSlide } from "swiper/react";
+import "../css/swiper.css";
 import Box from '@mui/material/Box';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
-import "../css/zoom.css";
-import "../css/scrollBar.css";
+import "../css/zoom.css"
+import "../css/scrollBar.css"
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -57,11 +61,10 @@ import { HiLink } from "react-icons/hi";
 import { useDispatch } from "react-redux";
 import { setOrderInfo, setCartTotal } from "../store/checkoutSlice";
 import * as React from 'react';
-import Typography from '@mui/material/Typography';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import { useRef } from "react";
-const API = import.meta.env.VITE_API_URL;
+import { useTheme, useMediaQuery } from "@mui/material";
 
 
 export default function ProductView() {
@@ -82,7 +85,11 @@ export default function ProductView() {
   const dispatch = useDispatch();
   const [reviewSorting, setReviewSorting] = useState("all");
   const reviewsContainerRef = useRef(null); 
-
+  const [loadingButton, setLoadingButton] = useState(null);
+  const [loadingReview, setLoadingReview] = useState(false);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+ 
   const copyLink = () => {
      navigator.clipboard.writeText(window.location.href);
       toast.success("Link Copied",{
@@ -160,7 +167,7 @@ export default function ProductView() {
   const getProductByID = async () => {
     try {
       const response = await fetch(
-        `${API}/api/auth/product/${id}`,
+        `http://localhost:5000/api/auth/product/${id}`,
         {
           method: "GET",
         }
@@ -179,7 +186,7 @@ export default function ProductView() {
 
   const fetchReviews = async () => {
     const res = await fetch(
-      `${API}/api/auth/productreviewsorting/${variantID && variantID}?sort=${reviewSorting}&page=1&limit=5`
+      `http://localhost:5000/api/auth/productreviewsorting/${variantID && variantID}?sort=${reviewSorting}&page=1&limit=5`
     );
     const data = await res.json();
     setAllReviewByCustomers(data.reviews);
@@ -199,7 +206,7 @@ export default function ProductView() {
   // const getReviewByCustomers = async () => {
   //   try {
   //     const response = await fetch(
-  //       `${API}/api/auth/productReviewsByCustomers/${variantID && variantID}`,
+  //       `http://localhost:5000/api/auth/productReviewsByCustomers/${variantID && variantID}`,
   //       {
   //         method: "GET",
   //       }
@@ -216,7 +223,7 @@ export default function ProductView() {
   const [productJoin, setProductJoin] = useState([]);
   const getProductJoin = async() => {
     try {
-      const response = await fetch(`${API}/api/auth/getProductJoin`,{
+      const response = await fetch(`http://localhost:5000/api/auth/getProductJoin`,{
         method: "POST",
          headers: {
               "Content-Type": "application/json"
@@ -302,10 +309,10 @@ export default function ProductView() {
 
 
   const handleCart = async () => {
-
+    setLoadingButton(true)
     if (isLoggedIn) {
       try {
-        const response = await fetch(`${API}/api/auth/cart`, {
+        const response = await fetch(`http://localhost:5000/api/auth/cart`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -339,12 +346,16 @@ export default function ProductView() {
       } catch (error) {
         console.log(error);
       }
+      finally{
+        setLoadingButton(false);
+      }
     } else {
       toast.warning("Please Login for better experience!", {
                 position: "top-center",
                 autoClose: 2000, 
              });
       navigate("/login");
+      setLoadingButton(false);
     }
   };
 
@@ -376,10 +387,11 @@ export default function ProductView() {
   let fullDate = `${day} ${months[month]} ${year}`;
   const add_review = async (e) => {
     e.preventDefault();
+    setLoadingReview(true);
 
     try {
       const response = await fetch(
-        `${API}/api/auth/customer_review`,
+        `http://localhost:5000/api/auth/customer_review`,
         {
           method: "POST",
           headers: {
@@ -408,14 +420,15 @@ export default function ProductView() {
 
       if (response.ok) {
         setShowModal(false);
+        setLoadingReview(false);
         toast.success(<div><b>Thankyou!</b><br/> Your review has been submitted successfully</div>, {
                 position: "top-center",
                 autoClose: 3000,
                  style: {
-    width: '500px',       
-    fontSize: '18px',     
-    padding: '16px',      
-  } 
+                 width: '500px',       
+                 fontSize: '18px',     
+                 padding: '16px',      
+                } 
              });
         fetchReviews();
         setRev_Description("");
@@ -429,10 +442,14 @@ export default function ProductView() {
                 position: "top-center",
                 autoClose: 2000, 
              });
+             setLoadingReview(false);
         }
       }
     } catch (error) {
       console.log(error);
+    }
+    finally{
+      setLoadingReview(false);
     }
   };
 
@@ -441,7 +458,7 @@ export default function ProductView() {
       if (isLoggedIn) {
         try {
           const response = await fetch(
-            `${API}/api/auth/getUserCart/${user.userId}`,
+            `http://localhost:5000/api/auth/getUserCart/${user.userId}`,
             {
               method: "GET",
               headers: {
@@ -502,7 +519,7 @@ export default function ProductView() {
     const Save = async (p_id, variant_id) => {
         try {
             const response = await fetch(
-              `${API}/api/auth/wishlist`,
+              `http://localhost:5000/api/auth/wishlist`,
               {
                 method: "POST",
                 headers: {
@@ -534,7 +551,7 @@ export default function ProductView() {
     const Delete = async (variant_id) => {
        try {
          const response = await fetch(
-           `${API}/api/auth/deleteWishlistByProductID`,
+           `http://localhost:5000/api/auth/deleteWishlistByProductID`,
             {
               method: "DELETE",
               headers: {
@@ -561,7 +578,7 @@ export default function ProductView() {
       const getWishlists = async () => {
         try {
           const response = await fetch(
-            `${API}/api/auth/allWishlistsByID/${user.userId}`,
+            `http://localhost:5000/api/auth/allWishlistsByID/${user.userId}`,
             {
               method: "GET",
               headers: {
@@ -704,26 +721,33 @@ return (
 
          {/* //------------- Breadcrumbs ------------- // */}
 
-          <div role="presentation" style={{ marginTop: "10%" }}>
+          <div role="presentation" style={{ paddingTop: isMobile ? "20%": "10%" }}>
       <Breadcrumbs aria-label="breadcrumb">
-        <Link underline="hover" color="inherit" href="/"  sx={{ display: "flex", alignItems: "center"}}>
-           <IoMdHome style={{ fontSize: "20px" }}/>
+        <Link underline="hover" color="inherit" href="/" sx={{ display: "flex", alignItems: "center"}}>
+           <IoMdHome style={{ fontSize: isMobile ? "15px":"20px" }}/>
         </Link>
         <Link
           underline="hover"
           color="inherit"
           href="/"
         >
-          <small>{product.category}</small>
+          <small style={{ fontSize: isMobile && "13px"}}>{product.category}</small>
         </Link>
-        <Typography sx={{ color: 'text.primary' }}><small>{product.name}</small></Typography>
+        <Typography sx={{ color: 'text.primary', fontSize: isMobile && "13px" }}><small>{product.name}</small></Typography>
       </Breadcrumbs>
     </div>
 
     {/* /------------ Breadcrumbs end ------------- / */}
-        <div className="row-container mt-3">
+        <div className="row g-3">
 
-          <div className="col border rounded-4 text-center">
+{!isMobile && (
+          <div className="col-12 col-md-1 order-2 order-md-1 border rounded-4">
+            <Box sx={{
+               width: "100px",
+               height: "400px",
+               overflow: "hidden",
+               flexShrink: 0,
+}}>
             <Swiper
              onSwiper={setThumbsSwiper}
              modules={[Thumbs, Navigation, Pagination]}
@@ -731,46 +755,48 @@ return (
              slidesPerView={4}
              direction="vertical"
              watchSlidesProgress
-             style={{ height: "450px" }}
+             navigation
+             style={{ height: "100%", marginTop: "15px" }}
             >
             {imagesToShow.map((imgUrl, index)=>(
               <SwiperSlide key={index}>
                     <img src={imgUrl} onClick={()=>setActiveImageIndex(index)} 
-                     style={{ width: "95%", cursor:"pointer", 
+                     style={{ maxHeight: "90px", maxWidth: "90%", cursor:"pointer",
                      objectFit: "contain", border: index === activeImageIndex ? "2px solid #2196f3" : "1.5px solid #D3D3D3", borderRadius: "6px" }} />
              </SwiperSlide>
             ))}
             </Swiper>
-          </div>
-          <div className="col rounded-4 text-center" style={{ backgroundColor: "#EEEE" }}>
+            </Box>
+          </div>)}
+          <div className="col-12 col-md-5 order-2 order-md-1 rounded-4 text-center" style={{ backgroundColor: "#EEEE" }}>
             <img src={`${product?.dietaryPreference === "Veg" ? "/veg.svg" : "/non-veg.svg"}`}
               style={{
-                color: "green",
                 width: "25px",
                 float: "right",
-                marginBottom: "10%",
+                marginTop: "23px"
               }}
             />
             <Swiper
                modules={[Navigation, Pagination, Thumbs]}
-               thumbs={{ swiper: thumbsSwiper}}
+               thumbs={{ swiper: thumbsSwiper }}
                spaceBetween={10}
                slidesPerView={1}
                navigation
                pagination={{ clickable: true }}
-               style={{ width: "100%", height: "80%" }}
 >
             {imagesToShow.map((imgUrl,index)=>(
               <SwiperSlide key={index}>
                 <div className="zoom-container">
-                 <img src={imgUrl} className="zoom-image" style={{ width: "80%", objectFit: "contain", cursor: "pointer", borderRadius: "6px" }} loading="lazy" />
+                 <img src={imgUrl} className="zoom-image" style={{  width: isMobile ? "80%" : "80%",
+    maxHeight: isMobile ? "350px" : "450px", marginTop: isMobile && "10%",
+    objectFit: "contain", cursor: "pointer", borderRadius: "6px" }} loading="lazy" />
                 </div>
               </SwiperSlide>))}
             </Swiper>
           </div>
-          <div className="col">
+          <div className="col-12 col-md-6 order-3">
             <p>{product.category}</p>
-            <h4>
+            <h4 style={{ fontSize: isMobile && "20px" }}>
               {product.brand} - {product.name} |{" "}
               {selectWeight ? `${selectWeight > 999 ? `${selectWeight/1000}Kg` : `${selectWeight}g` }`
                 : `${product?.variant?.[0]?.weight > 999 ? `${product?.variant?.[0]?.weight/1000}Kg` : `${product?.variant?.[0]?.weight}g` }`} | {''}
@@ -793,7 +819,7 @@ return (
                   <span className="badge bg-success me-2 gap-1 d-inline-flex align-items-center" style={{ fontSize: "14px"}}>
                     {averageReview && Math.round(averageReview * 10)/10} <FaStar/>
                   </span>
-                  <strong style={{ color:"grey", fontSize: "14px" }}>({customerRating.length} Ratings & Reviews)</strong>
+                  <strong style={{ color:"grey", fontSize: isMobile ? "12px" :"14px" }}>({customerRating.length} Ratings & Reviews)</strong>
                 </div>
 
               <div>
@@ -854,11 +880,19 @@ return (
               </div>
             </div>
 
+<div
+  style={{
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "10px",
+    marginTop: "10px",
+  }}
+>
+
            {!carts.some(c => c.variant_id === variantID) && 
             <ButtonGroup
               variant="outlined"
               aria-label="Basic button group"
-              sx={{ marginRight: "25px" }}
             >
               <Button onClick={minus}>-</Button>
               <Button variant="outlined">{qty}</Button>
@@ -866,27 +900,30 @@ return (
             </ButtonGroup>}
 
            {carts.some(c => c.variant_id === variantID) ?
+           !isMobile &&
             <Button
               variant="outlined"
               startIcon={<FaArrowRight />}
-              sx={{ marginRight: "10px"}} 
+              onClick={() => {navigate("/carts")}}
             >
-              <NavLink style={{ textDecoration: "none" }} to="/carts">
-                Go To Cart
-              </NavLink>
+              Go To Cart
             </Button>
             :
+            !isMobile &&
             <Button
               variant="outlined"
-              startIcon={<BsCart2 />}
-              sx={{ marginRight: "10px" }}
+              disabled={loadingButton}
+              startIcon={loadingButton ? <RiLoader2Line/> : <BsCart2 />}
               onClick={handleCart}
             >
-              Add To Cart
+              {loadingButton ? "Adding..." : "Add To Cart"}
             </Button>}
+
+            {!isMobile && 
             <Button variant="contained" startIcon={<GiElectric />} onClick={BuyNow}>
               Buy Now
-            </Button>
+            </Button>}
+            </div>
             
             <p className="mt-4 mb-2">
               Fullfilled By: <b>{product.supplier}</b>
@@ -912,7 +949,7 @@ return (
                 columnSpacing={{ xs: 1, sm: 2, md: 1 }}
               >
                 {allWeight?.map((w, index) => (
-                  <Grid size={2} key={index}>
+                  <Grid xs={4} sm={3} md={2} key={index}>
                     <div
                       className={`card card-hover ${
                         selectWeight === w.weight ? "selected" : ""
@@ -951,7 +988,7 @@ return (
                   const isSelected = selectFlavour === f.flavour;
 
                   return(
-                  <Grid size={4} key={index}>
+                  <Grid xs={4} sm={3} md={2} key={index}>
                     <div
                       className={`card card-hover ${isSelected ? "selected" : ""}
                       ${!isAvailable ? "disabled-card bg-secondary-subtle" : ""}` }
@@ -969,57 +1006,91 @@ return (
           </div>
         </div>
 
+
         <div className="card mt-4">
-          <div className="card-body text-center">
-            <div style={{ display: "inline-flex", color: "#15317E" }}>
-              <div style={{ padding: "20px" }}>
-                <h6>
+          <div className="card-body text-left">
+            <div style={{ display: "flex",
+    flexDirection: isMobile ? "column" : "row",
+    gap: isMobile ? "1px" : "20px",
+     color: "#15317E" }}>
+              <div className="row">
+                <div className="col-1 col-md-2">
                   <MdOutlineSecurity
-                    style={{ fontSize: "40px" }}
-                    className="border bg-primary-subtle rounded-circle p-1 me-3"
+                    style={{ fontSize: isMobile ? "35px" : "40px"}}
+                    className="border bg-primary-subtle rounded-circle p-1"
                   />
+                  </div>
+                  <div className="col-11 col-md-10">
+                <h6 style={{ marginBottom: "0px" }}>
                   100% AUTHENTIC
                 </h6>
-                <p>Products sourced directly from the Brands!</p>
+                <p style={{ marginBottom: "0px" }}>Products sourced directly from the Brands!</p>
+                </div>
               </div>
 
-              <Divider orientation="vertical" flexItem />
-              <div style={{ padding: "20px" }}>
-                <h6>
+              <Divider orientation={isMobile ? "horizontal" : "vertical"} color="black" sx={{marginBottom: isMobile && "3%", marginTop: isMobile && "3%"}} flexItem />
+              <div className="row">
+                <div className="col-1 col-md-1">
+                
                   <FaShippingFast
-                    style={{ fontSize: "40px" }}
+                    style={{ fontSize: isMobile ? "35px" : "40px"}}
                     className="border bg-primary-subtle rounded-circle p-1 me-3"
-                  />
+                  /></div>
+                  <div className="col-11 col-md-10">
+                <h6 style={{ marginBottom: "0px" }}>
                   FREE SHIPPING
                 </h6>
-                <p>Get free delivery on orders above 399!</p>
+                <p style={{ marginBottom: "0px" }}>Get free delivery on orders above 399!</p>
+                </div>
               </div>
-              <Divider orientation="vertical" flexItem />
+              <Divider orientation={isMobile ? "horizontal" : "vertical"} sx={{marginBottom: isMobile && "3%", marginTop: isMobile && "3%"}} color="black" flexItem />
 
-              <div style={{ padding: "20px" }}>
-                <h6>
+                 <div className="row">
+                <div className="col-1 col-md-1">
                   <FaExchangeAlt
-                    style={{ fontSize: "40px" }}
+                    style={{ fontSize: isMobile ? "34px" : "37px"}}
                     className="border bg-primary-subtle rounded-circle p-1 me-3"
                   />
+                  </div>
+                  <div className="col-11 col-md-10">
+                    <h6 style={{ marginBottom: "0px" }}>
                   EASY RETURNS
                 </h6>
-                <p>Simple and easy exchanges!</p>
+                
+                <p style={{ marginBottom: "0px" }}>Simple and easy exchanges!</p></div>
               </div>
+
+              <Divider orientation={isMobile ? "horizontal" : "vertical"} sx={{marginBottom: isMobile && "3%", marginTop: isMobile && "3%"}} color="black" flexItem />
+
+              <div className="row" >
+                <div className="col-1 col-md-1">
+                
+                  <FaUsersLine
+                    style={{ fontSize: isMobile ? "35px" : "40px"}}
+                    className="border bg-primary-subtle rounded-circle p-1 me-3"
+                  />
+                  </div>
+                   <div className="col-11 col-md-10">
+                  <h6 style={{ marginBottom: "0px" }}>
+                  HAPPY CUSTOMERS
+                </h6>
+                <p style={{ marginBottom: "0px" }}>Happy customers across India!</p></div>
+              </div>
+
             </div>
           </div>
         </div>
 
         {/* // ----------------- Accordion -------------------- // */}
 
-  <div className="accordion mt-4" id="accordionPanelsStayOpenExample">
+  <div className="accordion mt-4" id="accordionExample">
   <div className="accordion-item">
     <h2 className="accordion-header">
-      <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+      <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
         <img src="/description.svg" style={{ marginRight: "10px" }}/>Description
       </button>
     </h2>
-    <div id="panelsStayOpen-collapseOne" className="accordion-collapse collapse show">
+    <div id="collapseOne" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
       <div className="accordion-body">
         <small>{product.description}</small>
         </div>
@@ -1027,11 +1098,11 @@ return (
   </div>
   <div className="accordion-item">
     <h2 className="accordion-header">
-      <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+      <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
         <img src="/product_info.svg" style={{ marginRight: "10px" }}/>Product Information
       </button>
     </h2>
-    <div id="panelsStayOpen-collapseTwo" className="accordion-collapse collapse">
+    <div id="collapseTwo" className="accordion-collapse collapse"  data-bs-parent="#accordionExample">
       <div className="accordion-body">
         <div style={{ fontSize: "15px" }}><strong>Dietary Preference</strong>: {product.dietaryPreference}</div>
         <div style={{ fontSize: "15px" }}><strong>Form</strong>: {product.form}</div>
@@ -1044,11 +1115,11 @@ return (
   </div>
   <div className="accordion-item">
     <h2 className="accordion-header">
-      <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+      <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
         <img src="/ingredients.svg" style={{ marginRight: "10px" }}/>Ingredients
       </button>
     </h2>
-    <div id="panelsStayOpen-collapseThree" className="accordion-collapse collapse">
+    <div id="collapseThree" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
       <div className="accordion-body">
         <small>{product.ingredients}</small> 
       </div>
@@ -1056,11 +1127,11 @@ return (
   </div>
     <div className="accordion-item">
     <h2 className="accordion-header">
-      <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="false" aria-controls="panelsStayOpen-collapseFour">
+      <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
         <img src="/add_info.svg" style={{ marginRight: "10px" }}/>Additional Information
       </button>
     </h2>
-    <div id="panelsStayOpen-collapseFour" className="accordion-collapse collapse">
+    <div id="collapseFour" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
       <div className="accordion-body">
         <div style={{ fontSize: "15px" }}><strong>FSSAI Number</strong>: {prod?.fssai}</div>
         <div style={{ fontSize: "15px" }}><strong>Manufacturer</strong>: {prod?.manufacturer}</div>    
@@ -1069,18 +1140,17 @@ return (
   </div>
     <div className="accordion-item">
     <h2 className="accordion-header">
-      <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="false" aria-controls="panelsStayOpen-collapseFive">
+      <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
         <img src="/manufacture_info.svg" style={{ marginRight: "10px" }}/>Manufacturer Info
       </button>
     </h2>
-    <div id="panelsStayOpen-collapseFive" className="accordion-collapse collapse">
+    <div id="collapseFive" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
       <div className="accordion-body">
         <small>{prod?.manufacturer}</small>
       </div>
     </div>
   </div>
 </div>
-
 
   {/* ----------------------------- Table ------------------------------- */}
 
@@ -1101,10 +1171,12 @@ return (
       </div>
     </div>
   </div>
+
+  <div style={{ overflowX: "auto" }}>
   <table className="table table-bordered mt-4">
   <thead className="table-light">
     <tr>
-      <th scope="col" style={{verticalAlign: "middle", textAlign: "left", paddingLeft: "3%", color: "#454545"}}>SPECIFICATION</th>
+      <th scope="col" className="text-center align-middle" style={{color: "#454545"}}>SPECIFICATION</th>
       <th scope="col" className="text-center align-middle pt-4" style={{ backgroundColor: "rgba(220, 208, 255, 0.35)", color: product.category === "Whey Protein Concentrate" ? "#7B61FF":"#454545", borderLeft: product.category === "Whey Protein Concentrate" ? "2px solid #7B61FF": ""
         , borderRight: product.category === "Whey Protein Concentrate" ? "2px solid #7B61FF": ""
       }}>{product.category === "Whey Protein Concentrate" && <GiCheckMark/>} Whey Concentrate<p style={{ fontSize:"12px"}}>(Only)</p></th>
@@ -1114,55 +1186,55 @@ return (
   </thead>
   <tbody>
     <tr>
-      <th scope="row" style={{ fontSize: "13px", verticalAlign: "middle", textAlign: "left", paddingLeft: "3%", color: "#454545"}} clas><BiBullseye style={{ fontSize: "20px" }}/> Protein Content</th>
+      <th scope="row" style={{ fontSize: isMobile ? "8px":"13px", verticalAlign: "middle", paddingLeft: "3%", color: "#454545"}} ><BiBullseye style={{ fontSize: isMobile ? "15px" : "20px" }}/> Protein Content</th>
       <td style={{ textAlign: "center", paddingTop: "2%", backgroundColor: "rgba(220, 208, 255, 0.35)", borderLeft: product.category === "Whey Protein Concentrate" ? "2px solid #7B61FF": ""
         , borderRight: product.category === "Whey Protein Concentrate" ? "2px solid #7B61FF": "", color: product.category === "Whey Protein Concentrate" ? "#7B61FF":"#454545"}}>70-80% <p style={{ fontSize: "12px"}}>per serving</p></td>
       <td style={{ textAlign: "center", paddingTop: "2%", backgroundColor: "rgba(255,230,232,0.35)", borderLeft: product.category === "Whey Protein" ? "2px solid #F06292": "", borderRight: product.category === "Whey Protein" ? "2px solid #F06292": "", color: product.category === "Whey Protein" ? "#F06292": "#454545" }}>70-80% <p style={{ fontSize: "12px"}}>per serving</p></td>
       <td style={{ textAlign: "center", paddingTop: "2%",backgroundColor:"rgba(219,249,219,0.35)", borderLeft: product.category === "Whey Protein Isolate" ? "2px solid #4CAF50" : "", borderRight: product.category === "Whey Protein Isolate" ? "2px solid #4CAF50" : "" , color: product.category === "Whey Protein Isolate" ? "#4CAF50" : "#454545" }}>90-95% <p style={{ fontSize: "12px"}}>per serving</p></td>
     </tr>
     <tr>
-      <th scope="row" style={{ fontSize: "13px", verticalAlign: "middle", textAlign: "left", paddingLeft: "3%", color: "#454545"}}><LuDroplets style={{ fontSize: "20px" }}/> Lactose Content</th>
+      <th scope="row" style={{ fontSize: isMobile ? "8px":"13px", verticalAlign: "middle",  paddingLeft: "3%", color: "#454545"}}><LuDroplets style={{ fontSize: isMobile ? "15px" : "20px"}}/> Lactose Content</th>
       <td style={{ textAlign: "center", fontSize: "12px", padding: "2%", backgroundColor: "rgba(220, 208, 255, 0.35)", borderLeft: product.category === "Whey Protein Concentrate" ? "2px solid #7B61FF": ""
         , borderRight: product.category === "Whey Protein Concentrate" ? "2px solid #7B61FF": "", color: product.category === "Whey Protein Concentrate" ? "#7B61FF":"#454545" }}>Higher (3-5%)</td>
       <td style={{ textAlign: "center", fontSize: "12px", padding: "2%", backgroundColor: "rgba(255,230,232,0.35)", borderLeft: product.category === "Whey Protein" ? "2px solid #F06292": "", borderRight: product.category === "Whey Protein" ? "2px solid #F06292": "", color: product.category === "Whey Protein" ? "#F06292": "#454545"}}>Low-Mod (1-3%)</td>
       <td style={{ textAlign: "center", fontSize: "12px", padding: "2%", backgroundColor: "rgba(219,249,219,0.35)", borderLeft: product.category === "Whey Protein Isolate" ? "2px solid #4CAF50" : "", borderRight: product.category === "Whey Protein Isolate" ? "2px solid #4CAF50" : "", color: product.category === "Whey Protein Isolate" ? "#4CAF50" : "#454545" }}>Minimal (less than 1%)</td>
     </tr>
     <tr>
-      <th scope="row" style={{ fontSize: "13px", verticalAlign: "middle", textAlign: "left", paddingLeft: "3%", color: "#454545"}}><BiSolidZap style={{ fontSize: "20px" }}/> Absorption Rate</th>
+      <th scope="row" style={{fontSize: isMobile ? "8px":"13px", verticalAlign: "middle", paddingLeft: "3%", color: "#454545"}}><BiSolidZap style={{ fontSize: isMobile ? "15px" : "20px"}}/> Absorption Rate</th>
       <td style={{ textAlign: "center", fontSize: "12px", padding: "2%", backgroundColor: "rgba(220, 208, 255, 0.35)", borderLeft: product.category === "Whey Protein Concentrate" ? "2px solid #7B61FF": ""
         , borderRight: product.category === "Whey Protein Concentrate" ? "2px solid #7B61FF": "", color: product.category === "Whey Protein Concentrate" ? "#7B61FF":"#454545"}}>Moderate (2-3 hrs)</td>
       <td style={{ textAlign: "center", fontSize: "12px", padding: "2%", backgroundColor: "rgba(255,230,232,0.35)", borderLeft: product.category === "Whey Protein" ? "2px solid #F06292": "", borderRight: product.category === "Whey Protein" ? "2px solid #F06292": "", color: product.category === "Whey Protein" ? "#F06292": "#454545" }}>Fast 1.2-2.5 hrs</td>
       <td style={{ textAlign: "center", fontSize: "12px", padding: "2%", backgroundColor: "rgba(219,249,219,0.35)", borderLeft: product.category === "Whey Protein Isolate" ? "2px solid #4CAF50" : "", borderRight: product.category === "Whey Protein Isolate" ? "2px solid #4CAF50" : "", color: product.category === "Whey Protein Isolate" ? "#4CAF50" : "#454545"}}>Very fast 30-60 min</td>
     </tr>
      <tr>
-      <th scope="row" style={{ fontSize: "13px", verticalAlign: "middle", textAlign: "left", paddingLeft: "3%", color: "#454545"}}><BiPulse style={{ fontSize: "20px" }}/> Fat Content</th>
+      <th scope="row" style={{ fontSize: isMobile ? "8px":"13px", verticalAlign: "middle", paddingLeft: "3%", color: "#454545"}}><BiPulse style={{ fontSize: isMobile ? "15px" : "20px"}}/> Fat Content</th>
       <td style={{ textAlign: "center", fontSize: "12px", padding: "2%", backgroundColor: "rgba(220, 208, 255, 0.35)", borderLeft: product.category === "Whey Protein Concentrate" ? "2px solid #7B61FF": ""
         , borderRight: product.category === "Whey Protein Concentrate" ? "2px solid #7B61FF": "",color: product.category === "Whey Protein Concentrate" ? "#7B61FF":"#454545"}}>3-5%</td>
       <td style={{ textAlign: "center", fontSize: "12px", padding: "2%", backgroundColor: "rgba(255,230,232,0.35)", borderLeft: product.category === "Whey Protein" ? "2px solid #F06292": "", borderRight: product.category === "Whey Protein" ? "2px solid #F06292": "" , color: product.category === "Whey Protein" ? "#F06292": "#454545"}}>1-3%</td>
       <td style={{ textAlign: "center", fontSize: "12px", padding: "2%", backgroundColor: "rgba(219,249,219,0.35)", borderLeft: product.category === "Whey Protein Isolate" ? "2px solid #4CAF50" : "", borderRight: product.category === "Whey Protein Isolate" ? "2px solid #4CAF50" : "", color: product.category === "Whey Protein Isolate" ? "#4CAF50" : "#454545" }}>Less than 1%</td>
     </tr>
      <tr>
-      <th scope="row" style={{ fontSize: "13px", verticalAlign: "middle", textAlign: "left", paddingLeft: "3%", color: "#454545"}}><CiDumbbell style={{ fontSize: "20px" }}/> BCAA Content</th>
+      <th scope="row" style={{ fontSize: isMobile ? "8px":"13px", verticalAlign: "middle", paddingLeft: "3%", color: "#454545"}}><CiDumbbell style={{ fontSize: isMobile ? "15px" : "20px"}}/> BCAA Content</th>
       <td style={{ textAlign: "center", fontSize: "12px", padding: "2%", backgroundColor: "rgba(220, 208, 255, 0.35)", borderLeft: product.category === "Whey Protein Concentrate" ? "2px solid #7B61FF": ""
         , borderRight: product.category === "Whey Protein Concentrate" ? "2px solid #7B61FF": "" , color: product.category === "Whey Protein Concentrate" ? "#7B61FF":"#454545"}}>5-5.5g per serving</td>
       <td style={{ textAlign: "center", fontSize: "12px", padding: "2%",backgroundColor: "rgba(255,230,232,0.35)", borderLeft: product.category === "Whey Protein" ? "2px solid #F06292": "", borderRight: product.category === "Whey Protein" ? "2px solid #F06292": "" , color: product.category === "Whey Protein" ? "#F06292": "#454545"}}>5.5-6g per serving</td>
       <td style={{ textAlign: "center", fontSize: "12px", padding: "2%", backgroundColor: "rgba(219,249,219,0.35)", borderLeft: product.category === "Whey Protein Isolate" ? "2px solid #4CAF50" : "", borderRight: product.category === "Whey Protein Isolate" ? "2px solid #4CAF50" : "" , color: product.category === "Whey Protein Isolate" ? "#4CAF50" : "#454545" }}>6-7g per serving</td>
     </tr>
      <tr>
-      <th scope="row" style={{ fontSize: "13px", verticalAlign: "middle", textAlign: "left", paddingLeft: "3%", color: "#454545"}}><BiBullseye style={{ fontSize: "20px" }}/> Ideal For</th>
+      <th scope="row" style={{ fontSize: isMobile ? "8px":"13px", verticalAlign: "middle", paddingLeft: "3%", color: "#454545"}}><BiBullseye style={{ fontSize: isMobile ? "15px" : "20px"}}/> Ideal For</th>
       <td style={{ textAlign: "center", fontSize: "15px", padding: "2%",backgroundColor: "rgba(220, 208, 255, 0.35)", borderLeft: product.category === "Whey Protein Concentrate" ? "2px solid #7B61FF": ""
-        , borderRight: product.category === "Whey Protein Concentrate" ? "2px solid #7B61FF": "" , color: product.category === "Whey Protein Concentrate" ? "#7B61FF":"#454545"}}><span class="badge rounded-pill" style={{ backgroundColor: "#9E7BFF", padding: "8px"}} >Muscle build</span> <span class="badge rounded-pill" style={{ backgroundColor: "#9E7BFF", padding: "8px"}}>Weight gain</span> <span class="badge rounded-pill" style={{ backgroundColor: "#9E7BFF", padding: "8px"}}>Budget</span></td>
-      <td style={{ textAlign: "center", fontSize: "15px", padding: "2%",backgroundColor: "rgba(255,230,232,0.35)", borderLeft: product.category === "Whey Protein" ? "2px solid #F06292": "", borderRight: product.category === "Whey Protein" ? "2px solid #F06292": "", color: product.category === "Whey Protein" ? "#F06292": "#454545"}}><span class="badge rounded-pill text-dark" style={{ backgroundColor: "#FAAFBA", padding: "8px"}}>General fitness</span> <span class="badge rounded-pill text-dark" style={{ backgroundColor: "#FAAFBA", padding: "8px"}}>Post-workout</span> <span class="badge rounded-pill text-dark" style={{ backgroundColor: "#FAAFBA", padding: "8px"}}>Daily use</span></td>
-      <td style={{ textAlign: "center", fontSize: "15px", padding: "2%", backgroundColor: "rgba(219,249,219,0.35)", borderLeft: product.category === "Whey Protein Isolate" ? "2px solid #4CAF50" : "", borderRight: product.category === "Whey Protein Isolate" ? "2px solid #4CAF50" : "" , color: product.category === "Whey Protein Isolate" ? "#4CAF50" : "#454545"}}><span class="badge rounded-pill text-dark" style={{ backgroundColor: "#C3FDB8", padding: "8px"}}>Lean muscle</span> <span class="badge rounded-pill text-dark" style={{ backgroundColor: "#C3FDB8", padding: "8px"}}>Lactose free</span> <span class="badge rounded-pill text-dark" style={{ backgroundColor: "#C3FDB8", padding: "8px"}}>Cutting</span></td>
+        , borderRight: product.category === "Whey Protein Concentrate" ? "2px solid #7B61FF": "" , color: product.category === "Whey Protein Concentrate" ? "#7B61FF":"#454545"}}><span class="badge rounded-pill mb-1" style={{ backgroundColor: "#9E7BFF", padding: "8px"}} >Muscle build</span> <span class="badge rounded-pill mb-1" style={{ backgroundColor: "#9E7BFF", padding: "8px"}}>Weight gain</span> <span class="badge rounded-pill mb-1" style={{ backgroundColor: "#9E7BFF", padding: "8px"}}>Budget</span></td>
+      <td style={{ textAlign: "center", fontSize: "15px", padding: "2%",backgroundColor: "rgba(255,230,232,0.35)", borderLeft: product.category === "Whey Protein" ? "2px solid #F06292": "", borderRight: product.category === "Whey Protein" ? "2px solid #F06292": "", color: product.category === "Whey Protein" ? "#F06292": "#454545"}}><span class="badge rounded-pill mb-1 text-dark" style={{ backgroundColor: "#FAAFBA", padding: "8px"}}>General fitness</span> <span class="badge rounded-pill mb-1 text-dark" style={{ backgroundColor: "#FAAFBA", padding: "8px"}}>Post-workout</span> <span class="badge rounded-pill mb-1 text-dark" style={{ backgroundColor: "#FAAFBA", padding: "8px"}}>Daily use</span></td>
+      <td style={{ textAlign: "center", fontSize: "15px", padding: "2%", backgroundColor: "rgba(219,249,219,0.35)", borderLeft: product.category === "Whey Protein Isolate" ? "2px solid #4CAF50" : "", borderRight: product.category === "Whey Protein Isolate" ? "2px solid #4CAF50" : "" , color: product.category === "Whey Protein Isolate" ? "#4CAF50" : "#454545"}}><span class="badge rounded-pill mb-1 text-dark" style={{ backgroundColor: "#C3FDB8", padding: "8px"}}>Lean muscle</span> <span class="badge rounded-pill mb-1 text-dark" style={{ backgroundColor: "#C3FDB8", padding: "8px"}}>Lactose free</span> <span class="badge rounded-pill mb-1 text-dark" style={{ backgroundColor: "#C3FDB8", padding: "8px"}}>Cutting</span></td>
     </tr>
   </tbody>
 </table>
+</div>
 </>
 }
 
-
         <div style={{ marginTop: "5%" }}>
-          <h2 className="text-center">
+          <h2 className="text-center" style={{ fontSize: isMobile && "18px" }}>
             {product.brand} {product.name} |{" "}
             {selectWeight && selectFlavour
               ? `${selectWeight > 999 ? `${selectWeight/1000}Kg`: `${selectWeight}g`} | ${selectFlavour}`
@@ -1171,19 +1243,29 @@ return (
           </h2>
 
           <div className="row mt-4">
-            <div className="col-3">
+            <div className="col-12 col-md-3">
               <div className="card border-0" style={{ backgroundColor: "#F5F5F5"}}>
-                <div className="card-body text-center">
-                  <h5>Customer Reviews</h5>
+                <div className="card-body">
+                  <h5 style={{ textAlign: isMobile ? "left": "center", marginBottom: isMobile && "3%"}}>Customer Reviews</h5>
+                  
+                  <div
+  className="rating-summary"
+  style={{
+    display: "flex",
+    flexDirection: isMobile ? "row" : "column",
+    gap: isMobile ? "16px" : "0",
+    alignItems: isMobile ? "center" : "stretch",
+  }}
+>
                   <div style={{
-                        display: "d-flex",
                         justifyContent: "center",
+                        textAlign: "center",
                         gap: "8px",
                         marginTop: "8%"
                       }}
                     >
                       <div>
-                    <h1 style={{ margin: 0 }}>
+                    <h1 style={{ margin: 0, fontSize: isMobile ? "30px" : "" }}>
                       
                       {averageRating.toFixed(1) === "NaN" ? 0 : averageRating.toFixed(1)}<small>/5</small>
           
@@ -1195,13 +1277,13 @@ return (
                         name="half-rating-read"
                         value={averageRating.toFixed(1)}
                         precision={0.5}
-                        size="large"
+                        size={isMobile ? "medium" : "large"}
                         readOnly
                       />
                       </div>
-                  </div>
-                  <div className="mb-3">
-                  <small style={{ color: "grey" }}>{`Based on ${AllReviewByCustomers.length} customer ratings`}</small>
+                      <div className="mb-3">
+                       <small style={{ color: "grey" }}>{`Based on ${AllReviewByCustomers.length} customer ratings`}</small>
+                      </div>
                   </div>
                   <div className="card" style={{ boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)"}}>
                     <div className="card-body">
@@ -1210,7 +1292,7 @@ return (
                           display: "flex",
                           alignItems: "center",
                           gap: "10px",
-                          marginBottom: "10%",
+                          marginBottom: isMobile ? "3%" : "10%",
                         }}
                       >
                         <span className="d-inline-flex align-items-center gap-1">5 <FaStar className="text-warning"/></span>
@@ -1236,7 +1318,7 @@ return (
                           display: "flex",
                           alignItems: "center",
                           gap: "10px",
-                          marginBottom: "10%",
+                          marginBottom: isMobile ? "3%" : "10%",
                         }}
                       >
                         <span className="d-inline-flex align-items-center gap-1">4 <FaStar className="text-warning"/></span>
@@ -1262,7 +1344,7 @@ return (
                           display: "flex",
                           alignItems: "center",
                           gap: "10px",
-                          marginBottom: "10%",
+                          marginBottom: isMobile ? "3%" : "10%",
                         }}
                       >
                         <span className="d-inline-flex align-items-center gap-1">3 <FaStar className="text-warning"/></span>
@@ -1288,7 +1370,7 @@ return (
                           display: "flex",
                           alignItems: "center",
                           gap: "10px",
-                          marginBottom: "10%",
+                          marginBottom: isMobile ? "3%" : "10%",
                         }}
                       >
                         <span className="d-inline-flex align-items-center gap-1">2 <FaStar className="text-warning"/></span>
@@ -1314,7 +1396,7 @@ return (
                           display: "flex",
                           alignItems: "center",
                           gap: "10px",
-                          marginBottom: "10%",
+                          marginBottom: isMobile ? "3%" : "10%",
                         }}
                       >
                         <span className="d-inline-flex align-items-center gap-1">1 <FaStar className="text-warning"/></span>
@@ -1337,14 +1419,15 @@ return (
 
                       <Divider
                         variant="middle"
-                        sx={{ backgroundColor: "black", marginBottom: "5%" }}
+                        sx={{ backgroundColor: "black", marginBottom: "6%" }}
                       />
-                      <p>Have you used this product?</p>
+                      <p style={{ textAlign: "center", fontSize: isMobile && "15px"}}>Have you used this product?</p>
 
                       {/* <!-- Button trigger modal --> */}
-                      <button
-                        type="button"
-                        class="btn btn-outline-primary"
+                      <Box sx={{ display: "flex", justifyContent: "center" }}>
+                      <Button
+                      variant="outlined"
+                        fullWidth={isMobile}
                         onClick={() => {if(isLoggedIn){
                                   setShowModal(true);
                         }
@@ -1353,13 +1436,14 @@ return (
                       }}}
                       >
                         Write a Review
-                      </button>
+                      </Button>
+                      </Box>
 
                       {/* <!-- Modal --> */}
                       {showModal && (
                         <div
                           className="modal fade show"
-                          style={{ display: "block", top: "9%",         
+                          style={{ display: "block", top: "8%",         
                           position: "fixed", backgroundColor: "rgba(0,0,0,0.40)"  }}
                           tabIndex="-1"
                         >
@@ -1481,10 +1565,11 @@ sx={{
                               <div class="modal-footer">
                                 <button
                                   type="button"
+                                  disabled={loadingReview}
                                   onClick={add_review}
-                                  class="btn btn-outline-primary"
+                                  className="btn btn-outline-primary"
                                 >
-                                  Publish Review
+                                  {loadingReview ? "Publishing..." : "Publish Review" }
                                 </button>
                               </div>
                             </div>
@@ -1493,10 +1578,11 @@ sx={{
                       )}
                     </div>
                   </div>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="col-9">
+            <div className="col-12 col-md-9" style={{ marginTop : isMobile && "5%"}}>
               <div className="d-flex justify-content-between align-items-center">
                 <h6>
                   All Flavour ({AllReviewByCustomers.length} Reviews)
@@ -1546,7 +1632,7 @@ sx={{
               return(
                 <div className="card mb-3">
                   <div className="card-body">
-                    <div className="d-flex align-items-center" >
+                    <div className="d-flex align-items-center mb-2" >
                     <PiUserLight
                       style={{
                         display: "inline",
@@ -1583,8 +1669,8 @@ sx={{
                         </b>
                       </div>
                     </div>
-                    <div style={{ marginTop: "2%" }}>
-                      <h5>{r.cust_title}</h5>
+                    <div style={{ marginTop: "3%" }}>
+                      <h5 style={{ fontSize: isMobile && "18px" }}>{r.cust_title}</h5>
                     </div>
                     <div>
                       <small style={{ color: "grey" }}>
@@ -1602,7 +1688,33 @@ sx={{
           </div>
         </div>
 
-        
+        {isMobile && (
+  <div className="mobile-fixed-buybar">
+    {carts.some(c => c.variant_id === variantID) ?
+            <Button
+              variant="outlined" fullWidth
+              startIcon={<FaArrowRight />}
+              onClick={() => {navigate("/carts")}}
+            >
+                Go To Cart
+            </Button>
+            :
+            <Button
+              variant="outlined"
+              fullWidth
+              disabled={loadingButton}
+              startIcon={loadingButton ? <RiLoader2Line/> : <BsCart2 />}
+              onClick={handleCart}
+            >
+              {loadingButton ? "Adding..." : "Add To Cart"}
+            </Button>}
+
+    <Button variant="contained" startIcon={<GiElectric />} fullWidth size="large"
+    >
+      Buy Now
+    </Button>
+  </div>)}
+
       </div>
     </>
   );

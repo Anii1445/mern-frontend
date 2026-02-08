@@ -26,7 +26,7 @@
 /* Mobile responsiveness */
 @media (max-width: 992px) {
   .filter-column {
-    position: relative;
+    position: static;
     top: unset;
     margin-bottom: 16px;
   }
@@ -35,9 +35,12 @@
 @media (max-width: 768px) {
   .filter-column {
     padding: 10px;
+    border-radius: 8px;
   }
 
   .filter-title {
     font-size: 14px;
   }
 }
+
+

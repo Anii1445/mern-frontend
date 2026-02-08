@@ -8,3 +8,14 @@
 .column-filter {
   padding: 5px;
 }
+
+
+.font{
+  font-size: "26px";
+}
+
+@media(min-width: 568px){
+  .font{
+    font-size: "80px";
+  }
+}

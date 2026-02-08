@@ -55,3 +55,42 @@ footer h6::after {
   background: linear-gradient(90deg, #1976d2, #42a5f5, #00e5ff);
 }
 
+.footer-bg p {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  .footer-bg p {
+    font-size: 15px;
+  }
+}
+
+.icon{
+  font-size: 20px;
+}
+
+@media (min-width: 576px) {
+  .icon{
+    font-size: 30px;
+  }
+}
+
+.icon-social{
+  font-size: 30px;
+}
+
+@media (min-width: 576px) {
+  .icon-social{
+    font-size: 40px;
+  }
+}
+
+  .img{
+    height: 25px;
+  }
+
+@media (min-width: 576px) {
+  .img{
+    height: 35px;
+  }
+  }

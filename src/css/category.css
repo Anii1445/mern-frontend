@@ -7,3 +7,12 @@
 .column {
   padding: 20px;
 }
+
+
+@media (max-width: 868px){
+.row-category { 
+  display: grid;
+  grid-template-columns: 100%; /* 2 columns */
+  gap: 10px;
+  }
+}

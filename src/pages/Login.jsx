@@ -3,6 +3,7 @@ import { NavLink, useAsyncError, useNavigate, useLocation } from "react-router-d
 import { useAuth } from "../store/auth-ContextAPI";
 import { toast } from "react-toastify";
 import TextField from "@mui/material/TextField";
+import "../css/login.css"
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
 import { FaUser } from "react-icons/fa";
@@ -13,8 +14,11 @@ import { RxCross1 } from "react-icons/rx";
 import "../css/hover.css";
 import "../css/carousel.css";
 import { useEffect } from "react";
+import { RiLoader2Line } from "react-icons/ri";
 import { Carousel } from "bootstrap";
 const API = import.meta.env.VITE_API_URL;
+import { useTheme, useMediaQuery } from "@mui/material";
+
 
 export default function Login() {
   const { storeTokenInLS, user, isLoggedIn } = useAuth();
@@ -25,15 +29,21 @@ export default function Login() {
     password: "",
   });
 
- useEffect(() => {
-  if (isLoggedIn && user) {
-    if (user.isAdmin) {
-      navigate("/admin/dashboard", { replace: true });
-    } else {
-      navigate("/", { replace: true });
-    }
-  }
- }, [isLoggedIn, user]);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+
+  const [isLoading, setLoading] = useState(false);
+
+//  useEffect(() => {
+//   if (isLoggedIn && user) {
+//     if (user.isAdmin) {
+//       navigate("/admin/dashboard", { replace: true });
+//     } else {
+//       navigate("/", { replace: true });
+//     }
+//   }
+//  }, [isLoggedIn, user]);
 
 
   const handleChange = (e) => {
@@ -42,7 +52,7 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const response = await fetch(`${API}/api/auth/login`, {
         method: "POST",
@@ -63,10 +73,11 @@ export default function Login() {
           email: "",
           password: "",
         });
+        setLoading(false);
               
       } else {
         if (res_data.extraDetails) {
-          toast.error(res_data.extraDetails[0], {
+          toast.error(res_data.extraDetails[0].message, {
                 position: "top-center",
                 autoClose: 2000, 
              });
@@ -76,10 +87,11 @@ export default function Login() {
                 position: "top-center",
                 autoClose: 2000, 
              });
+        setLoading(false);
       }
     } catch (error) {
       console.log("Login", error);
-    }
+    }finally{ setLoading(false);}
   };
 
   const handleshowPasssword = () => {
@@ -112,15 +124,16 @@ export default function Login() {
       <div className="container">
         <div>
           <RxCross1
-            className="onHover position-absolute"
+            className="onHover position-fixed"
             style={{
               backgroundColor: "lightgrey",
-              top: "13px",
-              right: "13px",
+              top: isMobile ? "2%":"13px",
+              right: isMobile ? "12px":"15px",
               cursor: "pointer",
-              fontSize: "2rem",
+              fontSize: "1.8rem",
               borderRadius: "50%",
               padding: "8px",
+              zIndex: 1050,
               transition: "backgroundColor 0.3s ease",
             }}
             onClick={handleClose}
@@ -129,14 +142,13 @@ export default function Login() {
 
 <form onSubmit={handleSubmit}>
         <div className="d-flex justify-content-center">
-          
-            <div className="border rounded-4" style={{ width: "80%", marginTop: "6%" }}>
-              <div className="row">
-                <div className="col-6 bg-secondary-subtle rounded-start-4">
+            <div className="border rounded-4 w-75 w-md-75" style={{ marginTop: isMobile ? "35%":"9%" }}>
+              <div className="row g-0">
+                <div className="col-12 col-md-6 d-none d-md-block bg-secondary-subtle rounded-start-4">
                   <div id="carouselExampleCaptions" className="carousel slide" data-bs-ride="carousel"
                     data-bs-interval="2500" style={{ position: "relative" }}>
 
-                    <div className="carousel-indicators">
+                    <div className="carousel-indicators" style={{ bottom: "17%" }}>
                       <button
                         type="button"
                         data-bs-target="#carouselExampleCaptions"
@@ -161,9 +173,10 @@ export default function Login() {
                       ></button>
                     </div>     
             
-                    <div className="carousel-inner" style={{ marginTop: "18%"}}>
+                    <div className="carousel-inner" style={{ paddingTop: "18%" }}>
                       <div className="carousel-item active">
-                        <img src="login_slide1.svg" className="d-block" style={{width: "50%", marginLeft: "auto", marginRight: "auto"}} alt="..." />
+                        <img src="login_slide1.svg" 
+                        className="d-block" style={{ maxWidth: "50%", marginLeft: "auto", marginRight: "auto" }} alt="..." />
                         <div className="text-center" style={{ marginTop: "14.8%" }}>
                           <h5>Wide range of Original & Authentication Nutrition Products</h5>
                           <small>
@@ -172,7 +185,8 @@ export default function Login() {
                         </div>
                       </div>
                       <div className="carousel-item">
-                        <img src="login_slide2.svg" className="d-block" style={{width: "50%", marginLeft: "auto", marginRight: "auto"}} alt="..." />
+                        <img src="login_slide2.svg" 
+                       className="d-block" style={{ maxWidth: "50%", marginLeft: "auto", marginRight: "auto" }} alt="..." />
                         <div className="text-center" style={{ marginTop: "12%" }}>
                           <h5>Get Personalized Diet Plans and Fitness Advice</h5>
                           <small>
@@ -181,7 +195,8 @@ export default function Login() {
                         </div>
                       </div>
                       <div className="carousel-item">
-                        <img src="login_slide3.svg" className="d-block" style={{width: "50%", marginLeft: "auto", marginRight: "auto"}} alt="..." />
+                        <img src="login_slide3.svg" 
+                        className="d-block" style={{ maxWidth: "50%", marginLeft: "auto", marginRight: "auto" }} alt="..." />
                         <div className="text-center" style={{ marginTop: "12%" }}>
                           <h5>Great offers on Top Brands</h5>
                           <small>
@@ -220,8 +235,8 @@ export default function Login() {
                   </div>
                 </div>
 
-                <div className="col-6" style={{ padding: "7%" }}>
-                  <h2 className="text-center mb-4" style={{ marginTop: "15%" }}>Login</h2>
+                <div className="col-12 col-md-6 px-4 px-md-5 py-4">
+                  <h2 className="text-center mb-4 mt-2 mt-md-5">Login</h2>
 
                 <div className='row g-3 needs-validation'>
                   <div className="mb-1">
@@ -285,8 +300,10 @@ export default function Login() {
                     fullWidth
                     size="large"
                     type="submit"
+                    disabled={isLoading}
+                    startIcon={isLoading && <RiLoader2Line/>}
                   >
-                    Login
+                    {isLoading ? "Logging..." : "Login" }
                   </Button>
                   </div>
                   </div>
@@ -297,7 +314,7 @@ export default function Login() {
                     </NavLink>
                   </div>
 
-                  <div style={{ marginTop: "20%"}}>
+                  <div className="mt-4 mt-md-5 text-center">
                     <small>
                       By continuing, I agree to Terms & Conditions & Privacy
                       Policy

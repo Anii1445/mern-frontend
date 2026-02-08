@@ -1,0 +1,47 @@
+/* Desktop default */
+.payment-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.payment-icons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.payment-img {
+  height: 40px;
+  transition: all 0.2s ease;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .payment-img {
+    height: 32px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .payment-bar {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .payment-text p {
+    font-size: 14px;
+    margin-bottom: 0px;
+  }
+
+  .payment-icons {
+    justify-content: center;
+  }
+
+  .payment-img {
+    height: 26px;
+  }
+}
