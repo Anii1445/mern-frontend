@@ -12,11 +12,11 @@
 
 @media (max-width: 768px){
     .carousel-img {
-        height: 60px;
-        width: 60px;
+        height: 100px;
+        width: 100px;
         cursor: pointer;
     }
     .carousel-text {
-        font-size: 8px;
+        font-size: 12px;
     }
 }

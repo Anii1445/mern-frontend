@@ -834,7 +834,7 @@ const clearAll = () => {
               <h6>All Products <span style={{ color: "grey", fontSize: "15px" }}>{selectBrand && `/ ${selectBrand}`} {selectCategory && `/ ${selectCategory}`} {selectFlavour && `/ ${selectFlavour}`} </span></h6>
             </div>
             <div className="column-filter text-end">
-              <FormControl sx={{ m: 1, minWidth: 160 }} size="small">
+              <FormControl sx={{ minWidth: 120 }} size="small">
                 <InputLabel id="demo-select-small-label">Sort By</InputLabel>
                 <Select
                   labelId="demo-select-small-label"

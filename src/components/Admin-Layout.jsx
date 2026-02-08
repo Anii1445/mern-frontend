@@ -90,7 +90,7 @@ export default function AdminLayout() {
                     }}
                   >
             <Typography
-                          sx={{ flexShrink: 0, ml: 2  }}
+                          sx={{ flexShrink: 0 }}
                         >
                           
                             <NavLink to="/" style={{textDecoration: "none", color: "white"}}>
