@@ -478,7 +478,7 @@ useEffect(() => {
 
             {isMobile && 
           <IconButton onClick={() => setOpenSearch(true)}>
-            <BsSearch color="white" style={{ fontSize: isMobile && "20px", marginRight:"7px"}}/>  
+            <BsSearch color="white" style={{ fontSize: isMobile && "20px" }}/>  
           </IconButton>
           }
 
@@ -487,7 +487,7 @@ useEffect(() => {
     <Tooltip title="Account">
       <IconButton size="small">
         <Avatar
-          sx={{ width: 32, height: 32, bgcolor: "lightblue", color: "#1769aa" }}
+          sx={{ width: isMobile ? 28:32, height: isMobile? 28:32, bgcolor: "lightblue", color: "#1769aa" }}
         >
           {user?.name?.charAt(0)}
         </Avatar>
@@ -582,7 +582,7 @@ useEffect(() => {
               <IconButton
                 
                 size="small"
-                sx={{ ml: isMobile ? 1 : 1 }}
+                sx={{ ml: !isMobile && 1 }}
               >
                 <Badge
                   badgeContent={cartTotal ? cartTotal.length : 0}
@@ -591,7 +591,7 @@ useEffect(() => {
                   showZero
                 >
                   <GiShoppingCart
-                    style={{ fontSize: "30px", color: "white" }}
+                    style={{ fontSize: isMobile ? "28px":"30px", color: "white" }}
                   />
                 </Badge>    
               </IconButton>
