@@ -90,13 +90,12 @@ export default function AdminLayout() {
                     }}
                   >
             <Typography
-                          variant="h6"
                           sx={{ flexShrink: 0, ml: 2  }}
                         >
                           
                             <NavLink to="/" style={{textDecoration: "none", color: "white"}}>
-                            <p style={{ display: "inline", backgroundColor: "white", color: "#1976d2", padding: isMobile? "5px 4px 4px" : "10px 8px 8px"}}><GiBodyBalance style={{fontSize:"25px"}}/> FITNESS</p> 
-                            <p style={{ display: "inline", border: "1px solid white", padding: isMobile ? "4px 7px 3px" : "9px 15px 7px"}}>1</p>
+                            <h6 style={{ display: "inline", backgroundColor: "white", color: "#1976d2", fontSize: isMobile && "14px", padding: "10px 8px 8px"}}><GiBodyBalance style={{fontSize:"25px"}}/> FITNESS</h6> 
+                            <h6 style={{ display: "inline", border: "1px solid white", fontSize: isMobile && "14px", padding: "9.5px 15px 7.5px"}}>1</h6>
                             </NavLink>
                         
                         

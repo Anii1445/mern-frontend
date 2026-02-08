@@ -152,17 +152,15 @@ useEffect(() => {
 </Box>
 
 {isMobile ? <Typography
-              variant="h6"
               sx={{ flexShrink: 0 }}
             >
                 <NavLink to="/" style={{textDecoration: "none", color: "white"}}>
-                <b className="footer-logo-main" ><GiBodyBalance style={{fontSize:"25px"}}/></b> 
+                <b className="footer-logo-main" ><GiBodyBalance style={{fontSize:"20px"}}/></b> 
                 <b className="footer-logo-sub">1</b>
-                </NavLink>
+            </NavLink>
             
             </Typography> : 
             <Typography
-              variant="h6"
               sx={{ flexShrink: 0 }}
             >
                 <NavLink to="/" style={{textDecoration: "none", color: "white"}}>
