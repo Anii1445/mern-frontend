@@ -81,14 +81,14 @@ export default function AdminLayout() {
             </IconButton>
           )}
 
-          <div className="container">
-            <Box
+          {/* <div className="container"> */}
+            {/* <Box
                     sx={{
                       display: "flex",
                       alignItems: "center",
                       minWidth: 0,
                     }}
-                  >
+                  > */}
             <Typography
                           variant="h6"
                           sx={{ flexShrink: 0, ml: 2  }}
@@ -140,8 +140,8 @@ export default function AdminLayout() {
     </li>
   </ul>
           </div>}
-</Box>
-</div>
+{/* </Box> */}
+{/* </div> */}
 
         </Toolbar>
       </AppBar>
