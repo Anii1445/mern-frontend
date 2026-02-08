@@ -822,19 +822,19 @@ const clearAll = () => {
           </div>
 ) : (
           <>
-          <div ref={productsRef} className="row-filter">
-            <div className="column-filter">
+          <div ref={productsRef} className="row g-0 d-flex align-items-center mb-3">
+            <div className="col-2 col-md-3">
               <h6 style={{ display:"flex", alignItems: "center", cursor:"pointer" }} onClick={() => setFilterOpen(true)}>
                 <FiFilter style={{ fontSize: "20px", marginRight: "5px" }}/>
                   Filters
               </h6>
             </div>
-            
-            <div className="column-filter">
+            {!isMobile && 
+            <div className="col-7 d-flex justify-content-center justify-content-md-start">
               <h6>All Products <span style={{ color: "grey", fontSize: "15px" }}>{selectBrand && `/ ${selectBrand}`} {selectCategory && `/ ${selectCategory}`} {selectFlavour && `/ ${selectFlavour}`} </span></h6>
-            </div>
-            <div className="column-filter text-end">
-              <FormControl sx={{ minWidth: 120 }} size="small">
+            </div>}
+            <div className="col-10 col-md-2 d-flex justify-content-end">
+              <FormControl sx={{ minWidth: 160 }} size="small">
                 <InputLabel id="demo-select-small-label">Sort By</InputLabel>
                 <Select
                   labelId="demo-select-small-label"
@@ -850,6 +850,8 @@ const clearAll = () => {
               </FormControl>
             </div>
           </div>
+
+
           <div className="row-category">
             <Box className="filter-column" sx={{ display: { xs: "none", md: "block" } }}>
   
@@ -974,7 +976,7 @@ const clearAll = () => {
 </Box>
 
             <div className="columns">
-              <div style={{ marginBottom: "8px", backgroundColor: "#F5F5F5", padding: "6px 6px 6px 6px", borderRadius: "5px", display: "flex", justifyContent: "space-between" }}>
+              <div style={{ marginBottom: "8px", backgroundColor: "#F5F5F5", padding: "6px 6px 6px 6px", fontSize: isMobile && "12px", borderRadius: "5px", display: "flex", justifyContent: "space-between" }}>
                 <b>{`${totalProducts ? totalProducts : 0} PRODUCTS AVAILABLE`}</b>
                 <b>{`${searchText && `Showing results for "${searchText}"`}`}</b>
               </div>

@@ -95,7 +95,7 @@ export default function AdminLayout() {
                           
                             <NavLink to="/" style={{textDecoration: "none", color: "white"}}>
                             <h6 style={{ display: "inline", backgroundColor: "white", color: "#1976d2", fontSize: isMobile && "14px", padding: "10px 8px 8px"}}><GiBodyBalance style={{fontSize:"25px"}}/> FITNESS</h6> 
-                            <h6 style={{ display: "inline", border: "1px solid white", fontSize: isMobile && "14px", padding: "9.5px 15px 7.5px"}}>1</h6>
+                            <h6 style={{ display: "inline", border: "1px solid white", fontSize: isMobile && "14px", padding: "9.5px 10px 7.5px"}}>1</h6>
                             </NavLink>
                         
                         
@@ -107,7 +107,7 @@ export default function AdminLayout() {
               <Tooltip title="Account">
                 <IconButton size="small">
                   <Avatar
-                    sx={{ width: 32, height: 32, bgcolor: "lightblue", color: "inherit" }}
+                    sx={{ width: isMobile ? 28 : 32, height: isMobile ? 28 : 32, bgcolor: "lightblue", color: "inherit" }}
                   >
                     {user?.name?.charAt(0)}
                   </Avatar>

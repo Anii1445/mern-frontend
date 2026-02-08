@@ -155,8 +155,8 @@ useEffect(() => {
               sx={{ flexShrink: 0 }}
             >
                 <NavLink to="/" style={{textDecoration: "none", color: "white"}}>
-                <b className="footer-logo-main" ><GiBodyBalance style={{fontSize:"25px"}}/></b> 
-                <b className="footer-logo-sub">1</b>
+                <h6 style={{ display: "inline"}} className="footer-logo-main" ><GiBodyBalance style={{fontSize:"25px"}}/></h6> 
+                <h6 style={{ display: "inline"}} className="footer-logo-sub">1</h6>
             </NavLink>
             
             </Typography> : 
