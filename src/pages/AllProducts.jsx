@@ -61,12 +61,13 @@ export default function AllProducts(){
           name: "Brand",
           selector: (row) => row.brand,
           sortable: true,
+          width: "150px"
         },
         {
           name: "Category",
           selector: (row) => row.category,
           sortable: true,
-          hide: "sm"
+          width: "200px"
         },
         {
           name: "Manufacturer",
@@ -83,7 +84,6 @@ export default function AllProducts(){
         {
               name: "Actions",
               button: "true",
-              width: "100px",
               cell: (row) => (
           
                 <Button
