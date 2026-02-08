@@ -291,7 +291,7 @@ export default function AdminLayout() {
 </div>
 </div>
 </div>
-<div style={{ height: isMobile && "70px" }} />
+<div style={{ height: isMobile && "80px" }} />
 
         <Outlet />
       </Box>
