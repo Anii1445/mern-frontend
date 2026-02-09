@@ -3,7 +3,6 @@ import "../css/hover.css";
 import "../css/category.css";
 import "../css/accordion.css";
 import "../css/product-img.css";
-import "../css/carouselImg.css";
 import { Box } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import "../css/underline.css";
@@ -625,7 +624,7 @@ export default function Home() {
         </div>
       </div>
       {/* // ------------------------- Image Slider --------------------- // */}
-
+{!isMobile && 
       <div
         id="carouselExampleDark"
         className="carousel carousel-dark mb-4 slide"
@@ -689,8 +688,7 @@ export default function Home() {
           <div className="carousel-item text-center">
             <img
               src="/MuscleBlaze.webp"
-              alt="..."   
-              className="d-block"
+              alt="..." 
               style={{ width: "100%", height: "100%"}}
             />
           </div>
@@ -698,7 +696,6 @@ export default function Home() {
             <img
               src="/Avatar.webp"
               alt="..."   
-                  className="d-block"
                   style={{ width: "100%", height: "100%"}}
             />
           </div>
@@ -706,7 +703,6 @@ export default function Home() {
             <img
               src="/BigMuscle.webp"
               alt="..."   
-                  className="d-block"
                   style={{ width: "100%", height: "100%"}}
             />
           </div>
@@ -714,7 +710,6 @@ export default function Home() {
             <img
               src="/HK_Vitals.webp"
               alt="..."   
-                  className="d-block"
                   style={{ width: "100%", height: "100%"}}
             />
           </div>
@@ -722,7 +717,6 @@ export default function Home() {
             <img
               src="/YogaBar.webp"
               alt="..."   
-                  className="d-block"
                   style={{ width: "100%", height: "100%"}}
             />
           </div>
@@ -730,21 +724,19 @@ export default function Home() {
             <img
               src="/Pintola.webp"
               alt="..."   
-                  className="d-block"
                   style={{ width: "100%", height: "100%"}}
             />
           </div>
           <div className="carousel-item text-center">
             <img
               src="/MuscleTech.webp"
-              alt="..."   
-              className="d-block"
+              alt="..." 
               style={{ width: "100%", height: "100%"}}
             />
           </div>
         </div>
 
-        {!isMobile && <>
+        
         <button
           className="carousel-control-prev"
           type="button"
@@ -769,8 +761,8 @@ export default function Home() {
           ></span>
           <span className="visually-hidden">Next</span>
         </button>
-        </>}
-      </div>
+      
+      </div>}
 
       <div className="container">
         <div className="justify-content-center">
