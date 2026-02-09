@@ -556,7 +556,7 @@ export default function Home() {
         >
           <div className="card mb-4">
             <div className="card-body">
-              <div className="text-center mb-3 d-flex align-items-center justify-content-center gap-3">
+              <div className="text-center mb-1 d-flex align-items-center justify-content-center gap-3">
                 <BsStars style={{ color: "orange", fontSize: "30px" }} />
                 <h3
                   className="section-title"
@@ -768,7 +768,7 @@ export default function Home() {
         <div className="justify-content-center">
           <div className="card mb-4">
             <div className="card-body">
-              <div className="text-center mb-3 d-flex align-items-center justify-content-center gap-3">
+              <div className="text-center mb-1 d-flex align-items-center justify-content-center gap-3">
                 <BsStars style={{ color: "orange", fontSize: "30px" }} />
                 <h3
                   className="section-title"
@@ -1297,11 +1297,11 @@ export default function Home() {
                                   ₹{p.variant[0].price.toLocaleString("en-IN")}
                                   .00
                                 </h5>
-                                <b style={{ color:"#A8A9AD", fontSize: isMobile && "16px"}}>MRP: {""}
+                                <b style={{ color:"#8C8C8C", fontSize: isMobile && "16px"}}>MRP: {""}
                                 <del
                                   style={{
-                                    fontSize: "15px",
-                                    color: "#A8A9AD",
+                                    fontSize: "16px",
+                                    color: "#8C8C8C",
                                     display: "inline",
                                     marginRight: isMobile ? "2%":"5%",
                                   }}
