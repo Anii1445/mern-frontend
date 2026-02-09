@@ -1134,7 +1134,7 @@ export default function Home() {
                     <div
                       style={{
                         marginBottom: "8px",
-                        fontSize: "13px",
+                        fontSize: "15px",
                         backgroundColor: "#F5F5F5",
                         padding: "6px 6px 6px 6px",
                         borderRadius: "5px",
@@ -1178,7 +1178,7 @@ export default function Home() {
                               style={{ cursor: "pointer" }}
                             >
                               <Box
-                                sx={{ fontSize: { xs: "20px", sm: "24px" } }}
+                                sx={{ fontSize: { xs: "24px", sm: "24px" } }}
                               >
                                 {wishlistLoad ? (
                                   <RiLoader2Line
@@ -1209,7 +1209,7 @@ export default function Home() {
                               </Box>
                               <Box
                                 sx={{
-                                  height: { xs: "140px", sm: "180px" },
+                                  height: { xs: "180px", sm: "180px" },
                                   display: "flex",
                                   alignItems: "center",
                                   justifyContent: "center",
@@ -1237,7 +1237,7 @@ export default function Home() {
                                   <Box
                                     sx={{
                                       color: "white",
-                                      fontSize: { xs: "10px", sm: "13px" },
+                                      fontSize: { xs: "12px", sm: "13px" },
                                     }}
                                   >
                                     <span
@@ -1271,6 +1271,7 @@ export default function Home() {
                                     WebkitBoxOrient: "vertical",
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
+                                    fontSize: isMobile && "15px"
                                   }}
                                 >
                                   <strong>{p.brand.toUpperCase()}</strong> -{" "}
@@ -1289,27 +1290,30 @@ export default function Home() {
                                 <h5
                                   style={{
                                     display: "inline",
-                                    marginRight: "5%",
+                                    marginRight: isMobile ? "2%":"5%",
+                                    fontWeight: isMobile && "600"
                                   }}
                                 >
                                   ₹{p.variant[0].price.toLocaleString("en-IN")}
                                   .00
                                 </h5>
+                                <b style={{ color:"#A8A9AD", fontSize: isMobile && "16px"}}>MRP: {""}
                                 <del
                                   style={{
                                     fontSize: "15px",
                                     color: "#A8A9AD",
                                     display: "inline",
-                                    marginRight: "5%",
+                                    marginRight: isMobile ? "2%":"5%",
                                   }}
                                 >
                                   ₹{p.variant[0].mrp}.00
-                                </del>
+                                </del></b>
                                 <b>
                                   <small
                                     style={{
                                       display: "inline",
                                       color: "#34A56F",
+                                      fontSize: isMobile && "16px"
                                     }}
                                   >
                                     ({" "}
