@@ -1169,13 +1169,11 @@ export default function Home() {
                           className="col-12 col-sm-6 col-md-4 align-items-stretch"
                           key={index}
                         >
-                          <div className="card h-100 d-flex flex-column onHover product-card">
+                          <div className="card h-100 d-flex flex-column onHover product-card"  onClick={(e) => {
+                               e.stopPropagation(); view(p._id);
+                              }} style={{ cursor: "pointer" }}>
                             <div
                               className="card-header"
-                              onClick={() => {
-                                view(p._id);
-                              }}
-                              style={{ cursor: "pointer" }}
                             >
                               <Box
                                 sx={{ fontSize: { xs: "24px", sm: "24px" } }}
@@ -1224,9 +1222,9 @@ export default function Home() {
                                     maxWidth: "100%",
                                     maxHeight: "100%",
                                     objectFit: "contain",
-                                    borderRadius: "6px",
-                                    border: "1px solid #ddd",
-                                    padding: "7px 7px 7px 7px",
+                                    // borderRadius: "6px",
+                                    // border: "1px solid #ddd",
+                                    // padding: "7px 7px 7px 7px",
                                   }}
                                 />
                               </Box>
