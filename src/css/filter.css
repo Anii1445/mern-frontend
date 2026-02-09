@@ -1,7 +1,7 @@
 .row-filter {
   display: grid;
   grid-template-columns: 20% 40% 40%; /* 3 equal columns */
-  gap: 10px;
+  gap: 3px;
   align-items: center;
 }
 
