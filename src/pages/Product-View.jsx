@@ -942,7 +942,7 @@ return (
             </Button>}
             </div>
             
-            <p className="mt-4 mb-2">
+            <p className="mb-2" style={{ marginTop: !isMobile && "25px"}}>
               Fullfilled By: <b>{product?.supplier}</b>
             </p>
 
