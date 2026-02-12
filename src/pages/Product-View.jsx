@@ -872,7 +872,7 @@ return (
 
               </div>
             </div>
-            <div className="mb-4">
+            <div style={{ marginBottom: isMobile ? "10px":"20px"}}>
               <div>
                 MRP:{" "}
                 <del style={{ fontSize: "17px", color: "grey" }}>{mrp ? `₹${mrp}` : `₹${product?.variant?.[0]?.mrp}`}.00</del>
@@ -902,7 +902,6 @@ return (
     display: "flex",
     flexWrap: "wrap",
     gap: "10px",
-    marginTop: "10px",
   }}
 >
 
@@ -942,7 +941,7 @@ return (
             </Button>}
             </div>
             
-            <p className="mb-2" style={{ marginTop: !isMobile && "25px"}}>
+            <p className="mb-2" style={{marginTop: isMobile ? "10px":"20px"}}>
               Fullfilled By: <b>{product?.supplier}</b>
             </p>
 
