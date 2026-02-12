@@ -1038,7 +1038,7 @@ return (
 
               <Divider orientation={isMobile ? "horizontal" : "vertical"} color="black" sx={{marginBottom: isMobile && "3%", marginTop: isMobile && "3%"}} flexItem />
               <div className="row">
-                <div className="col-2 col-md-1">
+                <div className="col-2 col-md-2">
                 
                   <FaShippingFast
                     style={{ fontSize: isMobile ? "35px" : "40px"}}
@@ -1054,7 +1054,7 @@ return (
               <Divider orientation={isMobile ? "horizontal" : "vertical"} sx={{marginBottom: isMobile && "3%", marginTop: isMobile && "3%"}} color="black" flexItem />
 
                  <div className="row">
-                <div className="col-2 col-md-1">
+                <div className="col-2 col-md-2">
                   <FaExchangeAlt
                     style={{ fontSize: isMobile ? "34px" : "37px"}}
                     className="border bg-primary-subtle rounded-circle p-1 me-3"
@@ -1071,7 +1071,7 @@ return (
               <Divider orientation={isMobile ? "horizontal" : "vertical"} sx={{marginBottom: isMobile && "3%", marginTop: isMobile && "3%"}} color="black" flexItem />
 
               <div className="row" >
-                <div className="col-2 col-md-1">
+                <div className="col-2 col-md-2">
                 
                   <FaUsersLine
                     style={{ fontSize: isMobile ? "35px" : "40px"}}
