@@ -164,7 +164,10 @@ export default function ProductView() {
     5: "Excellent+++",
   };
 
+  const [isLoading, setLoading] = useState(null);
+
   const getProductByID = async () => {
+    setLoading(true)
     try {
       const response = await fetch(
         `http://localhost:5000/api/auth/product/${id}`,
@@ -175,10 +178,13 @@ export default function ProductView() {
 
       if (response.ok) {
         const data = await response.json();
+        setLoading(false);
         setProduct(data);
       }
     } catch (error) {
       console.error("Couldn't fetch");
+    }finally{
+      setLoading(true);
     }
   };
 
@@ -717,6 +723,7 @@ const averageReview = customerRating.length > 0 ? customerRating.reduce((sum,r) 
 const handleActionClick = (action) => {
   window.open(action.link, "_blank", "noopener,noreferrer");
 };
+
 
 
 return (
