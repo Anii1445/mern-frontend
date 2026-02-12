@@ -12,4 +12,13 @@
   }
 }
 
+.swiper-pagination {
+  position: relative !important;
+  margin-top: 30px;
+}
+
+
+/* .swiper {
+  padding-bottom: 30px;
+} */
 

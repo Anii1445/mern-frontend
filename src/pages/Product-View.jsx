@@ -729,7 +729,7 @@ return (
 
          {/* //------------- Breadcrumbs ------------- // */}
 
-          <div role="presentation" style={{ paddingTop: isMobile ? "20%": "10%" }}>
+          <div className="d-flex align-items-center" role="presentation" style={{ paddingTop: isMobile ? "20%": "10%" }}>
       <Breadcrumbs aria-label="breadcrumb">
         <Link underline="hover" color="inherit" href="/" sx={{ display: "flex", alignItems: "center"}}>
            <IoMdHome style={{ fontSize: isMobile ? "15px":"20px" }}/>
@@ -739,9 +739,9 @@ return (
           color="inherit"
           href="/"
         >
-          <small style={{ fontSize: isMobile && "10px"}}>{product?.category}</small>
+          <div style={{ fontSize: isMobile ? "12px":"12px"}}>{product?.category}</div>
         </Link>
-        <Typography sx={{ color: 'text.primary', fontSize: isMobile && "13px" }}><small>{product?.name}</small></Typography>
+        <Typography sx={{ color: 'text.primary', fontSize: isMobile ? "12px":"12px" }}><div>{product?.name}</div></Typography>
       </Breadcrumbs>
     </div>
 
@@ -776,13 +776,16 @@ return (
             </Swiper>
             </Box>
           </div>)}
-          <div className="col-12 col-md-5 order-2 order-md-1 rounded-4 text-center" style={{ backgroundColor: "#EEEE" }}>
-           {!isMobile && <img src={`${product?.dietaryPreference === "Veg" ? "/veg.svg" : "/non-veg.svg"}`}
+          <div className="col-12 col-md-5 order-2 order-md-1 rounded-4 text-center position-relative" style={{ backgroundColor: "#EEEE" }}>
+           <img src={`${product?.dietaryPreference === "Veg" ? "/veg.svg" : "/non-veg.svg"}`}
               style={{
-                width: "25px",
-                marginTop: "23px"
+                 width: "25px",
+        position: "absolute",
+        top: "22px",
+        right: "20px",
+        zIndex: 10
               }}
-            />}
+            />
             <Swiper
                modules={[Navigation, Pagination, Thumbs]}
                thumbs={{ swiper: thumbsSwiper }}
@@ -795,23 +798,14 @@ return (
               <SwiperSlide key={index}>
                 <div className="zoom-container">
                  <img src={imgUrl} className="zoom-image" style={{  width: isMobile ? "80%" : "80%",
-    maxHeight: isMobile ? "350px" : "450px", marginTop: isMobile && "10%",
+    maxHeight: isMobile ? "350px" : "450px", marginTop: isMobile ? "10%":"2%",
     objectFit: "contain", cursor: "pointer", borderRadius: "6px" }} loading="lazy" />
                 </div>
               </SwiperSlide>))}
             </Swiper>
           </div>
           <div className="col-12 col-md-6 order-3">
-           <div className="d-flex align-items-center" style={{ gap: "5px" }}>
-  <p className="mb-0">{product?.category}</p>
-  {isMobile && (
-    <img
-      src={product?.dietaryPreference === "Veg" ? "/veg.svg" : "/non-veg.svg"}
-      alt={product?.dietaryPreference}
-      style={{ width: "17px", height: "17px" }}
-    />
-  )}
-</div>
+            <p className="mb-0">{product?.category}</p>
 
             <h4 style={{ fontSize: isMobile && "20px" }}>
               {product?.brand} - {product?.name} |{" "}
