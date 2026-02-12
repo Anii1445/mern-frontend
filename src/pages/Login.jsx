@@ -18,6 +18,8 @@ import { RiLoader2Line } from "react-icons/ri";
 import { Carousel } from "bootstrap";
 const API = import.meta.env.VITE_API_URL;
 import { useTheme, useMediaQuery } from "@mui/material";
+import {Typography, Box} from "@mui/material";
+import { GiBodyBalance } from "react-icons/gi";
 
 
 export default function Login() {
@@ -143,6 +145,7 @@ export default function Login() {
 <form onSubmit={handleSubmit}>
         <div className="d-flex justify-content-center">
             <div className="border rounded-4 w-75 w-md-75" style={{ marginTop: isMobile ? "35%":"9%" }}>
+             
               <div className="row g-0">
                 <div className="col-12 col-md-6 d-none d-md-block bg-secondary-subtle rounded-start-4">
                   <div id="carouselExampleCaptions" className="carousel slide" data-bs-ride="carousel"
@@ -236,6 +239,15 @@ export default function Login() {
                 </div>
 
                 <div className="col-12 col-md-6 px-4 px-md-5 py-4">
+                   <Typography
+                            sx={{ flexShrink: 0, textAlign: "center", marginBottom: isMobile && "50px" }}
+                          >
+                              <NavLink to="/" style={{textDecoration: "none"}}>
+                              <b className="footer-logo-main"  style={{ border: "1px solid #1976d2"}}><GiBodyBalance style={{fontSize:"25px"}}/> FITNESS</b> 
+                              <b className="footer-logo-sub" style={{ backgroundColor: "#1976d2", color: "white", border: "1px solid #1976d2", padding: isMobile ? "6px 10px" : "6px 12px"}}>1</b>
+                              </NavLink>
+                          
+              </Typography>
                   <h2 className="text-center mb-4 mt-2 mt-md-5">Login</h2>
 
                 <div className='row g-3 needs-validation'>
