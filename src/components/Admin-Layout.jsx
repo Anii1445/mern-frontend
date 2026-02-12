@@ -31,6 +31,8 @@ import { RiLogoutCircleRLine } from "react-icons/ri";
 import { RiCustomerService2Fill } from "react-icons/ri";
 import { IoBagSharp } from "react-icons/io5";
 import { useTheme, useMediaQuery } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
 
 const drawerWidth = 240;
 
@@ -65,8 +67,9 @@ export default function AdminLayout() {
   const { user, isLoggedIn, LogoutUser } = useAuth();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate  = useNavigate();
 
-  
   return (
     
     <Box>
@@ -89,6 +92,13 @@ export default function AdminLayout() {
                       minWidth: 0,
                     }}
                   >
+                     {isMobile && <Box
+                      color="inherit"
+                      sx={{ display: { xs: "block", md: "none" }, mr: 1, cursor: "pointer" }}
+                      onClick={() => setMobileOpen(true)}
+                    >
+                      <IoMenu size={30} />
+                    </Box>}
             <Typography
                           sx={{ flexShrink: 0 }}
                         >
@@ -258,42 +268,85 @@ export default function AdminLayout() {
         }}
       >
         <Toolbar />
-         <div className="d-block d-md-none" style={{ paddingTop: isMobile && "11%",  position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    zIndex: 1050,
-    background: "white"}} >
-  <div className="card rounded-0">
-    <div className="card-body p-0">
-      <div className="col-12 d-flex overflow-auto">
-        {[
-                 { label: "Dashboard", icon: <VscGraph />, path: "/admin/dashboard" },
-            { label: "Products", icon: <FaBoxOpen />, path: "/admin/allproducts" },
-            { label: "Users", icon: <FaUsers />, path: "/admin/users" },
-            { label: "Customer Service", icon: <RiCustomerService2Fill />, path: "/admin/servicecenter" },
-                ].map((item) => (
-                  <NavLink
-                    key={item.path}
-                    to={item.path}
-                    className={({ isActive }) =>
-                      `flex-fill text-center px-3 py-3 text-decoration-none ${
-                        isActive ? "active-item" : "text-dark"
-                      }`
-                    }
-                  >
-                    <div style={{ fontSize: "18px" }}>{item.icon}</div>
-                    <small>{item.label}</small>
-                  </NavLink>
-                ))}
-</div>
-</div>
-</div>
-</div>
-<div style={{ height: isMobile && "80px" }} />
-
         <Outlet />
       </Box>
+
+
+
+
+       <MuiDrawer
+        anchor="left"
+        variant="temporary"        
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+          ModalProps={{
+          keepMounted: true,         
+        }}
+        sx={{ display: { xs: "block", md: "none" }, zIndex: 2000 }}
+      >
+         <Box
+    sx={{
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+      justifyContent: "space-between"
+    }}
+  >
+        <Box sx={{ width: 260, paddingTop: "6%" }}>
+           
+           <Box sx={{ display: "flex", justifyContent: "left", gap:"30px", alignItems: "center", paddingLeft: "10px"}}>
+            <Box>
+              <Avatar sx={{ width: 32, height: 32, bgcolor: "lightblue", color: "#1769aa" }}>
+                {user?.name?.charAt(0)}
+              </Avatar>
+            </Box>
+            {!isLoggedIn && !user ? <Box sx={{ maxWidth: 130, cursor: "pointer" }} onClick={() => navigate("/login")}><Typography variant="h6" style={{ fontSize:"17px" }}>Login / Signup</Typography></Box>
+            :
+            <Box sx={{ maxWidth: 130 }}><Typography variant="h6" style={{ fontSize:"17px" }} noWrap title={user?.name}>Hi, {user?.name}</Typography></Box>
+      }
+            </Box>
+          
+      
+          <Divider sx={{ my: 1, backgroundColor: "black" }} />
+      
+          <List>
+            <ListItemButton onClick={() => { navigate("/admin/dashboard"); setMobileOpen(false); }}>
+              <ListItemIcon><VscGraph style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItemButton>
+      
+            <ListItemButton onClick={() => { navigate("/admin/allproducts"); setMobileOpen(false); }}>
+              <ListItemIcon><FaBoxOpen style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
+              <ListItemText primary="Products" />
+            </ListItemButton>
+      
+            <ListItemButton onClick={() => { navigate("/admin/users"); setMobileOpen(false); }}>
+              <ListItemIcon><FaUsers style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
+              <ListItemText primary="Users" />
+            </ListItemButton>
+      
+            
+              <ListItemButton onClick={() => { navigate("/admin/servicecenter"); setMobileOpen(false); }}>
+                <ListItemIcon><RiCustomerService2Fill style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
+                <ListItemText primary="Service Center" />
+              </ListItemButton>
+          </List>
+        </Box>
+
+        <Box sx={{ mt: "auto" }}>   
+          <Divider sx={{ backgroundColor: "black" }} />
+          <List>
+          {isLoggedIn && user && (
+              <ListItemButton onClick={() => { navigate("/login"); setMobileOpen(false); LogoutUser() }}>
+                <ListItemIcon><RiLogoutCircleRLine style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
+                <ListItemText primary="Logout" />
+              </ListItemButton>
+            )}
+          </List>
+        </Box>
+        </Box>
+      </MuiDrawer>
+      
     </Box>
   );
 }
