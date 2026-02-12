@@ -184,7 +184,7 @@ export default function ProductView() {
     } catch (error) {
       console.error("Couldn't fetch");
     }finally{
-      setLoading(true);
+      setLoading(false);
     }
   };
 
