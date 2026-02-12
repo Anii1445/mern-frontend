@@ -165,6 +165,7 @@ export default function ProductView() {
   };
 
   const getProductByID = async () => {
+    if(id){
     try {
       const response = await fetch(
         `http://localhost:5000/api/auth/product/${id}`,
@@ -179,7 +180,7 @@ export default function ProductView() {
       }
     } catch (error) {
       console.error("Couldn't fetch");
-    }
+    }}
   };
 
   const [AllReviewByCustomers, setAllReviewByCustomers] = useState([]);
