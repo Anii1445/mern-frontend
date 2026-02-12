@@ -175,6 +175,7 @@ export default function ProductView() {
 
       if (response.ok) {
         const data = await response.json();
+        alert("ID:" + id)
         setProduct(data);
       }
     } catch (error) {
