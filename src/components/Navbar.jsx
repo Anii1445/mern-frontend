@@ -624,7 +624,7 @@ useEffect(() => {
         justifyContent: "space-between"
       }}
     >
-  <Box sx={{ width: 260, padding: "14px 10px 10px 10px" }}>
+  <Box sx={{ width: 260, p: 2 }}>
      <Box sx={{ display: "flex", justifyContent: "space-between", gap:"30px", alignItems: "center"}}>     
       <Box sx={{ display: "flex", justifyContent: "left", gap:"30px", alignItems: "center", paddingLeft: "10px"}}>
       <Box>

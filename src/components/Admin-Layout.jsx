@@ -2,6 +2,7 @@ import { useState } from "react";
 import "../css/dropdownUser.css";
 import { GiBodyBalance } from "react-icons/gi";
 import { Outlet, NavLink } from "react-router-dom";
+import { RxCross2 } from "react-icons/rx";
 import {
   Box,
   CssBaseline,
@@ -293,17 +294,21 @@ export default function AdminLayout() {
     }}
   >
         <Box sx={{ width: 260, p: 2 }}>
-           
+           <Box sx={{ display: "flex", justifyContent: "space-between", gap:"30px", alignItems: "center"}}> 
            <Box sx={{ display: "flex", justifyContent: "left", gap:"30px", alignItems: "center", paddingLeft: "10px"}}>
             <Box>
               <Avatar sx={{ width: 32, height: 32, bgcolor: "lightblue", color: "#1769aa" }}>
                 {user?.name?.charAt(0)}
               </Avatar>
             </Box>
-            {!isLoggedIn && !user ? <Box sx={{ maxWidth: 130, cursor: "pointer" }} onClick={() => navigate("/login")}><Typography variant="h6" style={{ fontSize:"17px" }}>Login / Signup</Typography></Box>
+            {!isLoggedIn && !user ? <Box sx={{ maxWidth: 111, cursor: "pointer" }} onClick={() => navigate("/login")}><Typography variant="h6" style={{ fontSize:"17px" }}>Login / Signup</Typography></Box>
             :
-            <Box sx={{ maxWidth: 130 }}><Typography variant="h6" style={{ fontSize:"17px" }} noWrap title={user?.name}>Hi, {user?.name}</Typography></Box>
+            <Box sx={{ maxWidth: 111 }}><Typography variant="h6" style={{ fontSize:"17px" }} noWrap title={user?.name}>Hi, {user?.name}</Typography></Box>
       }
+            </Box>
+            <Box>
+                <RxCross2 style={{ fontSize: "20px", cursor: "pointer" }} onClick={()=>{setMobileOpen(false)}}/>
+            </Box>
             </Box>
           
       

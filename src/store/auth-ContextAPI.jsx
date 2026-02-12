@@ -38,6 +38,12 @@ export const AuthProvider = ({ children }) => {
         toast.success("Logout Successfully", {
                 position: "top-center",
                 autoClose: 2000, 
+                 style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              })
         return localStorage.removeItem("token");
     }
