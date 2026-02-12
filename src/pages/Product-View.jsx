@@ -732,16 +732,16 @@ return (
           <div className="d-flex align-items-center" role="presentation" style={{ paddingTop: isMobile ? "20%": "10%" }}>
       <Breadcrumbs aria-label="breadcrumb">
         <Link underline="hover" color="inherit" href="/" sx={{ display: "flex", alignItems: "center"}}>
-           <IoMdHome style={{ fontSize: isMobile ? "15px":"20px" }}/>
+           <IoMdHome style={{ fontSize: isMobile ? "12px":"20px" }}/>
         </Link>
         <Link
           underline="hover"
           color="inherit"
           href="/"
         >
-          <div style={{ fontSize: isMobile ? "12px":"12px"}}>{product?.category}</div>
+          <div style={{ fontSize: isMobile ? "10px":"12px"}}>{product?.category}</div>
         </Link>
-        <Typography sx={{ color: 'text.primary', fontSize: isMobile ? "12px":"12px" }}><div>{product?.name}</div></Typography>
+        <Typography sx={{ color: 'text.primary', fontSize: isMobile ? "10px":"12px" }}><div>{product?.name}</div></Typography>
       </Breadcrumbs>
     </div>
 
