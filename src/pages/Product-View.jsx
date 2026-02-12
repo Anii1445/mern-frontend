@@ -65,6 +65,7 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
 import { useRef } from "react";
 import { useTheme, useMediaQuery } from "@mui/material";
+const API = import.meta.env.VITE_API_URL;
 
 
 export default function ProductView() {
@@ -167,7 +168,7 @@ export default function ProductView() {
   const getProductByID = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/auth/product/${id}`,
+        `${API}/api/auth/product/${id}`,
         {
           method: "GET",
         }
@@ -186,7 +187,7 @@ export default function ProductView() {
 
   const fetchReviews = async () => {
     const res = await fetch(
-      `http://localhost:5000/api/auth/productreviewsorting/${variantID && variantID}?sort=${reviewSorting}&page=1&limit=5`
+      `${API}/api/auth/productreviewsorting/${variantID && variantID}?sort=${reviewSorting}&page=1&limit=5`
     );
     const data = await res.json();
     setAllReviewByCustomers(data.reviews);
@@ -208,7 +209,7 @@ export default function ProductView() {
   // const getReviewByCustomers = async () => {
   //   try {
   //     const response = await fetch(
-  //       `http://localhost:5000/api/auth/productReviewsByCustomers/${variantID && variantID}`,
+  //       `${API}/api/auth/productReviewsByCustomers/${variantID && variantID}`,
   //       {
   //         method: "GET",
   //       }
@@ -230,7 +231,7 @@ export default function ProductView() {
   const [productJoin, setProductJoin] = useState([]);
   const getProductJoin = async() => {
     try {
-      const response = await fetch(`http://localhost:5000/api/auth/getProductJoin`,{
+      const response = await fetch(`${API}/api/auth/getProductJoin`,{
         method: "POST",
          headers: {
               "Content-Type": "application/json"
@@ -323,7 +324,7 @@ useEffect(() => {
     setLoadingButton(true)
     if (isLoggedIn) {
       try {
-        const response = await fetch(`http://localhost:5000/api/auth/cart`, {
+        const response = await fetch(`${API}/api/auth/cart`, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -402,7 +403,7 @@ useEffect(() => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/auth/customer_review`,
+        `${API}/api/auth/customer_review`,
         {
           method: "POST",
           headers: {
@@ -469,7 +470,7 @@ useEffect(() => {
       if (isLoggedIn) {
         try {
           const response = await fetch(
-            `http://localhost:5000/api/auth/getUserCart/${user.userId}`,
+            `${API}/api/auth/getUserCart/${user.userId}`,
             {
               method: "GET",
               headers: {
@@ -530,7 +531,7 @@ useEffect(() => {
     const Save = async (p_id, variant_id) => {
         try {
             const response = await fetch(
-              `http://localhost:5000/api/auth/wishlist`,
+              `${API}/api/auth/wishlist`,
               {
                 method: "POST",
                 headers: {
@@ -562,7 +563,7 @@ useEffect(() => {
     const Delete = async (variant_id) => {
        try {
          const response = await fetch(
-           `http://localhost:5000/api/auth/deleteWishlistByProductID`,
+           `${API}/api/auth/deleteWishlistByProductID`,
             {
               method: "DELETE",
               headers: {
@@ -589,7 +590,7 @@ useEffect(() => {
       const getWishlists = async () => {
         try {
           const response = await fetch(
-            `http://localhost:5000/api/auth/allWishlistsByID/${user.userId}`,
+            `${API}/api/auth/allWishlistsByID/${user.userId}`,
             {
               method: "GET",
               headers: {
