@@ -739,7 +739,7 @@ return (
           color="inherit"
           href="/"
         >
-          <small style={{ fontSize: isMobile && "13px"}}>{product?.category}</small>
+          <small style={{ fontSize: isMobile && "10px"}}>{product?.category}</small>
         </Link>
         <Typography sx={{ color: 'text.primary', fontSize: isMobile && "13px" }}><small>{product?.name}</small></Typography>
       </Breadcrumbs>
@@ -830,7 +830,7 @@ return (
             </small>
             </div>
             <div style={{ marginBottom: "3%", display: "flex",
-                  alignItems: "center", gap: isMobile ? "30%":"40%" }}>
+                  alignItems: "center", gap: isMobile ? "20%":"40%" }}>
                 <div onClick={ () => {reviewsContainerRef.current?.scrollIntoView({
                   behavior: "smooth"})} } style={{ cursor: "pointer" }}>
                   <span className="badge bg-success me-2 gap-1 d-inline-flex align-items-center" style={{ fontSize: "14px"}}>
