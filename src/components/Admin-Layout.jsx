@@ -292,7 +292,7 @@ export default function AdminLayout() {
       justifyContent: "space-between"
     }}
   >
-        <Box sx={{ width: 260, paddingTop: "6%" }}>
+        <Box sx={{ width: 260, p: 2 }}>
            
            <Box sx={{ display: "flex", justifyContent: "left", gap:"30px", alignItems: "center", paddingLeft: "10px"}}>
             <Box>
@@ -333,7 +333,7 @@ export default function AdminLayout() {
           </List>
         </Box>
 
-        <Box sx={{ mt: "auto" }}>   
+        <Box sx={{ mt: "auto", p:2 }}>   
           <Divider sx={{ backgroundColor: "black" }} />
           <List>
           {isLoggedIn && user && (
