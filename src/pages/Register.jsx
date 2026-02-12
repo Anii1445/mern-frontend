@@ -282,7 +282,7 @@ export default function Register() {
                         </div>
                     </div>
                     <div className='mt-4 mt-md-5 text-center'>
-                    <small>
+                    <small style={{ fontSize: isMobile && "12px"}}>
                       By continuing, I agree to Terms & Conditions & Privacy
                       Policy
                     </small>
