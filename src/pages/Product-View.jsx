@@ -777,13 +777,12 @@ return (
             </Box>
           </div>)}
           <div className="col-12 col-md-5 order-2 order-md-1 rounded-4 text-center" style={{ backgroundColor: "#EEEE" }}>
-            {/* <img src={`${product?.dietaryPreference === "Veg" ? "/veg.svg" : "/non-veg.svg"}`}
+           {!isMobile && <img src={`${product?.dietaryPreference === "Veg" ? "/veg.svg" : "/non-veg.svg"}`}
               style={{
                 width: "25px",
-                float: "right",
                 marginTop: "23px"
               }}
-            /> */}
+            />}
             <Swiper
                modules={[Navigation, Pagination, Thumbs]}
                thumbs={{ swiper: thumbsSwiper }}
@@ -803,7 +802,17 @@ return (
             </Swiper>
           </div>
           <div className="col-12 col-md-6 order-3">
-            <p>{product?.category}</p>
+           <div className="d-flex align-items-center" style={{ gap: "5px" }}>
+  <p className="mb-0">{product?.category}</p>
+  {isMobile && (
+    <img
+      src={product?.dietaryPreference === "Veg" ? "/veg.svg" : "/non-veg.svg"}
+      alt={product?.dietaryPreference}
+      style={{ width: "17px", height: "17px" }}
+    />
+  )}
+</div>
+
             <h4 style={{ fontSize: isMobile && "20px" }}>
               {product?.brand} - {product?.name} |{" "}
               {selectWeight ? `${selectWeight > 999 ? `${selectWeight/1000}Kg` : `${selectWeight}g` }`
@@ -821,7 +830,7 @@ return (
             </small>
             </div>
             <div style={{ marginBottom: "3%", display: "flex",
-                  alignItems: "center", gap: "40%" }}>
+                  alignItems: "center", gap: isMobile ? "30%":"40%" }}>
                 <div onClick={ () => {reviewsContainerRef.current?.scrollIntoView({
                   behavior: "smooth"})} } style={{ cursor: "pointer" }}>
                   <span className="badge bg-success me-2 gap-1 d-inline-flex align-items-center" style={{ fontSize: "14px"}}>
