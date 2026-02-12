@@ -124,8 +124,8 @@ const theme = useTheme();
       <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
         <DialogContent>
           <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
-            <FormControl sx={{ m: 1, minWidth: 220 }}>
-              <InputLabel htmlFor="demo-dialog-native" size="small">Select Order Date</InputLabel>
+            <FormControl sx={{ m: 1, minWidth: 160 }} size="small">
+              <InputLabel htmlFor="demo-dialog-native" size="small" sx={{ fontSize: "9px" }}>Select Order Date</InputLabel>
               <Select
                 native
                 value={order}
