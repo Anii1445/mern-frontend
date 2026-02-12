@@ -222,11 +222,6 @@ export default function ProductView() {
   //   }
   // };
 
-  useEffect(() => {
-    console.log("Product ID:", id); // Check this on mobile via remote debugging
-    alert("Product ID: " + id);     // For quick check
-  }, [id]);
-
 
   const [productJoin, setProductJoin] = useState([]);
   const getProductJoin = async() => {
@@ -1027,13 +1022,13 @@ return (
     gap: isMobile ? "1px" : "20px",
      color: "#15317E" }}>
               <div className="row">
-                <div className="col-1 col-md-2">
+                <div className="col-2 col-md-2">
                   <MdOutlineSecurity
                     style={{ fontSize: isMobile ? "35px" : "40px"}}
                     className="border bg-primary-subtle rounded-circle p-1"
                   />
                   </div>
-                  <div className="col-11 col-md-10">
+                  <div className="col-10 col-md-10">
                 <h6 style={{ marginBottom: "0px" }}>
                   100% AUTHENTIC
                 </h6>
@@ -1043,13 +1038,13 @@ return (
 
               <Divider orientation={isMobile ? "horizontal" : "vertical"} color="black" sx={{marginBottom: isMobile && "3%", marginTop: isMobile && "3%"}} flexItem />
               <div className="row">
-                <div className="col-1 col-md-1">
+                <div className="col-2 col-md-1">
                 
                   <FaShippingFast
                     style={{ fontSize: isMobile ? "35px" : "40px"}}
                     className="border bg-primary-subtle rounded-circle p-1 me-3"
                   /></div>
-                  <div className="col-11 col-md-10">
+                  <div className="col-10 col-md-10">
                 <h6 style={{ marginBottom: "0px" }}>
                   FREE SHIPPING
                 </h6>
@@ -1059,13 +1054,13 @@ return (
               <Divider orientation={isMobile ? "horizontal" : "vertical"} sx={{marginBottom: isMobile && "3%", marginTop: isMobile && "3%"}} color="black" flexItem />
 
                  <div className="row">
-                <div className="col-1 col-md-1">
+                <div className="col-2 col-md-1">
                   <FaExchangeAlt
                     style={{ fontSize: isMobile ? "34px" : "37px"}}
                     className="border bg-primary-subtle rounded-circle p-1 me-3"
                   />
                   </div>
-                  <div className="col-11 col-md-10">
+                  <div className="col-10 col-md-10">
                     <h6 style={{ marginBottom: "0px" }}>
                   EASY RETURNS
                 </h6>
@@ -1076,14 +1071,14 @@ return (
               <Divider orientation={isMobile ? "horizontal" : "vertical"} sx={{marginBottom: isMobile && "3%", marginTop: isMobile && "3%"}} color="black" flexItem />
 
               <div className="row" >
-                <div className="col-1 col-md-1">
+                <div className="col-2 col-md-1">
                 
                   <FaUsersLine
                     style={{ fontSize: isMobile ? "35px" : "40px"}}
                     className="border bg-primary-subtle rounded-circle p-1 me-3"
                   />
                   </div>
-                   <div className="col-11 col-md-10">
+                   <div className="col-10 col-md-10">
                   <h6 style={{ marginBottom: "0px" }}>
                   HAPPY CUSTOMERS
                 </h6>
