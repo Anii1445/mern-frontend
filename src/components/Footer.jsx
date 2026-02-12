@@ -13,6 +13,7 @@ import { FaLinkedin } from "react-icons/fa";
 import "../css/footer.css";
 import "../css/payment-footer.css";
 import "../css/footer-logo.css";
+import { useTheme, useMediaQuery } from "@mui/material";
 
 
 export default function Footer() {
@@ -20,12 +21,15 @@ export default function Footer() {
   const path = ["/carts","/checkout","/payment"];
   const { ApiBrands, ApiCategory, user } = useAuth();
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
 
 if(!user || !user.isAdmin){
   if(path.includes(location.pathname)){
     return(
         <>
-        <footer style={{ paddingTop: "5rem" }}>
+        <footer style={{ paddingTop: "5rem"}}>
                  <div className="payment-bar text-secondary p-4 bg-secondary-subtle">
     <div className="payment-text">
       <p className="text-dark">
@@ -41,6 +45,12 @@ if(!user || !user.isAdmin){
       <img className="payment-img" src="/master.svg" />
       <img className="payment-img" src="/netbanking2.png" />
     </div>
+   {isMobile && 
+    <>
+    <div style={{ padding: "5%" }}></div>
+    
+    </>}
+
     </div>
             </footer>
         </>
@@ -113,7 +123,14 @@ if(!user || !user.isAdmin){
                     <small style={{ color:"#99A3A3" }}>Copyright © 2025, FitnessFirst, or its affiliates</small>
 
                 </div>
+
+                {isMobile && 
+    <>
+    <div style={{ padding: "7%" }}></div>
+    
+    </>}
                 </div>
+                 
             </footer>
         </>
     )}}

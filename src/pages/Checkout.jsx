@@ -559,7 +559,7 @@ export default function Checkout() {
           </div>
         </div>
         {isMobile && (
-                  <div className="mobile-fixed-buybar d-flex justify-content-between" style={{ backgroundColor: "#b3e5fc"}}>
+                  <div className="mobile-fixed-buybar d-flex justify-content-between" style={{ backgroundColor: "#b3e5fc", paddingBottom: "5px" }}>
                             
                              <h5>Total Amount</h5> 
                              <h5>₹{orderInfo?.cartTotalMRP ? orderInfo?.cartTotalPRICE.toLocaleString("en-IN") : orderInfo?.price.toLocaleString("en-IN")}</h5>
