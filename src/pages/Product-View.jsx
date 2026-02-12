@@ -69,7 +69,7 @@ import { useTheme, useMediaQuery } from "@mui/material";
 
 export default function ProductView() {
   const { id } = useParams();
-  const [product, setProduct] = useState({});
+  const [product, setProduct] = useState(null);
   const [qty, setQty] = useState(1);
   const { token, isLoggedIn, user } = useAuth();
   const [selectWeight, setSelectWeight] = useState("");
@@ -165,7 +165,6 @@ export default function ProductView() {
   };
 
   const getProductByID = async () => {
-    if(id){
     try {
       const response = await fetch(
         `http://localhost:5000/api/auth/product/${id}`,
@@ -180,7 +179,7 @@ export default function ProductView() {
       }
     } catch (error) {
       console.error("Couldn't fetch");
-    }}
+    }
   };
 
   const [AllReviewByCustomers, setAllReviewByCustomers] = useState([]);
@@ -277,12 +276,16 @@ export default function ProductView() {
   let fourStar = (four_star_sum.length / AllReviewByCustomers.length) * 100;
   let fiveStar = (five_star_sum.length / AllReviewByCustomers.length) * 100;
 
-  useEffect(() => {
-    getProductByID();
-      if(product.brand){
-       getProductJoin();
-      }
-   }, [id, product?.brand]);
+useEffect(() => {
+  getProductByID();
+}, [id]);
+
+useEffect(() => {
+  if (product?.brand && product?.category) {
+    getProductJoin();
+  }
+}, [product]);
+
 
   //  useEffect(()=> {
   //   if(variantID){
@@ -487,7 +490,7 @@ export default function ProductView() {
             await handleCart();
             dispatch(
               setOrderInfo({ 
-                 mrp : mrp ? mrp : product.variant[0].mrp, 
+                 mrp : mrp ? mrp : product?.variant?.[0]?.mrp, 
                  price: price? price : product?.variant?.[0]?.price, 
                  cartProducts
               })
@@ -497,7 +500,7 @@ export default function ProductView() {
     else{
         dispatch(
           setOrderInfo({ 
-            mrp : mrp ? mrp : product.variant[0].mrp, 
+            mrp : mrp ? mrp : product?.variant?.[0]?.mrp, 
             price: price? price : product?.variant?.[0]?.price, 
             cartProducts
            })
