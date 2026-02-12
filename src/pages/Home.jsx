@@ -248,6 +248,12 @@ export default function Home() {
         toast.success("Added to Wishlist!", {
           position: "top-center",
           autoClose: 2000,
+          style: {
+    maxWidth: "100px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
         });
         getWishlists();
         setWishlistLoading(null);
