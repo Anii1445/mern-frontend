@@ -1035,7 +1035,7 @@ return (
                 <h6 style={{ marginBottom: "0px" }}>
                   100% AUTHENTIC
                 </h6>
-                <p style={{ marginBottom: "0px" }}>Products sourced directly from the Brands!</p>
+                <p style={{ marginBottom: "0px", fontSize: isMobile && "15px" }}>Products sourced directly from the Brands!</p>
                 </div>
               </div>
 
@@ -1051,7 +1051,7 @@ return (
                 <h6 style={{ marginBottom: "0px" }}>
                   FREE SHIPPING
                 </h6>
-                <p style={{ marginBottom: "0px" }}>Get free delivery on orders above 399!</p>
+                <p style={{ marginBottom: "0px", fontSize: isMobile && "15px" }}>Get free delivery on orders above 399!</p>
                 </div>
               </div>
               <Divider orientation={isMobile ? "horizontal" : "vertical"} sx={{marginBottom: isMobile && "3%", marginTop: isMobile && "3%"}} color="black" flexItem />
@@ -1068,7 +1068,7 @@ return (
                   EASY RETURNS
                 </h6>
                 
-                <p style={{ marginBottom: "0px" }}>Simple and easy exchanges!</p></div>
+                <p style={{ marginBottom: "0px", fontSize: isMobile && "15px" }}>Simple and easy exchanges!</p></div>
               </div>
 
               <Divider orientation={isMobile ? "horizontal" : "vertical"} sx={{marginBottom: isMobile && "3%", marginTop: isMobile && "3%"}} color="black" flexItem />
@@ -1085,7 +1085,7 @@ return (
                   <h6 style={{ marginBottom: "0px" }}>
                   HAPPY CUSTOMERS
                 </h6>
-                <p style={{ marginBottom: "0px" }}>Happy customers across India!</p></div>
+                <p style={{ marginBottom: "0px", fontSize: isMobile && "15px" }}>Happy customers across India!</p></div>
               </div>
 
             </div>
