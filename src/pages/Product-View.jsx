@@ -732,7 +732,7 @@ return (
           <div className="d-flex align-items-center" role="presentation" style={{ paddingTop: isMobile ? "20%": "10%" }}>
       <Breadcrumbs aria-label="breadcrumb">
         <Link underline="hover" color="inherit" href="/" sx={{ display: "flex", alignItems: "center"}}>
-           <IoMdHome style={{ fontSize: isMobile ? "12px":"20px" }}/>
+           <IoMdHome style={{ fontSize: isMobile ? "15px":"20px" }}/>
         </Link>
         <Link
           underline="hover"
@@ -755,21 +755,22 @@ return (
                height: "400px",
                overflow: "hidden",
                flexShrink: 0,
+               padding: "10% 0% 10% 0%"
 }}>
             <Swiper
              onSwiper={setThumbsSwiper}
              modules={[Thumbs, Navigation, Pagination]}
-             spaceBetween={10}
+             spaceBetween={12}
              slidesPerView={4}
              direction="vertical"
              watchSlidesProgress
              navigation
-             style={{ height: "100%", marginTop: "15px" }}
+             style={{ height: "100%", marginTop: "20px" }}
             >
             {imagesToShow.map((imgUrl, index)=>(
               <SwiperSlide key={index}>
                     <img src={imgUrl} onClick={()=>setActiveImageIndex(index)} 
-                     style={{ maxHeight: "90px", maxWidth: "90%", cursor:"pointer",
+                     style={{ maxHeight: "100px", maxWidth: "90%", cursor:"pointer",
                      objectFit: "contain", border: index === activeImageIndex ? "2px solid #2196f3" : "1.5px solid #D3D3D3", borderRadius: "6px" }} />
              </SwiperSlide>
             ))}
@@ -1277,7 +1278,7 @@ return (
                       <div>
                     <h1 style={{ margin: 0, fontSize: isMobile ? "30px" : "" }}>
                       
-                      {averageRating.toFixed(1) === "NaN" ? 0 : averageRating.toFixed(1)}<small>/5</small>
+                      {averageRating.toFixed(1) === "NaN" ? 0 : averageRating.toFixed(1)}<small style={{ fontSize: isMobile ? "15px":"25px"}}>/5</small>
           
                     </h1>
                     </div>
@@ -1600,11 +1601,16 @@ sx={{
                 <div>
                   {AllReviewByCustomers.length > 0 && 
                   <FormControl sx={{ m: 1, minWidth: 160 }} size="small">
-                    <InputLabel id="demo-select-small-label">Sort By</InputLabel>
+                    <InputLabel id="demo-select-small-label" sx={{ fontSize: "12px" }}>Sort By</InputLabel>
                     <Select
+                      size="small"
                       labelId="demo-select-small-label"
                       id="demo-select-small"
                       label="Sort By"
+                      sx={{
+                          fontSize: "13px",
+                          height: "34px",
+                        }}
                       value={reviewSorting}
                       onChange={(e)=>{setReviewSorting(e.target.value)}}
                        startAdornment={
@@ -1613,12 +1619,24 @@ sx={{
                                            </InputAdornment>
                                 }
                     >
-                      <MenuItem value="all">All</MenuItem>
-                      <MenuItem value="newest">Newest First</MenuItem>
-                      <MenuItem value="rating_desc">
+                      <MenuItem value="all" sx={{
+                          fontSize: "13px",
+                          height: "34px",
+                        }}>All</MenuItem>
+                      <MenuItem value="newest" sx={{
+                          fontSize: "13px",
+                          height: "34px",
+                        }}>Newest First</MenuItem>
+                      <MenuItem value="rating_desc" sx={{
+                          fontSize: "13px",
+                          height: "34px",
+                        }}>
                         Rating High to Low
                       </MenuItem>
-                      <MenuItem value="rating_asc">
+                      <MenuItem value="rating_asc" sx={{
+                          fontSize: "13px",
+                          height: "34px",
+                        }}>
                         Rating Low to High
                       </MenuItem>
                     </Select>

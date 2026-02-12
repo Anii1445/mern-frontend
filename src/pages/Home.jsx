@@ -870,7 +870,7 @@ export default function Home() {
                     </Button>
                   </div>
                   <div className="col-6 d-flex justify-content-end">
-                    <FormControl size="small" sx={{ minWidth: 120 }}>
+                    <FormControl size="small" sx={{ minWidth: 140 }}>
                       <InputLabel
                         sx={{ fontSize: "12px" }}
                         id="demo-select-small-label"
@@ -938,9 +938,9 @@ export default function Home() {
                     </h6>
                   </div>
                   <div className="column-filter d-flex justify-content-end">
-                    <FormControl size="small" sx={{ minWidth: 120 }}>
+                    <FormControl size="small" sx={{ minWidth: 165 }}>
                       <InputLabel
-                        sx={{ fontSize: "12px" }}
+                        
                         id="demo-select-small-label"
                       >
                         Sort By
@@ -952,25 +952,16 @@ export default function Home() {
                         onChange={(e) => setSortOrder(e.target.value)}
                         label="Sort By"
                         size="small"
-                        sx={{
-                          fontSize: "13px",
-                          height: "34px",
-                        }}
+                       
                       >
                         <MenuItem
-                          sx={{
-                            fontSize: "13px",
-                            height: "34px",
-                          }}
+                         
                           value={1}
                         >
                           Price: Low to High
                         </MenuItem>
                         <MenuItem
-                          sx={{
-                            fontSize: "13px",
-                            height: "34px",
-                          }}
+                         
                           value={-1}
                         >
                           Price: High to Low
