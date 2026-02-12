@@ -175,7 +175,6 @@ export default function ProductView() {
 
       if (response.ok) {
         const data = await response.json();
-        alert("ID:" + id)
         setProduct(data);
       }
     } catch (error) {
@@ -204,6 +203,8 @@ export default function ProductView() {
      if(variantID){ fetchReviews() }
   }, [reviewSorting, variantID]);
 
+
+  
   // const getReviewByCustomers = async () => {
   //   try {
   //     const response = await fetch(
@@ -219,6 +220,11 @@ export default function ProductView() {
   //     console.log(error);
   //   }
   // };
+
+  useEffect(() => {
+    console.log("Product ID:", id); // Check this on mobile via remote debugging
+    alert("Product ID: " + id);     // For quick check
+  }, [id]);
 
 
   const [productJoin, setProductJoin] = useState([]);
