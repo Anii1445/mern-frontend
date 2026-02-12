@@ -1344,7 +1344,7 @@ export default function Home() {
                                       marginBottom: "10px",
                                       marginTop: "5%",
                                     }}
-                                    onClick={() => navigate("/carts")}
+                                    onClick={(e) => {navigate("/carts"); e.stopPropagation(); }}
                                     fullWidth
                                   >
                                     Go To Cart
@@ -1370,7 +1370,8 @@ export default function Home() {
                                       marginTop: "5%",
                                     }}
                                     fullWidth
-                                    onClick={() => {
+                                    onClick={(e) => {
+                                      e.stopPropagation();  
                                       AddtoCart(
                                         p._id,
                                         p.variant[0]._id,
