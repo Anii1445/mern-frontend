@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 const API = import.meta.env.VITE_API_URL;
 import { useTheme, useMediaQuery } from "@mui/material";
+import { FaUserEdit } from "react-icons/fa";
 
 
 export default function PersonalInfo(){
@@ -58,12 +59,12 @@ const theme = useTheme();
     <div className="text-muted">Loading...</div>
 
   </div> :
-                <div className="card" style={{ marginTop: isMobile ? "5%":"10%"}}>
+                <div className="card shadow-sm" style={{ marginTop: isMobile ? "5%":"10%"}}>
                     <div className="card-body">
                         <div className="d-flex align-items-center flex-sm-row gap-2 justify-content-between align-items-sm-center mb-3">
         
                           <h5>Personal Information</h5>
-                          <Button variant="outlined" onClick={() => navigate("edit") }>Edit</Button>
+                          <Button variant="outlined" onClick={() => navigate("edit") } startIcon={<FaUserEdit/>}>Edit</Button>
                         </div>
                         <div className="card">
                             <div className="card-body">

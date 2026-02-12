@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { BsBoxSeam } from "react-icons/bs";
 const API = import.meta.env.VITE_API_URL;
 import { useTheme, useMediaQuery } from "@mui/material";
+import { IoArrowBack } from "react-icons/io5";
 
 
 export default function OrderDetails(){
@@ -84,7 +85,7 @@ export default function OrderDetails(){
                         <div className="d-flex align-items-center flex-md-row gap-2 justify-content-between align-items-md-center">
                                     <h4 className="mb-0">Order Details</h4>
                                     <div>
-                        <Button variant="contained" onClick={() => {navigate(`/myaccount/myorders`)}}>
+                        <Button startIcon={<IoArrowBack/>} variant="contained" onClick={() => {navigate(`/myaccount/myorders`)}}>
                             Back
                         </Button> 
                      </div>

@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 const API = import.meta.env.VITE_API_URL;
+import { IoArrowBack } from "react-icons/io5";
 
 
 export default function AdminRegisterEdit(){
@@ -155,7 +156,7 @@ export default function AdminRegisterEdit(){
                                                 <Button variant="contained" onClick={Edit} sx={{ marginRight: "5px" }}>
                                                    Save
                                                 </Button>
-                                                 <Button variant="outlined" onClick={() => navigate("/admin/users")}>
+                                                 <Button startIcon={<IoArrowBack/>} variant="outlined" onClick={() => navigate("/admin/users")}>
                                                    Back
                                                 </Button>
                                             </div>

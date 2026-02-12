@@ -23,7 +23,7 @@ export default function MyAccount() {
         <div className="justify-content-center">
           <div className="row">
             <div className="col-12 col-md-3 d-none d-md-block col-md-3" style={{ paddingTop: isMobile ? "18%" : "7.2%" }}>
-              <div className="card">
+              <div className="card shadow-sm">
                 <div className="card-body p-0">
                   <div className="list-group">
                     <NavLink

@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 const API = import.meta.env.VITE_API_URL;
 
+
+
 export default function RegisterEdit(){
 
     const { token, user } = useAuth();
@@ -121,7 +123,7 @@ export default function RegisterEdit(){
     <div className="text-muted">Loading...</div>
 
   </div> :
-            <div className="card" style={{ marginTop: "10%" }}>
+            <div className="card shadow-sm" style={{ marginTop: "10%" }}>
                 <div className="card-body">
                     <h4 className="mb-4">Edit Personal Information</h4>
                     <form className='row g-3'>

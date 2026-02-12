@@ -361,7 +361,7 @@ useEffect(() => {
     <div className="text-muted">Loading...</div>
 
   </div> :
-                <div className="card" style={{ marginTop: isMobile ? "5%" :"10%" }}>
+                <div className="card shadow-sm" style={{ marginTop: isMobile ? "5%" :"10%" }}>
                     <div className="card-body">
                         <div style={{
                               display: "flex",
