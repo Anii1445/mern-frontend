@@ -307,7 +307,7 @@ export default function AdminLayout() {
       }
             </Box>
             <Box>
-                <RxCross2 style={{ fontSize: "20px", cursor: "pointer" }} onClick={()=>{setMobileOpen(false)}}/>
+                <RxCross2 style={{ fontSize: "20px", cursor: "pointer", color:"grey" }} onClick={()=>{setMobileOpen(false)}}/>
             </Box>
             </Box>
           

@@ -112,9 +112,9 @@ const theme = useTheme();
             </div>) : (
                 <> 
                 <div className="card mb-1 shadow-sm">
-                    <div className="card-body d-flex align-items-center flex-md-row gap-2 justify-content-md-between align-items-md-center">
+                    <div className="card-body d-md-flex flex-md-row gap-2 justify-content-md-between align-items-md-center">
                         <div><h4 className="mb-0">My Order ({myOrder?.length})</h4></div>
-                        <div>
+                        <div style={{ marginTop: isMobile && "6px"}}>
                         <Button variant="outlined" onClick={handleClickOpen} startIcon={<FaHistory/>}>Sort By Order Date</Button>
                         </div>
                         </div>
