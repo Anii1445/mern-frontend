@@ -240,7 +240,7 @@ export default function Login() {
 
                 <div className="col-12 col-md-6 px-4 px-md-5 py-4">
                    <Typography
-                            sx={{ flexShrink: 0, textAlign: "center", marginBottom: isMobile && "50px" }}
+                            sx={{ flexShrink: 0, textAlign: "center", marginBottom: isMobile && "50px", marginTop: "30px" }}
                           >
                               <NavLink to="/" style={{textDecoration: "none"}}>
                               <b className="footer-logo-main"  style={{ border: "1px solid #1976d2"}}><GiBodyBalance style={{fontSize:"25px"}}/> FITNESS</b> 
