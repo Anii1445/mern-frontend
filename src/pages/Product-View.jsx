@@ -836,7 +836,7 @@ return (
                   <span className="badge bg-success me-2 gap-1 d-inline-flex align-items-center" style={{ fontSize: "14px"}}>
                     {averageReview && Math.round(averageReview * 10)/10} <FaStar/>
                   </span>
-                  <strong style={{ color:"grey", fontSize: isMobile ? "12px" :"14px" }}>({customerRating?.length} Ratings & Reviews)</strong>
+                  <strong style={{ color:"grey", fontSize: "14px" }}>({customerRating?.length} Ratings & Reviews)</strong>
                 </div>
 
               <div>
