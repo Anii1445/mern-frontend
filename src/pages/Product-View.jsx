@@ -777,13 +777,13 @@ return (
             </Box>
           </div>)}
           <div className="col-12 col-md-5 order-2 order-md-1 rounded-4 text-center" style={{ backgroundColor: "#EEEE" }}>
-            <img src={`${product?.dietaryPreference === "Veg" ? "/veg.svg" : "/non-veg.svg"}`}
+            {/* <img src={`${product?.dietaryPreference === "Veg" ? "/veg.svg" : "/non-veg.svg"}`}
               style={{
                 width: "25px",
                 float: "right",
                 marginTop: "23px"
               }}
-            />
+            /> */}
             <Swiper
                modules={[Navigation, Pagination, Thumbs]}
                thumbs={{ swiper: thumbsSwiper }}
@@ -883,7 +883,7 @@ return (
                     )}
                 % off )
               </h5>
-              <div style={{ color: "#1AA260", fontSize: "15px", marginTop: "10px" }}>
+              <div style={{ color: "#1AA260", fontSize: "15px" }}>
                 Inclusive of all taxes
               </div>
             </div>
