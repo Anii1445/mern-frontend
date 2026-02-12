@@ -144,7 +144,7 @@ export default function Login() {
 
 <form onSubmit={handleSubmit}>
         <div className="d-flex justify-content-center">
-            <div className="border rounded-4 w-75 w-md-75" style={{ marginTop: isMobile ? "35%":"9%" }}>
+            <div className="border rounded-4" style={{ marginTop: isMobile ? "35%":"9%", width: isMobile ? "95%" : "75%" }}>
              
               <div className="row g-0">
                 <div className="col-12 col-md-6 d-none d-md-block bg-secondary-subtle rounded-start-4">
@@ -327,7 +327,7 @@ export default function Login() {
                   </div>
 
                   <div className="mt-4 mt-md-5 text-center">
-                    <small style={{ fontSize: isMobile && "12px"}}>
+                    <small style={{ fontSize: isMobile && "13px"}}>
                       By continuing, I agree to Terms & Conditions & Privacy
                       Policy
                     </small>
