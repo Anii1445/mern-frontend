@@ -735,9 +735,9 @@ return (
           color="inherit"
           href="/"
         >
-          <small style={{ fontSize: isMobile && "13px"}}>{product.category}</small>
+          <small style={{ fontSize: isMobile && "13px"}}>{product?.category}</small>
         </Link>
-        <Typography sx={{ color: 'text.primary', fontSize: isMobile && "13px" }}><small>{product.name}</small></Typography>
+        <Typography sx={{ color: 'text.primary', fontSize: isMobile && "13px" }}><small>{product?.name}</small></Typography>
       </Breadcrumbs>
     </div>
 
@@ -799,9 +799,9 @@ return (
             </Swiper>
           </div>
           <div className="col-12 col-md-6 order-3">
-            <p>{product.category}</p>
+            <p>{product?.category}</p>
             <h4 style={{ fontSize: isMobile && "20px" }}>
-              {product.brand} - {product.name} |{" "}
+              {product?.brand} - {product?.name} |{" "}
               {selectWeight ? `${selectWeight > 999 ? `${selectWeight/1000}Kg` : `${selectWeight}g` }`
                 : `${product?.variant?.[0]?.weight > 999 ? `${product?.variant?.[0]?.weight/1000}Kg` : `${product?.variant?.[0]?.weight}g` }`} | {''}
               {selectFlavour ? selectFlavour : product?.variant?.[0]?.flavour}  
@@ -810,7 +810,7 @@ return (
             <small>
               Visit the
               <NavLink style={{ textDecoration: "none" }}>
-                <b> {product.brand} </b>
+                <b> {product?.brand} </b>
               </NavLink>
               store
               <LuChevronRight style={{ fontSize: "20px" }} />
@@ -823,7 +823,7 @@ return (
                   <span className="badge bg-success me-2 gap-1 d-inline-flex align-items-center" style={{ fontSize: "14px"}}>
                     {averageReview && Math.round(averageReview * 10)/10} <FaStar/>
                   </span>
-                  <strong style={{ color:"grey", fontSize: isMobile ? "12px" :"14px" }}>({customerRating.length} Ratings & Reviews)</strong>
+                  <strong style={{ color:"grey", fontSize: isMobile ? "12px" :"14px" }}>({customerRating?.length} Ratings & Reviews)</strong>
                 </div>
 
               <div>
@@ -930,7 +930,7 @@ return (
             </div>
             
             <p className="mt-4 mb-2">
-              Fullfilled By: <b>{product.supplier}</b>
+              Fullfilled By: <b>{product?.supplier}</b>
             </p>
 
             <Divider sx={{ backgroundColor: "grey" }}/>
@@ -1096,7 +1096,7 @@ return (
     </h2>
     <div id="collapseOne" className="accordion-collapse collapse show" data-bs-parent="#accordionExample">
       <div className="accordion-body">
-        <small>{product.description}</small>
+        <small>{product?.description}</small>
         </div>
     </div>
   </div>
@@ -1108,11 +1108,11 @@ return (
     </h2>
     <div id="collapseTwo" className="accordion-collapse collapse"  data-bs-parent="#accordionExample">
       <div className="accordion-body">
-        <div style={{ fontSize: "15px" }}><strong>Dietary Preference</strong>: {product.dietaryPreference}</div>
-        <div style={{ fontSize: "15px" }}><strong>Form</strong>: {product.form}</div>
-        <div style={{ fontSize: "15px" }}><strong>Maximum Shelf Life</strong>: {product.bestBefore}</div>
-        <div style={{ fontSize: "15px" }}><strong>Number of servings</strong>: {selectWeight > 4 ? Math.round(selectWeight/product.servingSize) : Math.round(selectWeight/product.servingSize * 1000)}</div>
-        <div style={{ fontSize: "15px" }}><strong>Serving Size</strong>: {product.servingSize}</div>
+        <div style={{ fontSize: "15px" }}><strong>Dietary Preference</strong>: {product?.dietaryPreference}</div>
+        <div style={{ fontSize: "15px" }}><strong>Form</strong>: {product?.form}</div>
+        <div style={{ fontSize: "15px" }}><strong>Maximum Shelf Life</strong>: {product?.bestBefore}</div>
+        <div style={{ fontSize: "15px" }}><strong>Number of servings</strong>: {selectWeight > 4 ? Math.round(selectWeight/product?.servingSize) : Math.round(selectWeight/product?.servingSize * 1000)}</div>
+        <div style={{ fontSize: "15px" }}><strong>Serving Size</strong>: {product?.servingSize}</div>
 
       </div>
     </div>
@@ -1125,7 +1125,7 @@ return (
     </h2>
     <div id="collapseThree" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
       <div className="accordion-body">
-        <small>{product.ingredients}</small> 
+        <small>{product?.ingredients}</small> 
       </div>
     </div>
   </div>
@@ -1158,7 +1158,7 @@ return (
 
   {/* ----------------------------- Table ------------------------------- */}
 
-  {(product.category === "Whey Protein Concentrate" || product.category === "Whey Protein Isolate" || product.category === "Whey Protein") &&
+  {(product?.category === "Whey Protein Concentrate" || product?.category === "Whey Protein Isolate" || product?.category === "Whey Protein") &&
   <>
   <div className="mt-5">
    <h6>Whey Protein Type Comparison</h6>
@@ -1239,7 +1239,7 @@ return (
 
         <div style={{ marginTop: "5%" }}>
           <h2 className="text-center" style={{ fontSize: isMobile && "18px" }}>
-            {product.brand} {product.name} |{" "}
+            {product?.brand} {product?.name} |{" "}
             {selectWeight && selectFlavour
               ? `${selectWeight > 999 ? `${selectWeight/1000}Kg`: `${selectWeight}g`} | ${selectFlavour}`
               : `${product?.variant?.[0]?.weight > 999 ? `${product?.variant?.[0]?.weight}Kg` : `${product?.variant?.[0]?.weight}g`} | ${product?.variant?.[0]?.flavour}`}{" "}
