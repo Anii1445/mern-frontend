@@ -223,6 +223,12 @@ const API = import.meta.env.VITE_API_URL;
         toast.success("Product Added Successfully!", {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
 
         // Reset dynamic fields
@@ -260,6 +266,12 @@ const API = import.meta.env.VITE_API_URL;
             toast.error(res_data.extraDetails[0].message, {
                        position: "top-center",
                        autoClose: 2000, 
+                       style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
                     });
                             
            }

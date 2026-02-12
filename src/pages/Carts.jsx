@@ -150,6 +150,12 @@ export default function Carts() {
                   toast.success("Item Deleted", {
                         position: "top-center",
                         autoClose: 2000, 
+                        style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
                   })
                   getJoinCartByUserID();
                   }}catch{
@@ -228,6 +234,12 @@ export default function Carts() {
       toast.warning("Please login!", {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
       navigate("/login");
       return;
@@ -304,6 +316,12 @@ export default function Carts() {
             toast.success("Added to Wishlist!", {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
            }
       } catch (error) {

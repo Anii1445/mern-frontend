@@ -99,6 +99,12 @@ export default function Checkout() {
           toast.success("Address Added", {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
           setLoadingButton(false);   
           setAddress(getInitialAddress(user?.userId));
@@ -113,6 +119,12 @@ export default function Checkout() {
             toast.error(data.extraDetails[0].message, {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
              setLoadingButton(false);
           }
@@ -302,6 +314,12 @@ export default function Checkout() {
         toast.success("Address Updated", {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
         getAllUSerAddress();
         setEditAddress({});
@@ -315,6 +333,12 @@ export default function Checkout() {
         toast.error(data.extraDetails[0].message, {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
              setUpdateLoading(null);
       }}

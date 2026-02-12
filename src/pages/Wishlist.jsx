@@ -133,6 +133,12 @@ export default function Whislist() {
           toast.success("Added To Cart!", {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
           getCartByUser();
           Delete(wishlist_id);
@@ -151,6 +157,12 @@ export default function Whislist() {
       toast.warning("Please Login for better experience!", {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
       navigate("/login");
     }
@@ -175,6 +187,12 @@ export default function Whislist() {
         toast.success("Removed from Wishlist",{
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
        setWishlists(prev =>
               prev.filter(item => item._id !== wishlist_id)

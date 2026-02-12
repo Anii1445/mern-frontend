@@ -96,6 +96,12 @@ export default function ProductView() {
       toast.success("Link Copied",{
       position: "top-center",
       autoClose: 2000,
+      style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
      })
   };
   console.log(pathname)
@@ -113,6 +119,12 @@ export default function ProductView() {
       toast.warning("Please login or sign-up", {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
       navigate("/login");
     }
@@ -346,6 +358,12 @@ useEffect(() => {
           toast.success("Added To Cart!", {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
           getCartByUser();
           setQty(1);
@@ -360,6 +378,12 @@ useEffect(() => {
       toast.warning("Please Login for better experience!", {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
       navigate("/login");
       setLoadingButton(false);
@@ -432,9 +456,12 @@ useEffect(() => {
                 position: "top-center",
                 autoClose: 3000,
                  style: {
-                 width: '500px',       
+                 maxWidth: '500px',       
                  fontSize: '18px',     
-                 padding: '16px',      
+                 padding: '16px', 
+                 width: "auto",
+                 margin: "0 auto",
+                 textAlign: "center",     
                 } 
              });
         fetchReviews();
@@ -448,6 +475,12 @@ useEffect(() => {
           toast.error(res_data.extraDetails[0].message, {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
              setLoadingReview(false);
         }
@@ -514,7 +547,13 @@ useEffect(() => {
     else{
         toast("Please login for better experience!", {
                 position: "top-center",
-                autoClose: 2000, 
+                autoClose: 2000,
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  }, 
              });
         navigate('/login');
       }
@@ -546,6 +585,12 @@ useEffect(() => {
               toast.success("Added to Wishlist!", {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
               getWishlists();
             }
@@ -621,6 +666,12 @@ useEffect(() => {
               toast.warning("Hii, Please Login!", {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
               navigate("/login");
             }

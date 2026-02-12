@@ -120,6 +120,12 @@ const theme = useTheme();
                 toast.success("Address Added", {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
                 setAddress(getInitialAddress(user?.userId));
                 setDeliver(data._id);
@@ -133,6 +139,12 @@ const theme = useTheme();
                toast.error(data.extraDetails[0].message, {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
       }
                 setAddLoadingButton(false);
@@ -201,6 +213,12 @@ const theme = useTheme();
             toast.success("Address Updated", {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
             getAllUSerAddress();
             setShowEditModal(false);
@@ -212,6 +230,12 @@ const theme = useTheme();
           toast.error(data.extraDetails[0].message, {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
       }
       setEditLoadingButton(false);
@@ -306,6 +330,12 @@ const theme = useTheme();
             toast.success("Set as a Default Address", {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              })
         }
 

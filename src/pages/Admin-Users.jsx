@@ -104,6 +104,12 @@ export default function AdminUsers() {
                   toast.success("User Deleted Successfully!", {
                     position: "top-center",
                     autoClose: 2000, 
+                    style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
                 });
                   getAllUsers();
                 }

@@ -66,6 +66,12 @@ export default function RegisterEdit(){
                 toast.success("Data Updated Successfully!", {
                     position: "top-center",
                     autoClose: 2000, 
+                    style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              })
                 navigate("/myaccount/personal-information")
             }
@@ -75,6 +81,12 @@ export default function RegisterEdit(){
                         toast.error(res_data.extraDetails[0].message, {
                            position: "top-center",
                            autoClose: 2000, 
+                           style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
                       });
                     
                 }
@@ -82,6 +94,12 @@ export default function RegisterEdit(){
                 toast.error(res_data.msg && res_data.msg, {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
             }
         } catch (error) {

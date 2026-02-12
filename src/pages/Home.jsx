@@ -141,6 +141,12 @@ export default function Home() {
       toast.warning("Hii, Please Login!", {
         position: "top-center",
         autoClose: 2000,
+        style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
       });
       navigate("/login");
     }
@@ -249,7 +255,7 @@ export default function Home() {
           position: "top-center",
           autoClose: 2000,
           style: {
-    maxWidth: "50px", // or any width that fits mobile
+    maxWidth: "80px", // or any width that fits mobile
     width: "auto",
     margin: "0 auto",
     textAlign: "center",
@@ -350,6 +356,12 @@ export default function Home() {
           toast.success("Added To Cart!", {
             position: "top-center",
             autoClose: 2000,
+            style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
           });
           getCartByUser();
           setButtonLoading(null);
@@ -364,6 +376,12 @@ export default function Home() {
       toast.warning("Please Login for better experience!", {
         position: "top-center",
         autoClose: 2000,
+        style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
       });
       navigate("/login");
     }
@@ -428,6 +446,12 @@ export default function Home() {
       toast.warning("Please Login for better experience!", {
         position: "top-center",
         autoClose: 2000,
+        style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
       });
       navigate("/login");
     }

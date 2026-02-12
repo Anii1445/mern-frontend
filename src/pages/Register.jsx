@@ -75,6 +75,12 @@ export default function Register() {
                 toast.success("Registered Successfully!", {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              })
              setLoading(false);
                 navigate("/login");
@@ -87,12 +93,24 @@ export default function Register() {
                         toast.error(e, {
                            position: "top-center",
                            autoClose: 2000, 
+                           style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
                       });
                     }
                 }
                 toast.error(res_data.msg && res_data.msg, {
                 position: "top-center",
                 autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
              });
              setLoading(false);
             }
