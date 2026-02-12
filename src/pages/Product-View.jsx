@@ -164,10 +164,7 @@ export default function ProductView() {
     5: "Excellent+++",
   };
 
-  const [isLoading, setLoading] = useState(null);
-
   const getProductByID = async () => {
-    setLoading(true)
     try {
       const response = await fetch(
         `http://localhost:5000/api/auth/product/${id}`,
@@ -178,13 +175,10 @@ export default function ProductView() {
 
       if (response.ok) {
         const data = await response.json();
-        setLoading(false);
         setProduct(data);
       }
     } catch (error) {
       console.error("Couldn't fetch");
-    }finally{
-      setLoading(false);
     }
   };
 
@@ -728,11 +722,6 @@ const handleActionClick = (action) => {
 
 return (
     <>
-     {isLoading ? <div  className="d-flex justify-content-center align-items-center" style={{ minHeight: "clamp(300px, 70vh, 800px)" }}>
-                  <div className="spinner-grow text-secondary" role="status">
-    </div>
-    <div className="text-muted">Loading...</div>
-                </div>:
       <div className="container">
 
          {/* //------------- Breadcrumbs ------------- // */}
@@ -1731,7 +1720,7 @@ sx={{
     </Button>
   </div>)}
 
-      </div>}
+      </div>
     </>
   );
 }
