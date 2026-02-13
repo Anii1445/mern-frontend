@@ -33,7 +33,7 @@ import { RiCustomerService2Fill } from "react-icons/ri";
 import { IoBagSharp } from "react-icons/io5";
 import { useTheme, useMediaQuery } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-
+import { useEffect } from "react";
 
 const drawerWidth = 240;
 
@@ -71,6 +71,15 @@ export default function AdminLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate  = useNavigate();
 
+
+  useEffect(() => {
+      if (isMobile) {
+      setOpen(false);        // Close desktop drawer
+     } else {
+      setMobileOpen(false);  // Close mobile drawer
+     }
+  }, [isMobile]);
+
   return (
     
     <Box>
@@ -95,7 +104,7 @@ export default function AdminLayout() {
                   >
                      {isMobile && <Box
                       color="inherit"
-                      sx={{ display: { xs: "block", md: "none" }, mr: 1, cursor: "pointer",  border: "1px solid white", borderRadius: "5px", padding: isMobile ? "2px": "3px"  }}
+                      sx={{ display: { xs: "block", md: "none" }, mr: 1, cursor: "pointer",  border: "1px solid white", borderRadius: "5px", padding: "2px"  }}
                       onClick={() => setMobileOpen(true)}
                     >
                       <IoMenu size={30} />

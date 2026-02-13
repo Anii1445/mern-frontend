@@ -90,6 +90,7 @@ export default function ProductView() {
   const [loadingReview, setLoadingReview] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [isLoading, setIsLoading] = useState(null);
  
   const copyLink = () => {
      navigator.clipboard.writeText(window.location.href);
@@ -178,6 +179,7 @@ export default function ProductView() {
   };
 
   const getProductByID = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(
         `${API}/api/auth/product/${id}`,
@@ -189,9 +191,13 @@ export default function ProductView() {
       if (response.ok) {
         const data = await response.json();
         setProduct(data);
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("Couldn't fetch");
+    }
+    finally{
+      setIsLoading(false);
     }
   };
 
@@ -776,6 +782,13 @@ const handleActionClick = (action) => {
 
 return (
     <>
+    {isLoading ? <div
+              className="d-flex justify-content-center align-items-center"
+              style={{ minHeight: "clamp(300px, 70vh, 800px)" }}
+            >
+              <div className="spinner-grow text-secondary" role="status"></div>
+              <div className="text-muted">Loading...</div>
+            </div> :
       <div className="container">
 
          {/* //------------- Breadcrumbs ------------- // */}
@@ -1794,7 +1807,7 @@ sx={{
     </Button>
   </div>)}
 
-      </div>
+      </div>}
     </>
   );
 }
