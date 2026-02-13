@@ -89,8 +89,7 @@ export default function Register() {
             else {
 
                 if (res_data.extraDetails) {
-                    for (let e of res_data.extraDetails) {
-                        toast.error(e, {
+                        toast.error(res_data.extraDetails[0].message, {
                            position: "top-center",
                            autoClose: 2000, 
                            style: {
@@ -106,16 +105,13 @@ export default function Register() {
                 position: "top-center",
                 autoClose: 2000, 
                 style: {
-    maxWidth: "80px", // or any width that fits mobile
+    maxWidth: "100px", // or any width that fits mobile
     width: "auto",
     margin: "0 auto",
     textAlign: "center",
   },
              });
              setLoading(false);
-            }
-
-
 
         } catch (error) {
             console.log("Registration:", error);
@@ -279,7 +275,7 @@ export default function Register() {
                         <div className="col-12 col-md-6">
                             <TextField type={showPasssword ? "text" : "password"} label="Password" variant="outlined" size="small"
                                 value={userData.password} onChange={handleChange} name="password"
-                                placeholder='***********'
+                                placeholder='******'
 
                                 InputProps={{
                                     endAdornment: (

@@ -3,10 +3,11 @@ import { useAuth } from "../store/auth-ContextAPI";
 import { FaUserCircle } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import "../css/dropdown.css";
+import { FaHeart } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
 import "../css/dropdownUser.css";
+import { FaCartShopping } from "react-icons/fa6";
 import { GiBodyBalance } from "react-icons/gi";
-import { IoCartSharp } from "react-icons/io5";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { BsFillBoxSeamFill } from "react-icons/bs";
 import { RiLogoutCircleRLine } from "react-icons/ri";
@@ -52,6 +53,7 @@ import { useDispatch } from "react-redux";
 import { useRef } from "react";
 import "../css/footer-logo.css";
 import { useMediaQuery } from "@mui/material";
+import { ImHome } from "react-icons/im";
 
 export default function Navbar() {
 
@@ -650,17 +652,17 @@ useEffect(() => {
 
     <List>
       <ListItemButton onClick={() => { navigate("/"); setMobileOpen(false); }}>
-        <ListItemIcon><GiBodyBalance style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
+        <ListItemIcon><ImHome style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
         <ListItemText primary="Home" />
       </ListItemButton>
 
       <ListItemButton onClick={() => { navigate("/wishlist"); setMobileOpen(false); }}>
-        <ListItemIcon><PiHeartLight style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
+        <ListItemIcon><FaHeart style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
         <ListItemText primary="Wishlists" />
       </ListItemButton>
 
       <ListItemButton onClick={() => { navigate("/carts"); setMobileOpen(false); }}>
-        <ListItemIcon><GiShoppingCart style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
+        <ListItemIcon><FaCartShopping style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
         <ListItemText primary="Cart" />
       </ListItemButton>
 
