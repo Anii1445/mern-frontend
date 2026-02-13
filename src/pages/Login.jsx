@@ -320,7 +320,7 @@ export default function Login() {
                         ),
                       }}
                       required
-                      placeholder='*************'
+                      placeholder='******'
                     />
                   </div>
 

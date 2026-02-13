@@ -145,7 +145,7 @@ useEffect(() => {
       >
             <Box
   color="inherit"
-  sx={{ display: { xs: "block", md: "none" }, mr: 1, cursor: "pointer" }}
+  sx={{ display: { xs: "block", md: "none" }, mr: 1, cursor: "pointer",  border: "1px solid white", borderRadius: "5px", padding: "1px" }}
   onClick={() => setMobileOpen(true)}
 >
   <IoMenu size={30} />

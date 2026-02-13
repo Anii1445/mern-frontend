@@ -80,7 +80,7 @@ export default function AdminLayout() {
       <AppBar position="fixed" open={open}>
         <Toolbar>
           {!open && !isMobile && (
-            <IconButton color="inherit" onClick={() => setOpen(true)} style={{ fontSize: "30px" }}>
+            <IconButton color="inherit" onClick={() => setOpen(true)} style={{ fontSize: "30px", border: "1px solid white", borderRadius: "5px", padding: "3px" }}>
               <IoMenu />
             </IconButton>
           )}
@@ -95,7 +95,7 @@ export default function AdminLayout() {
                   >
                      {isMobile && <Box
                       color="inherit"
-                      sx={{ display: { xs: "block", md: "none" }, mr: 1, cursor: "pointer" }}
+                      sx={{ display: { xs: "block", md: "none" }, mr: 1, cursor: "pointer",  border: "1px solid white", borderRadius: "5px", padding: isMobile ? "2px": "3px"  }}
                       onClick={() => setMobileOpen(true)}
                     >
                       <IoMenu size={30} />
@@ -168,9 +168,9 @@ export default function AdminLayout() {
     }}
   >
     <Box>
-        <Toolbar sx={{ display: "flex", gap:"15px", alignItems:"center", backgroundColor: "#DBE9FA" }}>
+        <Toolbar sx={{ display: "flex", gap:"22px", alignItems:"center", backgroundColor: "#DBE9FA" }}>
         
-          <IconButton onClick={() => setOpen(false)} style={{ fontSize: "30px" }}>
+          <IconButton onClick={() => setOpen(false)} style={{ fontSize: "30px",  border: "1px solid grey", borderRadius: "5px", padding: "3px" }}>
             <IoMenu />
           </IconButton>
           <b style={{ fontSize: "20px" }}>{user?.name}</b>
@@ -195,7 +195,7 @@ export default function AdminLayout() {
                 <ListItemButton
                   sx={{
                     justifyContent: open ? "initial" : "center",
-                     pl: open ? 4.6 : 4.6,
+                     pl: open ? 4.1 : 5,
                      pr: 4.6,
                   }}
                 >
@@ -204,7 +204,7 @@ export default function AdminLayout() {
                       minWidth: 0,
                       mr: open ? 3 : "auto",
                       justifyContent: "center",
-                      fontSize: "20px"
+                      fontSize: "23px"
                     }}
                   >
                     {item.icon}
@@ -232,7 +232,7 @@ export default function AdminLayout() {
       <ListItemButton
         sx={{
           justifyContent: open ? "initial" : "center",
-          pl: 4.6,
+          pl: 4.1,
           pr: 4.6,
         }}
       >
@@ -241,7 +241,7 @@ export default function AdminLayout() {
             minWidth: 0,
             mr: open ? 3 : "auto",
             justifyContent: "center",
-            fontSize: "20px"
+            fontSize: "23px"
           }}
         >
           <RiLogoutCircleRLine />
