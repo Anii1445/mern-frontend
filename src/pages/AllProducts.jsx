@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import {Button} from "@mui/material";
 import { FaEye } from "react-icons/fa";
+import { FiPlus } from "react-icons/fi";
+
 
 export default function AllProducts(){
 
@@ -101,8 +103,8 @@ export default function AllProducts(){
 
      const TableHeader = (
         <div className="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-md-center">
-        
           <h4 style={{ margin: 0 }}>Products List <small className="fs-6 text-muted">(Total Products: {allProducts?.length})</small></h4>
+          <div className="d-flex gap-2">
           <TextField
             variant="outlined"
             placeholder="Search Products..."
@@ -131,6 +133,8 @@ export default function AllProducts(){
               },
             }}
           />
+        <Button variant="outlined" startIcon={<FiPlus/>} onClick={()=>{navigate("/admin/addproducts")}}>Add More</Button>
+        </div>
         </div>
       );
 

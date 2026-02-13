@@ -632,7 +632,7 @@ useEffect(() => {
           {user?.name?.charAt(0)}
         </Avatar>
       </Box>
-      {!isLoggedIn && !user ? <Box sx={{ maxWidth: 111, cursor: "pointer" }} onClick={() => navigate("/login")}><Typography variant="h6" style={{ fontSize:"17px" }}>Login / Signup</Typography></Box>
+      {!isLoggedIn && !user ? <Box sx={{ maxWidth: 111, cursor: "pointer" }} onClick={() => navigate("/login")}><Typography variant="h6" style={{ fontSize:"16px" }}>Login / Signup</Typography></Box>
       :
       <Box sx={{ maxWidth: 111 }}>
         <Typography variant="h6" style={{ fontSize:"17px" }} noWrap title={user?.name}>Hi, {user?.name}</Typography>
@@ -664,12 +664,18 @@ useEffect(() => {
         <ListItemText primary="Cart" />
       </ListItemButton>
 
-      {!isLoggedIn && !user && (
-        <ListItemButton onClick={() => { navigate("/login"); setMobileOpen(false); }}>
-          <ListItemIcon><FaUserCircle style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
-          <ListItemText primary="Login / Signup" />
+      
+        <ListItemButton onClick={() => { navigate("/myaccount/myorders"); setMobileOpen(false); }}>
+          <ListItemIcon><BsFillBoxSeamFill style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
+          <ListItemText primary="My Orders" />
         </ListItemButton>
-      )}
+      
+
+       <ListItemButton onClick={() => { navigate("/myaccount/personal-information"); setMobileOpen(false); }}>
+          <ListItemIcon><FaUserCircle style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
+          <ListItemText primary="My Account" />
+        </ListItemButton>
+
     </List>
   </Box>
   <Box sx={{ mt: "auto", p:2 }}>

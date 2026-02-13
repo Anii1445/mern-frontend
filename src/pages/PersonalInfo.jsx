@@ -12,7 +12,7 @@ export default function PersonalInfo(){
 
 const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-    const {user, token} = useAuth();
+    const {user, token, isLoggedIn} = useAuth();
     const navigate = useNavigate();
     const [data, setData] = useState({});
     const [loading, setLoading] = useState(null);
@@ -45,7 +45,6 @@ const theme = useTheme();
             }
         },[user])
 
-
     return(
         <>
         <div className="container">
@@ -58,7 +57,18 @@ const theme = useTheme();
     </div>
     <div className="text-muted">Loading...</div>
 
-  </div> :
+  </div> :  !isLoggedIn ? 
+  <div className="text-center" style={{ marginTop: isMobile ? "10%":"22%"}}>
+              <img
+                src="https://cdn.appthemes.com/wp-content/uploads/2013/03/not-logged-in.png"
+                className="img-fluid mx-auto d-block rounded-4"
+                style={{ maxWidth: "auto", maxHeight: "auto" }}
+              />
+              <Button variant="outlined" sx={{ marginTop: "15px" }} onClick={() => navigate("/login")}>
+                Please Login!
+              </Button>
+            </div>
+:
                 <div className="card shadow-sm" style={{ marginTop: isMobile ? "5%":"10%"}}>
                     <div className="card-body">
                         <div className="d-flex align-items-center flex-sm-row gap-2 justify-content-between align-items-sm-center mb-3">
@@ -68,6 +78,7 @@ const theme = useTheme();
                         </div>
                         <div className="card">
                             <div className="card-body">
+                            
                         <div className="row mb-4">
                             <div className="col-6 col-md-3">
                                 <h6>Name:</h6>
@@ -101,3 +112,14 @@ const theme = useTheme();
         </>
     )
 }
+
+
+
+
+
+
+
+
+
+
+

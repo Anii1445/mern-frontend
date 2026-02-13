@@ -1317,17 +1317,10 @@ export default function Home() {
                                   ₹{p.variant[0].price.toLocaleString("en-IN")}
                                   .00
                                 </h5>
-                                <b style={{ color:"#8C8C8C", fontSize: isMobile && "16px"}}>MRP: {""}
-                                <del
-                                  style={{
-                                    fontSize: "16px",
-                                    color: "#8C8C8C",
-                                    display: "inline",
-                                    marginRight: isMobile ? "2%":"5%",
-                                  }}
-                                >
-                                  ₹{p.variant[0].mrp}.00
-                                </del></b>
+                                <span>
+                MRP:{" "}
+                <del style={{ fontSize: "17px", color: "grey", marginRight: isMobile ? "2%":"5%", }}>₹{p?.variant?.[0]?.mrp}.00</del>
+              </span>
                                 <b>
                                   <small
                                     style={{
@@ -1345,7 +1338,8 @@ export default function Home() {
                                     % off )
                                   </small>
                                 </b>
-                              </div>
+
+                                </div>
 
                               <div className="mt-auto">
                                 {carts.some(

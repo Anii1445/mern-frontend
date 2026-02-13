@@ -33,7 +33,7 @@ const API = import.meta.env.VITE_API_URL;
 
 export default function Addresses(){
 
-      const { user, token } = useAuth();
+      const { user, token, isLoggedIn } = useAuth();
       const [deliver, setDeliver] = useState();
       const [userAddress, setUserAddress] = useState([]); 
       const dispatch = useDispatch();
@@ -360,7 +360,17 @@ useEffect(() => {
     </div>
     <div className="text-muted">Loading...</div>
 
-  </div> :
+  </div> :  !isLoggedIn ? 
+ <div className="text-center" style={{ marginTop: isMobile ? "10%":"22%"}}>
+              <img
+                src="https://cdn.appthemes.com/wp-content/uploads/2013/03/not-logged-in.png"
+                className="img-fluid mx-auto d-block rounded-4"
+                style={{ maxWidth: "auto", maxHeight: "auto" }}
+              />
+              <Button variant="outlined" sx={{ marginTop: "15px" }} onClick={() => navigate("/login")}>
+                Please Login!
+              </Button>
+            </div> :
                 <div className="card shadow-sm" style={{ marginTop: isMobile ? "5%" :"10%" }}>
                     <div className="card-body">
                         <div style={{

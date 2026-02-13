@@ -14,7 +14,7 @@ import { useAuth } from "../store/auth-ContextAPI";
 import { BiSolidXCircle } from "react-icons/bi";
 import Divider from "@mui/material/Divider";
 import { useTheme, useMediaQuery } from "@mui/material";
-
+import { useNavigate } from "react-router-dom";
 
 export default function AdminProduct() {
   const [ApiCategory, setApiCategory] = useState([]);
@@ -25,7 +25,9 @@ export default function AdminProduct() {
   const [loading, setLoading] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const navigate = useNavigate();
 
+  
   // Static fields state
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
@@ -230,6 +232,8 @@ const API = import.meta.env.VITE_API_URL;
     textAlign: "center",
   },
              });
+
+        navigate("/admin/allproducts");     
 
         // Reset dynamic fields
         setVariant([

@@ -70,7 +70,7 @@ if(!user || !user.isAdmin){
                                         </NavLink>
                                     </div>
                                 </div>
-                    <div className="row" style={{ marginTop: "8%"}}>
+                    <div className="row" style={{ marginTop: isMobile ? "9%":"4%"}}>
                         <div className="col-6 col-sm-6 col-md-4 text-center text-md-start mb-4">
                             <div className="text-start text-md-start" style={{ color: "white"}}><h6>Office Address</h6></div>
                             <p className="text-start text-md-start" style={{  color: "white" }}>
@@ -102,7 +102,7 @@ if(!user || !user.isAdmin){
                             <p onClick={() => navigate("/privacy-policy")} style={{ margin: "2px 0", fontSize: "15px", color:"#99A3A3", cursor: "pointer"}}>Privacy Policy</p>
                             <p onClick={() => navigate("/contact-us")} style={{ margin: "2px 0", fontSize: "15px", color:"#99A3A3", cursor: "pointer"}}>Contact Us</p>
                         </div>
-                        <div className="col-6 col-sm-6 col-md-2 text-start text-md-start mb-4">
+                        <div className="col-8 col-sm-8 col-md-2 text-start text-md-start mb-4">
                             <div style={{ color: "white"}}><h6>Contact Us</h6></div>
                             <p style={{ margin: "7px 0" , color:"white"}}><MdEmail className="icon" style={{ backgroundColor: "white", padding: "3px", borderRadius: "5px", marginRight: "10px", color: "#1976d2" }}/>info@fitnessfirst.com</p>
                             <p style={{ color:"white"}}><MdPhone className="icon" style={{ backgroundColor: "white", padding: "3px", borderRadius: "5px", marginRight: "10px", color: "#1976d2" }}/>+91 7700037701</p>
