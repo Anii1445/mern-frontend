@@ -496,7 +496,7 @@ export default function Carts() {
           )}
         </div>
 
-         {isMobile && (
+         {isMobile && !carts.length === 0 && (
           <div className="mobile-fixed-buybar">
                     <Button
                       variant="contained" fullWidth
