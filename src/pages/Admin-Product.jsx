@@ -2,6 +2,7 @@ import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
+import { FaArrowLeft } from "react-icons/fa6";
 import { useState } from "react";
 import { ImSpinner8 } from "react-icons/im";
 import FormControl from "@mui/material/FormControl";
@@ -27,7 +28,7 @@ export default function AdminProduct() {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
 
-  
+
   // Static fields state
   const [name, setName] = useState("");
   const [brand, setBrand] = useState("");
@@ -306,8 +307,11 @@ console.log(errors)
       <div className="container">
         <div className="justify-content-center">
           <div className="card">
-            <div className="card-header">
+            <div className="card-header d-flex justify-content-between">
               <h4 className="pt-2">Add Product</h4>
+              <Button variant="contained" size="small" onClick={() => {navigate("/admin/allproducts")}} startIcon={<FaArrowLeft/>}>
+                            Back
+              </Button> 
             </div>
             <div className="card-body">
               <div className="row mb-2">
