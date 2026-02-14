@@ -1,9 +1,13 @@
 import Divider from "@mui/material/Divider";
 import { useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
+import { FaSave } from "react-icons/fa";
 import { MdOutlineEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import Stepper from "@mui/material/Stepper";
+import { RxCross2 } from "react-icons/rx";
+import { IoMdCheckmark } from "react-icons/io";
+import { MdOutlineSaveAs } from "react-icons/md";
 import { IoIosMoon, IoMdRadioButtonOff } from "react-icons/io";
 import { MdOutlineRadioButtonChecked } from "react-icons/md";
 import { BsBoxSeam } from "react-icons/bs";
@@ -245,20 +249,24 @@ export default function Checkout() {
           return (
             <div
               className="custom-ui p-5 rounded"
-              style={{ backgroundColor: "#F0F8FF", boxShadow: "0 6px 18px rgba(0, 0, 0, 0.2)"}}
+              style={{ padding: isMobile ? "12px" : "30px",
+                   width: isMobile ? "80%" : "400px", margin: "0 auto", backgroundColor: "#F0F8FF", boxShadow: "0 6px 18px rgba(0, 0, 0, 0.2)"}}
             >
               <h3>
                 <IoWarningOutline color="red" /> Are you sure?
               </h3>
               <p>You want to remove this item from the cart?</p>
               <Button
+              size={isMobile ? "small":"medium"}
                 variant="outlined"
                 sx={{ marginRight: "2%" }}
                 onClick={onClose}
+                startIcon={<RxCross2/>}
               >
                 No
               </Button>
               <Button
+              size={isMobile ? "small":"medium"}
                 variant="contained"
                 onClick={async () => {
                   const response = await fetch(`${API}/api/auth/deleteUserAddressByID/${id}`,
@@ -276,6 +284,7 @@ export default function Checkout() {
                     getAllUSerAddress();
                   }
                 }}
+                startIcon={<IoMdCheckmark/>}
               >
                 Delete
               </Button>
@@ -789,10 +798,10 @@ export default function Checkout() {
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" disabled={loadingButton} className="btn btn-primary"  onClick={async () => {
+              <Button startIcon={<FaSave/>} disabled={loadingButton} variant="contained"  onClick={async () => {
                   await add() }} >
                 {loadingButton ? "Saving...":"Save Address"}
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -1008,14 +1017,14 @@ required
                 </div>
               </div>
             </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-primary" disabled={updateLoading} onClick={()=>edit(editAddress._id)}>
+            <div className="modal-footer gap-2">
+              <Button variant="outlined" startIcon={<MdOutlineSaveAs/>} disabled={updateLoading} onClick={()=>edit(editAddress._id)}>
                 {updateLoading ? "Updating...": "Update Address"}
-              </button>
-              <button type="button" className="btn btn-primary" onClick={()=>{ setEditAddress({});
+              </Button>
+              <Button variant="contained" startIcon={<RxCross2/>} onClick={()=>{ setEditAddress({});
                 setEditModal(false);}}>
-                Back
-              </button>
+                Cancel
+              </Button>
             </div>
             </>}
           </div>

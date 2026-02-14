@@ -150,10 +150,10 @@ useEffect(() => {
   sx={{ display: { xs: "block", md: "none" }, mr: 1, cursor: "pointer",  border: "1px solid white", borderRadius: "5px", padding: "1px" }}
   onClick={() => setMobileOpen(true)}
 >
-  <IoMenu size={30} />
+  <IoMenu size={27} />
 </Box>
 
-{isMobile ? <Typography
+{/* {isMobile ? <Typography
               sx={{ flexShrink: 0 }}
             >
                 <NavLink to="/" style={{textDecoration: "none", color: "white"}}>
@@ -161,7 +161,7 @@ useEffect(() => {
                 <h6 style={{ display: "inline"}} className="footer-logo-sub">1</h6>
             </NavLink>
             
-            </Typography> : 
+            </Typography> :  */}
             <Typography
               sx={{ flexShrink: 0 }}
             >
@@ -171,7 +171,7 @@ useEffect(() => {
                 </NavLink>
             
             </Typography>
-            }
+            {/* } */}
 
             {/* // ------------------------ Search Bar ---------------------------- // */}
             <Box
@@ -641,8 +641,8 @@ useEffect(() => {
       </Box>
 }
       </Box>
-      <Box>
-        <RxCross2 style={{ fontSize: "20px", cursor: "pointer", color:"grey" }} onClick={()=>{setMobileOpen(false)}}/>
+      <Box onClick={()=>{setMobileOpen(false)}}>
+        <RxCross2 style={{ fontSize: "20px", cursor: "pointer", color:"grey" }} />
       </Box>
       </Box>
 
@@ -680,17 +680,18 @@ useEffect(() => {
 
     </List>
   </Box>
+  {isLoggedIn && user && (
   <Box sx={{ mt: "auto", p:2 }}>
     <Divider sx={{ backgroundColor: "black" }} />
     <List>
-    {isLoggedIn && user && (
+    
         <ListItemButton onClick={() => { navigate("/login"); setMobileOpen(false); LogoutUser() }}>
           <ListItemIcon><RiLogoutCircleRLine style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
           <ListItemText primary="Logout" />
         </ListItemButton>
-      )}
+
     </List>
-  </Box>
+  </Box>  )}
   </Box>
 </Drawer>
 

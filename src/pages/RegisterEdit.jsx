@@ -5,6 +5,8 @@ import Button from "@mui/material/Button";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 const API = import.meta.env.VITE_API_URL;
+import { FaSave } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa6";
 
 
 
@@ -150,10 +152,10 @@ export default function RegisterEdit(){
 
                                         <div className="row g-3 mt-3">
                                             <div className="col-md-6">
-                                                <Button variant="contained" onClick={Edit}>
+                                                <Button variant="contained" startIcon={<FaSave/>} onClick={Edit}>
                                                    Save
                                                 </Button>
-                                                <Button sx={{ marginLeft: "5px"}} variant="contained" onClick={() => {navigate("/myaccount/personal-information")}}>
+                                                <Button sx={{ marginLeft: "5px"}} startIcon={<FaArrowLeft/>} variant="contained" onClick={() => {navigate("/myaccount/personal-information")}}>
                                                    Back
                                                 </Button>
                                             </div>

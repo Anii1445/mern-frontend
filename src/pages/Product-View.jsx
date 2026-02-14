@@ -1,5 +1,10 @@
 import { NavLink, useLocation, useParams } from "react-router-dom";
 import "../css/grid.css";
+import { PiTelegramLogoDuotone } from "react-icons/pi";
+import { FaWhatsapp } from "react-icons/fa";
+import { FaSquareFacebook } from "react-icons/fa6";
+import { FaInstagram } from "react-icons/fa";
+import { IoIosLink } from "react-icons/io";
 import { RiLoader2Line } from "react-icons/ri";
 import { PiSortAscendingBold } from "react-icons/pi";
 import { FaUsersLine } from "react-icons/fa6";
@@ -94,7 +99,7 @@ export default function ProductView() {
  
   const copyLink = () => {
      navigator.clipboard.writeText(window.location.href);
-      toast.success("Link Copied",{
+      toast.success("Link Copied!",{
       position: "top-center",
       autoClose: 2000,
       style: {
@@ -108,11 +113,11 @@ export default function ProductView() {
   console.log(pathname)
 
   const actions = [
-  { icon: <img src="/telegram-icon.svg" style={{ width: "20px" }}/>, name: 'Telegram', link: "https://webogram.org/" },
-  { icon: <img src="/wa-whatsapp-icon.svg" style={{ width: "20px" }}/>, name: 'WhatsApp', link: "https://web.whatsapp.com/"},
-  { icon: <img src="/facebook-square-icon.svg" style={{ width: "20px" }}/>, name: 'Facebook', link: "https://www.facebook.com/" },
-  { icon: <img src="/instagram-icon.svg" style={{ width: "20px" }}/>, name: 'Instagram', link: "https://www.instagram.com/" },
-  { icon: <HiLink style={{ width: "20px" }}/>, name: 'Copy Link', link:{pathname} }
+  { icon: <PiTelegramLogoDuotone style={{ fontSize: "20px", color: "#1976d2"}}/>, name: 'Telegram', link: "https://webogram.org/" },
+  { icon: <FaWhatsapp style={{ fontSize: "20px", color: "#1976d2"}}/>, name: 'WhatsApp', link: "https://web.whatsapp.com/"},
+  { icon: <FaSquareFacebook style={{ fontSize: "20px", color: "#1976d2"}}/>, name: 'Facebook', link: "https://www.facebook.com/" },
+  { icon: <FaInstagram style={{ fontSize: "20px", color: "#1976d2"}}/>, name: 'Instagram', link: "https://www.instagram.com/" },
+  { icon: <IoIosLink style={{ fontSize: "20px", color: "#1976d2"}}/>, name: 'Copy Link', link:{pathname} }
 ];
 
   const review = () => {
@@ -812,7 +817,7 @@ return (
     {/* /------------ Breadcrumbs end ------------- / */}
         <div className="row g-3">
 
-{!isMobile && (
+{!isMobile && imagesToShow.length > 0 &&(
           <div className="col-12 col-md-1 order-2 order-md-1 border rounded-4">
             <Box sx={{
                width: "100px",
@@ -841,6 +846,8 @@ return (
             </Swiper>
             </Box>
           </div>)}
+
+          { imagesToShow.length > 0 &&
           <div className="col-12 col-md-5 order-2 order-md-1 rounded-4 text-center position-relative" style={{ backgroundColor: "#EEEE" }}>
            <img src={`${product?.dietaryPreference === "Veg" ? "/veg.svg" : "/non-veg.svg"}`}
               style={{
@@ -868,7 +875,7 @@ return (
                 </div>
               </SwiperSlide>))}
             </Swiper>
-          </div>
+          </div>}
           <div className="col-12 col-md-6 order-3">
             <p className="mb-0">{product?.category}</p>
 

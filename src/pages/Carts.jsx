@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../store/auth-ContextAPI";
 import Button from "@mui/material/Button";
-import { FaArrowRight } from "react-icons/fa6";
+import { RxCross2 } from "react-icons/rx";
+import { IoMdCheckmark } from "react-icons/io";
+import { FaArrowRightLong } from "react-icons/fa6";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { useNavigate } from "react-router-dom";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -116,17 +118,21 @@ export default function Carts() {
         customUI: ({ onClose }) => {
           return (
             <div className="custom-ui p-5 rounded" 
-            style={{ backgroundColor: "#F0F8FF", boxShadow: "0 6px 18px rgba(0, 0, 0, 0.2)"}}>
+            style={{ backgroundColor: "#F0F8FF", padding: isMobile ? "12px" : "30px",
+                   width: isMobile ? "80%" : "400px", margin: "0 auto", boxShadow: "0 6px 18px rgba(0, 0, 0, 0.2)"}}>
               <h3><IoWarningOutline color="red"/> Are you sure?</h3>
               <p>You want to remove this item from the cart?</p>
               <Button
                 variant="outlined"
+                size={isMobile ? "small":"medium"}
                 sx={{ marginRight: "2%" }}
                 onClick={onClose}
+                startIcon={<RxCross2/>}
               >
                 No
               </Button>
               <Button
+                size={isMobile ? "small":"medium"}
                 variant="contained"
                 onClick={async () => {
                   try{
@@ -162,6 +168,7 @@ export default function Carts() {
                     console.log("error")
                   }
                 }}
+                startIcon={<IoMdCheckmark/>}
               >
                Delete
               </Button>
@@ -488,7 +495,7 @@ export default function Carts() {
                     </div>
                 </div>
                 {!isMobile &&
-                <Button variant="contained" size="large" fullWidth sx={{ marginTop: "5%" }} startIcon={<FaArrowRight />} onClick={()=>checkout(cartTotalMRP, cartTotalPRICE, carts)}>
+                <Button variant="contained" size="large" fullWidth sx={{ marginTop: "5%" }} startIcon={<FaArrowRightLong />} onClick={()=>checkout(cartTotalMRP, cartTotalPRICE, carts)}>
                         Checkout 
                 </Button>}
               </div>
@@ -496,11 +503,11 @@ export default function Carts() {
           )}
         </div>
 
-         {isMobile && !carts.length === 0 && (
+         {isMobile && carts.length > 0 && (
           <div className="mobile-fixed-buybar">
                     <Button
                       variant="contained" fullWidth
-                      startIcon={<FaArrowRight />}
+                      startIcon={<FaArrowRightLong />}
                       onClick={()=>checkout(cartTotalMRP, cartTotalPRICE, carts)}
                       size="large"
                     >

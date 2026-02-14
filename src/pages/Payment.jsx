@@ -1,10 +1,8 @@
 import Divider from "@mui/material/Divider";
 import { useLocation } from "react-router-dom";
 import Box from '@mui/material/Box';
+import { LiaExchangeAltSolid } from "react-icons/lia";
 import { FaCheckCircle } from "react-icons/fa";
-import { GiCheckMark } from "react-icons/gi";
-import { MdOutlineEdit } from "react-icons/md";
-import { RiDeleteBin6Line } from "react-icons/ri"; 
 import { IoLocationSharp } from "react-icons/io5";
 import { BsBoxSeam } from "react-icons/bs";
 import Stepper from '@mui/material/Stepper';
@@ -334,7 +332,7 @@ console.log(orderInfo)
             <div className="card-body">
                 <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "2%" }}>  
                 <h5>Delivery Address</h5>
-                <Button variant="outlined" size="small" onClick={change}>Change</Button> 
+                <Button variant="outlined" size="small" onClick={change} startIcon={<LiaExchangeAltSolid/>}>Change</Button> 
                 </div> 
                 <div className="row">
                   <div className="col-12 col-md-2 mb-2 mb-md-0 d-flex align-items-center" style={{ color: "#1769aa"}}>
