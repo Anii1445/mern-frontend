@@ -79,7 +79,7 @@ export default function AdminOrderDetails(){
                         </div>
                         </div>    
                     <div className="row align-items-stretch g-2">
-                        <div className="col-6">
+                        <div className="col-12 col-md-6">
                             <div className="card h-100 shadow-sm">
                             <div className="card-body">
                                 <div>Order ID: <strong>#{orderDetails?._id?.toUpperCase()}</strong> <MdOutlineContentCopy style={{ cursor: "pointer" }}/></div>
@@ -107,7 +107,7 @@ export default function AdminOrderDetails(){
                             </div>
                         </div>
                         </div>
-                        <div className="col-6">
+                        <div className="col-12 col-md-6">
                             <div className="card h-100 shadow-sm">
                             <div className="card-body">
                                 <div style={{ marginBottom: "35px" }}><h5><BsBoxSeam style={{ marginRight: "10px", fontSize: "25px" }}/> Order Summary ({orderDetails?.items?.length} Items)</h5></div>
@@ -159,7 +159,7 @@ export default function AdminOrderDetails(){
                                     <div className="col-md-1 d-flex justify-content-center border rounded-3 py-3">
                                         <img src={o?.variant?.image[0]}  className="img-fluid" style={{maxWidth: "50px"}}/>
                                     </div>
-                                    <div className="col-md-11">
+                                    <div className="col-9 col-md-11">
                                         <div><small>{o?.product?.name}</small></div>
                                         <div style={{ color: "grey" }}><small>{o?.variant?.weight > 999 ? `${o?.variant?.weight/1000}Kg` : `${o?.variant?.weight}g`} | {o?.variant?.flavour}</small></div>
                                         <div style={{ color: "grey" }}><small>Qty: {o?.qty}</small></div>

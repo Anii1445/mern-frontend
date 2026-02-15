@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../store/auth-ContextAPI";
 import Button from "@mui/material/Button";
-import { RxCross2 } from "react-icons/rx";
 import { IoMdCheckmark } from "react-icons/io";
+import { FaArrowLeftLong } from "react-icons/fa6";
 import { FaArrowRightLong } from "react-icons/fa6";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { useNavigate } from "react-router-dom";
@@ -368,6 +368,7 @@ export default function Carts() {
                 variant="outlined"
                 sx={{ marginTop: "15px" }}
                 onClick={home}
+                startIcon={<FaArrowLeftLong/>}
               >
                 Continue Shopping
               </Button>

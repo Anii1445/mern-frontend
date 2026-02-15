@@ -155,7 +155,7 @@ export default function Register() {
 
 <form onSubmit={handleSubmit}>
           <div className="d-flex justify-content-center">
-            <div className="border rounded-4" style={{ marginTop: isMobile ? "28%":"9%", width: isMobile ? "95%" : "75%"  }}>
+            <div className="border rounded-4" style={{ marginTop: isMobile ? "28%":"9%", width: isMobile ? "95%" : "75%", boxShadow: "0 4px 12px rgba(0, 0, 0, 0.12)"  }}>
               <div className="row g-0">
                 <div className="col-12 col-md-6 d-none d-md-block bg-secondary-subtle rounded-start-4">
                   <div id="carouselExampleCaptions" className="carousel slide" data-bs-ride="carousel"

@@ -314,7 +314,7 @@ console.log(orderInfo)
       </Stepper>
     </Box>
     <div className="card mb-3 shadow-sm">
-      <div className="card-body d-flex justify-content-between">
+      <div className="card-body d-flex justify-content-md-between gap-1">
         <h6 className="mb-0">You will get Order Updates on</h6>
         <h6 className="mb-0">{user?.email}</h6>
       </div>

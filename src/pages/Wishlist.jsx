@@ -15,6 +15,7 @@ const API = import.meta.env.VITE_API_URL;
 import { RiLoader2Line } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { useTheme, useMediaQuery } from "@mui/material";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 
 export default function Whislist() {
@@ -235,7 +236,7 @@ export default function Whislist() {
               <h5>OOPS!</h5>
               <small>Your wishlist is currently empty</small>
               <br />
-              <Button variant="outlined" sx={{ marginTop: "15px" }} onClick={home}>
+              <Button startIcon={<FaArrowLeftLong/>} variant="outlined" sx={{ marginTop: "15px" }} onClick={home}>
                 Explore FF
               </Button>
             </div>

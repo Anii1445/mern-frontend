@@ -173,8 +173,8 @@ export default function OrderDetails(){
                                 <div className="card-body">
                                     {orderDetails?.items?.map((o, index) => (
                                                                      
-                                    <div className="row align-items-center g-3">
-                                    <div className="col-3 col-md-1 text-center border rounded-3 py-3">
+                                    <div className="row d-flex align-items-center g-3">
+                                    <div className="col-md-1 d-flex justify-content-center border rounded-3 py-3">
                                         <img  className="img-fluid" src={o?.variant?.image[0]} style={{ maxWidth: "50px", cursor: "pointer" }}  onClick={ ()=> {navigate(`/product/view/${o?.product?._id}`)}}/>
                                     </div>
                                     <div className="col-9 col-md-11">
