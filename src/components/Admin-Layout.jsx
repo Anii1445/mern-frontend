@@ -89,7 +89,7 @@ export default function AdminLayout() {
       <AppBar position="fixed" open={open}>
         <Toolbar>
           {!open && !isMobile && (
-            <IconButton color="inherit" onClick={() => setOpen(true)} style={{ fontSize: "30px", border: "1px solid white", borderRadius: "5px", padding: "3px" }}>
+            <IconButton color="inherit" onClick={() => setOpen(true)} style={{ fontSize: "28px", border: "1px solid white", borderRadius: "5px", padding: "5px" }}>
               <IoMenu />
             </IconButton>
           )}
@@ -107,7 +107,7 @@ export default function AdminLayout() {
                       sx={{ display: { xs: "block", md: "none" }, mr: 1, cursor: "pointer",  border: "1px solid white", borderRadius: "5px", padding: "2px"  }}
                       onClick={() => setMobileOpen(true)}
                     >
-                      <IoMenu size={30} />
+                      <IoMenu size={28} />
                     </Box>}
             <Typography
                           sx={{ flexShrink: 0 }}
@@ -124,7 +124,7 @@ export default function AdminLayout() {
           <Box sx={{ flexGrow: 1 }} />
           {isLoggedIn && <div className="dropdown position-relative">
             <div data-bs-toggle="dropdown" aria-expanded="false">
-              <Tooltip title="Account">
+              <Tooltip title={ user ? user.name : "Account"}>
                 <IconButton size="small">
                   <Avatar
                     sx={{ width: isMobile ? 28 : 32, height: isMobile ? 28 : 32, bgcolor: "lightblue", color: "inherit" }}
@@ -177,9 +177,9 @@ export default function AdminLayout() {
     }}
   >
     <Box>
-        <Toolbar sx={{ display: "flex", gap:"22px", alignItems:"center", backgroundColor: "#DBE9FA" }}>
+        <Toolbar sx={{ display: "flex", gap:"18px", alignItems:"center", backgroundColor: "#DBE9FA" }}>
         
-          <IconButton onClick={() => setOpen(false)} style={{ fontSize: "30px",  border: "1px solid grey", borderRadius: "5px", padding: "3px" }}>
+          <IconButton onClick={() => setOpen(false)} style={{ fontSize: "27px",  border: "1px solid grey", borderRadius: "5px", padding: "5px" }}>
             <IoMenu />
           </IconButton>
           <b style={{ fontSize: "20px" }}>{user?.name}</b>

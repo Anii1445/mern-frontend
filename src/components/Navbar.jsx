@@ -486,7 +486,7 @@ useEffect(() => {
 
 {isLoggedIn && user && <div className="dropdown position-relative">
   <div data-bs-toggle="dropdown" aria-expanded="false">
-    <Tooltip title="Account">
+    <Tooltip title={user ? user.name : "Account"}>
       <IconButton size="small">
         <Avatar
           sx={{ width: isMobile ? 28:32, height: isMobile? 28:32, bgcolor: "lightblue", color: "#1769aa" }}
