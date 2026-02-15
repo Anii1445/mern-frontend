@@ -824,10 +824,10 @@ const handleActionClick = (action) => {
 return (
     <>
     {isLoading ? <div
-              className="d-flex justify-content-center align-items-center"
+              className="d-flex justify-content-center align-items-center gap-2"
               style={{ minHeight: "clamp(300px, 70vh, 800px)" }}
             >
-              <div className="spinner-grow text-secondary" role="status"></div>
+              <div className="spinner-grow spinner-grow-sm text-secondary" role="status"></div>
               <div className="text-muted">Loading...</div>
             </div> :
       <div className="container">

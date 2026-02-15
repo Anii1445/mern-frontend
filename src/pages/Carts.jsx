@@ -373,8 +373,8 @@ export default function Carts() {
     <>
       <div className="container" style={{ paddingTop: isMobile ? "20%" : "10%" }}>
         <div className="justify-content-center">
-          {loading ? <div  className="d-flex justify-content-center align-items-center" style={{ minHeight: "clamp(300px, 70vh, 800px)" }}>
-                  <div className="spinner-grow text-secondary" role="status">
+          {loading ? <div  className="d-flex justify-content-center align-items-center gap-2" style={{ minHeight: "clamp(300px, 70vh, 800px)" }}>
+                  <div className="spinner-grow spinner-grow-sm text-secondary" role="status">
     </div>
     <div className="text-muted">Loading...</div>
                 </div> : 
