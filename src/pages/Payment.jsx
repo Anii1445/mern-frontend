@@ -313,12 +313,12 @@ console.log(orderInfo)
         ))}
       </Stepper>
     </Box>
-    <div className="card mb-3 shadow-sm">
-      <div className="card-body d-flex justify-content-md-between">
-        <h6 className="mb-0">You will get Order Updates on</h6>
-        <h6 className="mb-0">{user?.email}</h6>
-      </div>
-    </div>
+   <div className="card mb-3 shadow-sm">
+  <div className="card-body d-flex flex-row flex-md-row justify-content-md-between align-items-md-center text-center text-md-start">
+    <h6 className="mb-2 mb-md-0 me-1">You will get Order Updates on</h6>
+    <h6 className="mb-0 text-break">{user?.email}</h6>
+  </div>
+</div>
           <div className="card" style={{ boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)"}}>
             {loadingAddress ? <div
     className="d-flex justify-content-center align-items-center"
