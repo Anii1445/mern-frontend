@@ -314,7 +314,7 @@ console.log(orderInfo)
       </Stepper>
     </Box>
    <div className="card mb-3 shadow-sm">
-  <div className="card-body d-flex flex-row flex-md-row justify-content-md-between align-items-md-center text-center text-md-start">
+  <div className="card-body d-flex flex-row flex-md-row justify-content-md-between align-items-md-center text-md-start">
     <h6 className="mb-0 mb-md-0 me-1" style={{ fontSize: isMobile && "15px"}}>You will get Order Updates on</h6>
     <h6 className="mb-0 text-break" style={{ fontSize: isMobile && "15px"}}>{user?.email}</h6>
   </div>
