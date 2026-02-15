@@ -420,6 +420,7 @@ useEffect(() => {
 
   const [showModal, setShowModal] = useState(false);
   const [errors, setErrors] = useState("");
+  const [wishlistLoad, setWishLoad] = useState(null);
 
   const date = new Date();
   let day = date.getDate();
@@ -463,15 +464,12 @@ useEffect(() => {
       if (response.ok) {
         setShowModal(false);
         setLoadingReview(false);
-        toast.success(<div><b>Thankyou!</b><br/> Your review has been submitted successfully</div>, {
+        toast.success(<div><b>Thankyou!</b> Your review has been submitted successfully</div>, {
                 position: "top-center",
                 autoClose: 3000,
                  style: {
-                 maxWidth: '500px',       
-                 fontSize: '18px',     
-                 padding: '16px', 
+                 maxWidth: '80px',  
                  width: "auto",
-                 margin: "0 auto",
                  textAlign: "center",     
                 } 
              });
@@ -489,7 +487,6 @@ useEffect(() => {
                 style: {
     maxWidth: "80px", // or any width that fits mobile
     width: "auto",
-    margin: "0 auto",
     textAlign: "center",
   },
              });
@@ -574,6 +571,7 @@ useEffect(() => {
     // ----------------------- Wishlist Logic Section ---------------------------
 
     const Save = async (p_id, variant_id) => {
+      setWishLoad(variant_id)
         try {
             const response = await fetch(
               `${API}/api/auth/wishlist`,
@@ -593,6 +591,7 @@ useEffect(() => {
             );
     
             if (response.ok) {
+              setWishLoad(null);
               toast.success("Added to Wishlist!", {
                 position: "top-center",
                 autoClose: 2000, 
@@ -607,11 +606,14 @@ useEffect(() => {
             }
         } catch (error) {
           console.log(error);
+        }finally{
+          setWishLoad(null);
         }
       };
     
       
     const Delete = async (variant_id) => {
+      setWishLoad(variant_id);
        try {
          const response = await fetch(
            `${API}/api/auth/deleteWishlistByProductID`,
@@ -628,10 +630,25 @@ useEffect(() => {
         }
       );
       if(response.ok){
+        setWishLoad(null);
+                    toast.error("Removed from Wishlist!", {
+                        position: "top-center",
+                        autoClose: 2000, 
+                        style: {
+            maxWidth: "80px", // or any width that fits mobile
+            width: "auto",
+            margin: "0 auto",
+            textAlign: "center",
+          },
+                     });
+                   
         getWishlists();
       }
     } catch (error) {
       console.log(error);
+    }
+    finally{
+      setWishLoad(null)
     }
   };
 
@@ -666,26 +683,45 @@ useEffect(() => {
     }, [user, id, selectFlavour, selectWeight]);
 
     const toggleWishlist = (productId, variant_id) => {
-        if(isLoggedIn){
-          if (ApiWishlists?.some(a => a.variant_id === variant_id)) {
-              Delete(variant_id);
-            } // remove from wishlist
-          else {
-              Save(productId, variant_id); // add to wishlist
-            }}
-        else{
-              toast.warning("Hii, Please Login!", {
-                position: "top-center",
-                autoClose: 2000, 
-                style: {
-    maxWidth: "80px", // or any width that fits mobile
-    width: "auto",
-    margin: "0 auto",
-    textAlign: "center",
-  },
-             });
-              navigate("/login");
-            }
+
+      
+          if (!isLoggedIn) {
+            toast.warning("Please login!", {
+                      position: "top-center",
+                      autoClose: 2000, 
+                      style: {
+          maxWidth: "80px", // or any width that fits mobile
+          width: "auto",
+          margin: "0 auto",
+          textAlign: "center",
+        },
+                   });
+            navigate("/login");
+            return;
+          }
+
+
+        const exists = ApiWishlists.some(
+    a => a.variant_id === variant_id
+  );
+
+  if (exists) {
+    setApiWishlists(prev =>
+      prev.filter(
+        a =>
+          !(
+            a.variant_id === variant_id
+          )
+      )
+    );
+    Delete(variant_id);
+  } else {
+    setApiWishlists(prev => [
+      ...prev,
+      { variant_id: variant_id}
+    ]);
+    Save(productId, variant_id);
+  }
       };
     
 
@@ -906,6 +942,9 @@ return (
                 </div>
 
               <div>
+                {wishlistLoad ? 
+                <RiLoader2Line className="me-3 bg-secondary-subtle rounded-circle p-2 "
+                  style={{ fontSize: "34px", cursor: "pointer" }}/>:
                 <PiHeartDuotone
                   className="me-3 bg-secondary-subtle rounded-circle p-2 "
                   style={{ fontSize: "34px", cursor: "pointer", color: ApiWishlists?.some(a => a.variant_id === variantID)
@@ -916,7 +955,7 @@ return (
                                 variantID ? variantID : product?.variant?.[0]?._id,
                               )}
                               
-                />
+                />}
                 <span className="share-wrapper">
   <IoShareSocial
     className="bg-secondary-subtle rounded-circle p-2 text-secondary share-btn"
@@ -1645,14 +1684,13 @@ sx={{
                                 </div>
                               </div>
                               <div class="modal-footer">
-                                <button
-                                  type="button"
+                                <Button
                                   disabled={loadingReview}
                                   onClick={add_review}
-                                  className="btn btn-outline-primary"
-                                >
+                                  variant="contained"  
+                                  startIcon={loadingReview && <RiLoader2Line/>}                              >
                                   {loadingReview ? "Publishing..." : "Publish Review" }
-                                </button>
+                                </Button>
                               </div>
                             </div>
                           </div>

@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 const API = import.meta.env.VITE_API_URL;
 import { FaSave } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa6";
+import { RxCross2 } from "react-icons/rx";
+import { RiLoader2Line } from "react-icons/ri";
 
 
 
@@ -16,6 +18,7 @@ export default function RegisterEdit(){
     const [editData, setEditData] = useState({});
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
+    const [buttonLoading, setButtonLoading] = useState(false);
 
     const getData = async() => {   
         setIsLoading(true);    
@@ -54,7 +57,7 @@ export default function RegisterEdit(){
     const [errors, setErrors] = useState(false);
     const [emailErrors, setEmailErrors] = useState(false);
     const Edit = async() => {
-
+        setButtonLoading(true);
         try {
             const response = await fetch(`${API}/api/auth/editUserData/${user?.userId}`,{
                 method: "PATCH",
@@ -67,6 +70,7 @@ export default function RegisterEdit(){
 
             const res_data = await response.json();
             if(response.ok){
+                setButtonLoading(false);
                 toast.success("Data Updated Successfully!", {
                     position: "top-center",
                     autoClose: 2000, 
@@ -106,8 +110,12 @@ export default function RegisterEdit(){
   },
              });
             }
+            setButtonLoading(false);
         } catch (error) {
             console.log(error)
+        }
+        finally{
+            setButtonLoading(false);
         }
     }
 
@@ -152,11 +160,11 @@ export default function RegisterEdit(){
 
                                         <div className="row g-3 mt-3">
                                             <div className="col-md-6">
-                                                <Button variant="contained" startIcon={<FaSave/>} onClick={Edit}>
-                                                   Save
+                                                <Button variant="contained" disabled={buttonLoading} startIcon={buttonLoading? <RiLoader2Line/>:<FaSave/>} onClick={Edit}>
+                                                   {buttonLoading?"Saving...":"Save"}
                                                 </Button>
-                                                <Button sx={{ marginLeft: "5px"}} startIcon={<FaArrowLeft/>} variant="contained" onClick={() => {navigate("/myaccount/personal-information")}}>
-                                                   Back
+                                                <Button sx={{ marginLeft: "5px"}} startIcon={<RxCross2/>} variant="contained" onClick={() => {navigate("/myaccount/personal-information")}}>
+                                                   Cancel
                                                 </Button>
                                             </div>
                                         </div>

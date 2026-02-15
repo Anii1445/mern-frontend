@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import "./App.css";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import Navbar from "./components/Navbar";
+import NavbarLayout from "./components/Navbar-Layout";
 import Footer from "./components/Footer";
 import Error from "./pages/Error";
 import Logout from "./pages/Logout";
@@ -41,16 +41,10 @@ import About_Us from "./pages/About_Us";
 import ContactUs from "./pages/ContactUs";
 import AllProducts from "./pages/AllProducts";
 import ProductVariants from "./pages/ProductVariants";
-
+import AdminInfo from "./pages/AdminInfo";
+import MainLayout from "./components/Main-Layout";
 
 function App() {
-  const location = useLocation();
-  const {user} = useAuth();
-
-  // Define routes where Navbar should be hidden
-  const hideNavbarRoutes = ["/login", "/register"];
-  const shouldHideNavbar = hideNavbarRoutes.includes(location.pathname);
-
   const { authLoading } = useAuth();
 
   if (authLoading) {
@@ -63,11 +57,11 @@ function App() {
 
   return (
     <>
-      <div className="app-container">
-      {!shouldHideNavbar && <Navbar/>}
-      
+      <div className="app-container">      
       <main className="content">
         <Routes>
+
+        <Route element={<MainLayout/>}>
         <Route path="/" element={<PublicRoute><Home /></PublicRoute>} />
         <Route path="/product/view/:id" element={<PublicRoute><ProductView /></PublicRoute>} />
         <Route path="/faqs" element={<PublicRoute><FAQs /></PublicRoute>} />
@@ -75,13 +69,7 @@ function App() {
         <Route path="/privacy-policy" element={<PublicRoute><PrivacyPolicy /></PublicRoute>} />
         <Route path="/about-us" element={<PublicRoute><About_Us /></PublicRoute>} />
         <Route path="/contact-us" element={<PublicRoute><ContactUs /></PublicRoute>} />
-
-        
-        <Route path="/register" element={<GuestRoute><Register /></GuestRoute>} />
-        <Route path="/login" element={<GuestRoute><Login /></GuestRoute>} />
-        <Route path="/logout" element={<ProtectedRoute><Logout /></ProtectedRoute>} />
-        
-        <Route path="/carts" element={<ProtectedRoute><Carts/></ProtectedRoute>} />
+         <Route path="/carts" element={<ProtectedRoute><Carts/></ProtectedRoute>} />
         <Route path="/wishlist" element={<ProtectedRoute><Whislist/></ProtectedRoute>}/>
         <Route path="/checkout" element={<ProtectedRoute><Checkout/></ProtectedRoute>}/>
         <Route path="/payment" element={<PaymentRoute><Payment/></PaymentRoute>}/>
@@ -93,9 +81,15 @@ function App() {
            <Route path="mywishlist" element={<Whislist/>}/>
            <Route path="orderDetails/:id" element={<OrderDetails/>}/>
         </Route>
+        </Route>
+        
+        <Route path="/register" element={<GuestRoute><Register /></GuestRoute>} />
+        <Route path="/login" element={<GuestRoute><Login /></GuestRoute>} />
+        <Route path="/logout" element={<ProtectedRoute><Logout /></ProtectedRoute>} />
         
         <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
           <Route path="users" element={<AdminUsers />} />
+          <Route path="admin-info" element={<AdminInfo />} /> 
           <Route path="userEdit/:id" element={<AdminRegisterEdit/>}/>
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="allproducts" element={<AllProducts />} />
@@ -109,7 +103,6 @@ function App() {
         <Route path="*" element={<Error />} /> 
         </Routes>
       </main>
-      {!shouldHideNavbar && <Footer />}
       </div>
     </>
   );

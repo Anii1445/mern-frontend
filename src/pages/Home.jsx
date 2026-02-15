@@ -129,27 +129,43 @@ export default function Home() {
   };
 
   const toggleWishlist = (productId, variant_id) => {
-    if (isLoggedIn) {
-      if (ApiWishlists?.some((a) => a.variant_id === variant_id)) {
-        // setApiWishlists(ApiWishlists.filter((id) => id !== productId)); // UI changes instantly
-        Delete(variant_id); // remove from wishlist
+     if (!isLoggedIn) {
+                toast.warning("Please login!", {
+                          position: "top-center",
+                          autoClose: 2000, 
+                          style: {
+              maxWidth: "80px", // or any width that fits mobile
+              width: "auto",
+              margin: "0 auto",
+              textAlign: "center",
+            },
+                       });
+                navigate("/login");
+                return;
+              }
+    
+    
+            const exists = ApiWishlists.some(
+        a => a.variant_id === variant_id
+      );
+    
+      if (exists) {
+        setApiWishlists(prev =>
+          prev.filter(
+            a =>
+              !(
+                a.variant_id === variant_id
+              )
+          )
+        );
+        Delete(variant_id);
       } else {
-        // setApiWishlists([...ApiWishlists, productId]);
-        Save(productId, variant_id); // add to wishlist
+        setApiWishlists(prev => [
+          ...prev,
+          { variant_id: variant_id}
+        ]);
+        Save(productId, variant_id);
       }
-    } else {
-      toast.warning("Hii, Please Login!", {
-        position: "top-center",
-        autoClose: 2000,
-        style: {
-    maxWidth: "80px", // or any width that fits mobile
-    width: "auto",
-    margin: "0 auto",
-    textAlign: "center",
-  },
-      });
-      navigate("/login");
-    }
   };
 
   const [carts, setCarts] = useState([]);
@@ -202,6 +218,17 @@ export default function Home() {
         },
       );
       if (response.ok) {
+          toast.error("Removed from Wishlist!", {
+                        position: "top-center",
+                        autoClose: 2000, 
+                        style: {
+            maxWidth: "80px", // or any width that fits mobile
+            width: "auto",
+            margin: "0 auto",
+            textAlign: "center",
+          },
+                     });
+                   
         getWishlists();
         setWishlistLoading(null);
       }
@@ -582,7 +609,7 @@ export default function Home() {
       <div className="container">
         <div
           className="justify-content-center"
-          style={{ paddingTop: isMobile ? "20%" : "10%" }}
+          style={{ paddingTop: isMobile ? "20%" : "8%" }}
         >
           <div className="card mb-4">
             <div className="card-body">

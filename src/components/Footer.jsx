@@ -60,7 +60,7 @@ if(!user || !user.isAdmin){
         <>
             <footer style={{ paddingTop: "4rem" }}>
                 <div className="text-center footer-bg p-4" style={{  background: "linear-gradient(135deg, #1f2933, #36454F, #111827)" }}>
-                    <div className="container">
+                    <div className="container-md px-md-2 container-fluid px-0">
                                 <div className="row mt-4">
                                     <div className="col-12 justify-content-start d-flex">
                                         <NavLink to="/" style={{textDecoration: "none", color: "white"}}>

@@ -84,9 +84,9 @@ export default function MyAccount() {
       isActive ? "active-item" : ""
     }`
   }
-  style={{ padding: "30px", textDecoration: "none" }}
+  style={{ padding: "30px", textDecoration: "none", color: "red" }}
 >
-  <RiLogoutCircleRLine style={{ marginRight: "5%", fontSize: "20px" }} />
+  <RiLogoutCircleRLine style={{ marginRight: "5%", fontSize: "20px", color: "red" }} />
   Logout
 </NavLink>
                   </div>

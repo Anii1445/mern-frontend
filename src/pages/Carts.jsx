@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../store/auth-ContextAPI";
 import Button from "@mui/material/Button";
+import { RxCross2 } from "react-icons/rx";
 import { IoMdCheckmark } from "react-icons/io";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { FaArrowRightLong } from "react-icons/fa6";
 import ButtonGroup from "@mui/material/ButtonGroup";
+import { RiLoader2Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { PiHeartDuotone } from "react-icons/pi";
@@ -42,7 +44,7 @@ export default function Carts() {
      'Payment',
     ];
 
-  
+  const [wishlistLoad, setWishLoad] = useState(null);
 
   const getJoinCartByUserID = async () => {
     setLoading(true);
@@ -119,7 +121,7 @@ export default function Carts() {
           return (
             <div className="custom-ui p-5 rounded" 
             style={{ backgroundColor: "#F0F8FF", padding: isMobile ? "12px" : "30px",
-                   width: isMobile ? "80%" : "400px", margin: "0 auto", boxShadow: "0 6px 18px rgba(0, 0, 0, 0.2)"}}>
+                   width: isMobile ? "80%" : "400px", margin: "0 auto",  boxShadow: "0 6px 18px rgba(0, 0, 0, 0.2)"}}>
               <h3><IoWarningOutline color="red"/> Are you sure?</h3>
               <p>You want to remove this item from the cart?</p>
               <Button
@@ -277,6 +279,7 @@ export default function Carts() {
 
 
   const WishListDelete = async (variant_id) => {
+    setWishLoad(variant_id)
      try {
       const response = await fetch(
         `${API}/api/auth/deleteWishlistByProductID`,
@@ -294,13 +297,30 @@ export default function Carts() {
         }
       );
 
+      if (response.ok) {
+        setWishLoad(null);
+            toast.error("Removed from Wishlist!", {
+                position: "top-center",
+                autoClose: 2000, 
+                style: {
+    maxWidth: "80px", // or any width that fits mobile
+    width: "auto",
+    margin: "0 auto",
+    textAlign: "center",
+  },
+             });
+           }
+
     } catch (error) {
       console.log(error);
+    }finally{
+      setWishLoad(null)
     }
   };
 
 
   const Save = async (p_id, variant_id) => {
+    setWishLoad(variant_id)
       try {
           const response = await fetch(
             `${API}/api/auth/wishlist`,
@@ -320,6 +340,7 @@ export default function Carts() {
           );
   
           if (response.ok) {
+            setWishLoad(null)
             toast.success("Added to Wishlist!", {
                 position: "top-center",
                 autoClose: 2000, 
@@ -333,6 +354,9 @@ export default function Carts() {
            }
       } catch (error) {
         console.log(error);
+      }
+      finally{
+        setWishLoad(null)
       }
     };
    
@@ -432,6 +456,10 @@ export default function Carts() {
                                     cursor: "pointer",
                                   }}
                                 />
+                                {wishlistLoad ? <RiLoader2Line style={{
+                                    fontSize: "20px",
+                                    cursor: "pointer",
+                                  }}/> :
                                 <PiHeartDuotone
                                   style={{
                                     fontSize: "20px",
@@ -444,7 +472,7 @@ export default function Carts() {
                                     c.variant_id
                               );
                             }} 
-                                />
+                                />}
                               </div>
                             </div>
                           </div>
@@ -497,7 +525,7 @@ export default function Carts() {
                 </div>
                 {!isMobile &&
                 <Button variant="contained" size="large" fullWidth sx={{ marginTop: "5%" }} startIcon={<FaArrowRightLong />} onClick={()=>checkout(cartTotalMRP, cartTotalPRICE, carts)}>
-                        Checkout 
+                        Proceed To Checkout 
                 </Button>}
               </div>
             </div>

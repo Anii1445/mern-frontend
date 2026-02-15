@@ -1,6 +1,11 @@
 import { NavLink } from "react-router-dom";
+import { Button } from "@mui/material";
+import { FaArrowLeftLong } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
 
 export default function Error() {
+
+    const navigate = useNavigate();
     return (
         <>
             <div className="row" style={{ marginTop: "10%" }}>
@@ -25,13 +30,12 @@ export default function Error() {
                     </div>
                 </div>
 
-                <div className="row">
-                    <div className="col-6">
-                        <NavLink to="/" className="btn btn-secondary float-end">Return Home</NavLink>
-                    </div>
-                    <div className="col-6">
-                        <NavLink to="/" className="btn btn-secondary">Report Problem</NavLink>
-                    </div>
+                <div className="d-flex justify-content-center gap-2">
+                    
+                        <Button onClick={()=>navigate("/")} variant="outlined" startIcon={<FaArrowLeftLong/>}>Return Home</Button>
+                    
+                        <Button onClick={()=>navigate("/")} variant="contained">Report Problem</Button>
+                    
                 </div>
 
             </div>

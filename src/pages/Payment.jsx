@@ -32,6 +32,7 @@ import swal from 'sweetalert';
 import confetti from "canvas-confetti";
 const API = import.meta.env.VITE_API_URL;
 import { useTheme, useMediaQuery } from "@mui/material";
+import { IoMailOutline } from "react-icons/io5";
 
 
 export default function Payment() {
@@ -87,30 +88,7 @@ export default function Payment() {
         getUserAddress(); 
     }},[deliverAddress]);
 
-    const [UPI, setUPI] = useState(true);
-    const [Debit, setDebit] = useState(false); 
-    const [Cash, setCash] = useState(false);
-
-
-    
-    const [Debit_detail, setDebit_detail] = useState(""); 
-    const [Cash_value, setCash_value] = useState("");
-
-    const upi = ()=>{
-      setUPI(true);
-      setDebit(false);
-      setCash(false);
-    }
-    const debit = ()=>{
-      setDebit(true);
-      setUPI(false);
-      setCash(false);
-    }
-    const cash = ()=>{
-      setCash(true);
-      setDebit(false);
-      setUPI(false);
-    }
+    const [paymentMethod, setPaymentMethod] = useState("UPI");
 
     const change = () => {
       dispatch(setDeliverAddress(deliverAddress));
@@ -316,7 +294,7 @@ console.log(orderInfo)
    <div className="card mb-3 shadow-sm">
   <div className="card-body d-flex flex-column flex-md-row justify-content-md-between align-items-md-center text-md-start">
     <h6 className="mb-1 mb-md-0 me-1" style={{ fontSize: isMobile && "15px"}}>You will get Order Updates on</h6>
-    <h6 className="mb-0 text-break" style={{ fontSize: isMobile && "15px"}}>{user?.email}</h6>
+    <h6 className="mb-0 text-break" style={{ fontSize: isMobile && "15px"}}><IoMailOutline style={{ fontSize: isMobile ? "22px":"25px"}}/> {user?.email}</h6>
   </div>
 </div>
           <div className="card" style={{ boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)"}}>
@@ -357,36 +335,50 @@ console.log(orderInfo)
     display: "inline-flex",
     marginRight: isMobile ? "0" : "2%",
     marginBottom: isMobile ? "8px" : "4px",
-    backgroundColor: "#DCDCDC",
     padding: "8px",
     cursor: "pointer",
     width: isMobile ? "100%" : "auto",
     justifyContent: "center",
-  }} onClick={upi}>Pay Using UPI <img src="/upi.svg" style={{ width: "40px", marginLeft: "5px"}}/></p>
+    borderRadius: "4px",
+    border:
+      paymentMethod === "UPI"
+        && `2px solid ${theme.palette.primary.main}`,
+    backgroundColor:
+         "#DCDCDC",
+  }} onClick={()=>setPaymentMethod("UPI")}>Pay Using UPI <img src="/upi.svg" style={{ width: "40px", marginLeft: "5px"}}/><img src="https://hyugalife.com/_next/image?url=%2Fassets%2Fimages%2Ficons%2Fgpay-payment-icon.png&w=64&q=75" style={{ width: "20px", height: "20px", marginLeft: "5px"}}/> <img src="https://hyugalife.com/_next/image?url=%2Fassets%2Fimages%2Ficons%2Fphonepe-payment-icon.png&w=64&q=75" style={{  width: "20px", height: "20px", marginLeft: "5px"}}/> <img src="https://hyugalife.com/_next/image?url=%2Fassets%2Fimages%2Ficons%2Fpaytm-payment-icon.png&w=64&q=75" style={{  width: "20px", height: "20px", marginLeft: "5px"}}/></p>
               <p  style={{
     display: "inline-flex",
     marginRight: isMobile ? "0" : "2%",
     marginBottom: isMobile ? "8px" : "4px",
-    backgroundColor: "#DCDCDC",
     padding: "8px",
     cursor: "pointer",
     width: isMobile ? "100%" : "auto",
     justifyContent: "center",
-  }} onClick={debit}>Debit/Credit Card <img src="/visa.svg" style={{ width: "40px", marginLeft: "5px"}}/><img src="/rupay.svg" style={{ width: "40px"}}/><img src="/master.svg"/></p>
+    borderRadius: "4px",
+    border:
+      paymentMethod === "CARD"
+        && `2px solid ${theme.palette.primary.main}`,
+    backgroundColor: "#DCDCDC",
+  }} onClick={()=>setPaymentMethod("CARD")}>Debit/Credit Card <img src="/visa.svg" style={{ width: "40px", marginLeft: "5px"}}/><img src="/rupay.svg" style={{ width: "40px"}}/><img src="/master.svg"/></p>
               <p  style={{
     display: "inline-flex",
     marginRight: isMobile ? "0" : "2%",
     marginBottom: isMobile ? "8px" : "0",
-    backgroundColor: "#DCDCDC",
     padding: "8px",
     cursor: "pointer",
     width: isMobile ? "100%" : "auto",
     justifyContent: "center",
-  }} onClick={cash}>Cash On Delivery <img src="/cash-money-svgrepo-com.svg" style={{ width: "20px", marginLeft: "5px"}}/></p>
+    borderRadius: "4px",
+    border:
+      paymentMethod === "COD"
+        && `2px solid ${theme.palette.primary.main}`,
+    backgroundColor
+        : "#DCDCDC",
+  }} onClick={()=>setPaymentMethod("COD")}>Cash On Delivery <img src="/cash-money-svgrepo-com.svg" style={{ width: "20px", marginLeft: "5px"}}/></p>
 
               <Divider sx={{ backgroundColor: "black", marginBottom: "5%", marginTop:"2%"}}/>
 
-              {UPI === true &&
+              {paymentMethod === "UPI" &&
               <>
               <div className="row">
                           <div className="col-9 col-md-10  py-0">
@@ -394,6 +386,7 @@ console.log(orderInfo)
                             onChange={(e) => {setUPI_Id(e.target.value); setUpiError(""); setVerifyId(null); setDisabled(true)}}
                             error={verifyId === false}
                             helperText={upiError}
+                            placeholder="Ex: mobilenumber@upi"
                             FormHelperTextProps={{
                              style: { color: verifyId === false ? "red" : "green" }
                            }}/>
@@ -408,17 +401,19 @@ console.log(orderInfo)
               </>
               }
 
-              {Debit === true && <>
+              {paymentMethod === "CARD" && <>
               <div className="row">
                           <div className="col my-2 py-0">
                             <TextField name="card_name" value={cardData.card_name} label="Name on card" variant="standard" size="small" fullWidth 
                             onChange={handleCardChange}
                             error={!!errors.card_name}
+                            placeholder="Ex: Ankit Gupta"
                              helperText={errors.card_name}/>
                           </div>
                           <div className="col my-2 py-0">
                             <TextField name="card_no" value={cardData.card_no} label="Card Number" variant="standard" size="small" fullWidth 
                             onChange={handleCardChange}
+                             placeholder="Ex: 1234 5678 9123 4567"
                             error={!!errors.card_no}
                             helperText={errors.card_no}/>
                           </div>
@@ -428,11 +423,13 @@ console.log(orderInfo)
                             <TextField name="card_expiry" value={cardData.card_expiry} label="Expiry MM/YY" variant="standard" size="small" fullWidth 
                             onChange={handleCardChange}
                             error={!!errors.card_expiry}
+                             placeholder="MM/YY"
                             helperText={errors.card_expiry}/>
                           </div>
                           <div className="col my-2 py-0">
                             <TextField name="card_cvv" value={cardData.card_cvv} label="CVV" variant="standard" size="small" fullWidth 
                             onChange={handleCardChange}
+                             placeholder="Ex: 123"
                             error={!!errors.card_cvv}
                             helperText={errors.card_cvv}/>
                           </div>
@@ -443,7 +440,7 @@ console.log(orderInfo)
               </>
             }
 
-            {Cash === true &&
+            {paymentMethod === "COD" &&
             <div>
               <Button variant="contained" fullWidth={isMobile} size={isMobile ? "medium" : "large"}>Pay via COD ₹{orderInfo?.cartTotalPRICE ? orderInfo?.cartTotalPRICE.toLocaleString("en-IN") : orderInfo?.price.toLocaleString("en-IN")}</Button>
             </div>
@@ -483,8 +480,9 @@ console.log(orderInfo)
                 <b>Total Amount</b>
                 <b>₹{ orderInfo?.cartTotalPRICE ? orderInfo?.cartTotalPRICE.toLocaleString("en-IN") : orderInfo?.price.toLocaleString("en-IN") }</b>
               </div>
+              
               <div>
-                  <small style={{ color: "#34A56F"}}>You will Save ₹{orderInfo?.cartTotalMRP ? Number(orderInfo?.cartTotalMRP - orderInfo?.cartTotalPRICE).toLocaleString("en-IN") 
+                  <small style={{ color: "#179F5D"}}>You will Save ₹{orderInfo?.cartTotalMRP ? Number(orderInfo?.cartTotalMRP - orderInfo?.cartTotalPRICE).toLocaleString("en-IN") 
                         : Number(orderInfo?.mrp - orderInfo?.price).toLocaleString("en-IN")} on this order </small>
               </div>
             </div>

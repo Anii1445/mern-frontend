@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { FaSave } from "react-icons/fa";
 import { MdOutlineEdit } from "react-icons/md";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { RiDeleteBin6Line, RiLoader2Line } from "react-icons/ri";
 import Stepper from "@mui/material/Stepper";
 import { RxCross2 } from "react-icons/rx";
 import { IoMdCheckmark } from "react-icons/io";
@@ -106,7 +106,6 @@ export default function Checkout() {
                 style: {
     maxWidth: "80px", // or any width that fits mobile
     width: "auto",
-    margin: "0 auto",
     textAlign: "center",
   },
              });
@@ -326,7 +325,6 @@ export default function Checkout() {
                 style: {
     maxWidth: "80px", // or any width that fits mobile
     width: "auto",
-    margin: "0 auto",
     textAlign: "center",
   },
              });
@@ -798,7 +796,7 @@ export default function Checkout() {
               </div>
             </div>
             <div className="modal-footer">
-              <Button startIcon={<FaSave/>} disabled={loadingButton} variant="contained"  onClick={async () => {
+              <Button startIcon={loadingButton ? <RiLoader2Line/>:<FaSave/>} disabled={loadingButton} variant="contained"  onClick={async () => {
                   await add() }} >
                 {loadingButton ? "Saving...":"Save Address"}
               </Button>
@@ -1018,7 +1016,7 @@ required
               </div>
             </div>
             <div className="modal-footer gap-2">
-              <Button variant="outlined" startIcon={<MdOutlineSaveAs/>} disabled={updateLoading} onClick={()=>edit(editAddress._id)}>
+              <Button variant="outlined" startIcon={updateLoading?<RiLoader2Line/>:<MdOutlineSaveAs/>} disabled={updateLoading} onClick={()=>edit(editAddress._id)}>
                 {updateLoading ? "Updating...": "Update Address"}
               </Button>
               <Button variant="contained" startIcon={<RxCross2/>} onClick={()=>{ setEditAddress({});

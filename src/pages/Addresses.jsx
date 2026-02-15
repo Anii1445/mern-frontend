@@ -5,6 +5,7 @@ import { IoMdRadioButtonOff } from "react-icons/io";
 import { MdOutlineRadioButtonChecked } from "react-icons/md";
 import { useState } from "react";
 import Button from "@mui/material/Button";
+import { MdOutlineSaveAs } from "react-icons/md";
 import { FiPlus } from "react-icons/fi";
 import TextField from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl";
@@ -28,8 +29,12 @@ import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 import { IoWarningOutline } from "react-icons/io5";
 import "../css/wave.css"
 import { useTheme, useMediaQuery } from "@mui/material";
-
+import { FaSave } from "react-icons/fa";
+import { RxCross2 } from "react-icons/rx";
 const API = import.meta.env.VITE_API_URL;
+import { IoMdCheckmark } from "react-icons/io";
+import { RiLoader2Line } from "react-icons/ri";
+
 
 export default function Addresses(){
 
@@ -280,7 +285,8 @@ const theme = useTheme();
                 return (
                   <div
                     className="custom-ui p-5 rounded"
-                    style={{ backgroundColor: "#F0F8FF", boxShadow: "0 6px 18px rgba(0, 0, 0, 0.2)"}}
+                    style={{ backgroundColor: "#F0F8FF", padding: isMobile ? "12px" : "30px",
+                     width: isMobile ? "80%" : "400px", margin: "0 auto",  boxShadow: "0 6px 18px rgba(0, 0, 0, 0.2)"}}
                   >
                     <h3>
                       <IoWarningOutline color="red" /> Are you sure?
@@ -290,10 +296,12 @@ const theme = useTheme();
                       variant="outlined"
                       sx={{ marginRight: "2%" }}
                       onClick={onClose}
+                      startIcon={<RxCross2/>}
                     >
                       No
                     </Button>
                     <Button
+                    startIcon={<IoMdCheckmark/>}
                       variant="contained"
                       onClick={async () => {
                         const response = await fetch(`${API}/api/auth/deleteUserAddressByID/${id}`,
@@ -668,9 +676,9 @@ useEffect(() => {
                               </div>
                             </div>
                             <div className="modal-footer">
-                              <button type="button" disabled={addLoadingButton} className="btn btn-primary" onClick={add}>
+                              <Button disabled={addLoadingButton} variant="contained" startIcon={addLoadingButton?<RiLoader2Line/>:<FaSave/>} onClick={add}>
                                 {addLoadingButton ? "Saving..." : "Save Address" }
-                              </button>
+                              </Button>
                             </div>
                           </div>
                         </div>
@@ -855,10 +863,14 @@ useEffect(() => {
                                 </div>
                               </div> 
                             </div>
-                            <div className="modal-footer">
-                              <button type="button" disabled={editLoadingButton} className="btn btn-primary" onClick={()=>edit(editAddress._id)}>
+                            <div className="modal-footer gap-2">
+                              <Button variant="outlined" startIcon={editLoadingButton? <RiLoader2Line/>:<MdOutlineSaveAs/>} disabled={editLoadingButton} onClick={()=>edit(editAddress._id)}>
                                 {editLoadingButton ? "Updating..." : "Update Address" }
-                              </button>
+                              </Button>
+                              <Button variant="contained" startIcon={<RxCross2/>} onClick={()=>{ setEditAddress({});
+                                   setShowEditModal(false);}}>
+                                    Cancel
+                              </Button>
                             </div>
                             </>}
                           </div>

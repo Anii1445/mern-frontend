@@ -105,9 +105,6 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await fetch(`${API}/api/auth/weight`, {
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       });
       const data = await response.json();
       setApiWeight(data);

@@ -55,7 +55,7 @@ import "../css/footer-logo.css";
 import { useMediaQuery } from "@mui/material";
 import { ImHome } from "react-icons/im";
 
-export default function Navbar() {
+export default function NavbarLayout() {
 
   const navigate = useNavigate();
   const { isLoggedIn, user, token, LogoutUser } = useAuth();
@@ -137,7 +137,7 @@ useEffect(() => {
           
                    <Toolbar>
                     
-             <div className="container">
+             <div className="container-md px-md-2 container-fluid px-0">
       <Box
         sx={{
           display: "flex",
@@ -520,9 +520,9 @@ useEffect(() => {
           My Orders
         </Link>
     </li>
-    <li><Link to="/login" className="dropdown-item account-row" style={{ color: "#3D3C3A" }} onClick={LogoutUser}>
+    <li><Link to="/login" className="dropdown-item account-row" style={{ color: "red" }} onClick={LogoutUser}>
     <IconButton>
-       <RiLogoutCircleRLine style={{ fontSize: "21px" }}/>
+       <RiLogoutCircleRLine style={{ fontSize: "21px", color: "red" }}/>
     </IconButton>
         Logout
       </Link>
@@ -686,8 +686,10 @@ useEffect(() => {
     <List>
     
         <ListItemButton onClick={() => { navigate("/login"); setMobileOpen(false); LogoutUser() }}>
-          <ListItemIcon><RiLogoutCircleRLine style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
-          <ListItemText primary="Logout" />
+          <ListItemIcon><RiLogoutCircleRLine style={{fontSize: "20px", color: "red"}}/></ListItemIcon>
+          <ListItemText primary="Logout"  primaryTypographyProps={{
+    sx: { color: "red" }
+  }}/>
         </ListItemButton>
 
     </List>

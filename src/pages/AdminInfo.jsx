@@ -8,7 +8,7 @@ import { useTheme, useMediaQuery } from "@mui/material";
 import { FaUserEdit } from "react-icons/fa";
 
 
-export default function PersonalInfo(){
+export default function AdminInfo(){
 
 const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -20,7 +20,7 @@ const theme = useTheme();
     const getData = async() => {  
         setLoading(true);     
         try {
-            const response = await fetch(`${API}/api/auth/getUserByID/${user?.userId}`,{
+            const response = await fetch(`${API}/api/admin/getUserByID/${user?.userId}`,{
             method: "GET",
             headers: {
                  Authorization: `Bearer ${token}`,
@@ -58,7 +58,7 @@ const theme = useTheme();
     <div className="text-muted">Loading...</div>
 
   </div> :  !isLoggedIn ? 
-  <div className="text-center" style={{ marginTop: isMobile ? "10%":"22%"}}>
+  <div className="text-center" style={{ marginTop: isMobile ? "10%":"10%"}}>
               <img
                 src="https://cdn.appthemes.com/wp-content/uploads/2013/03/not-logged-in.png"
                 className="img-fluid mx-auto d-block rounded-4"
@@ -69,12 +69,12 @@ const theme = useTheme();
               </Button>
             </div>
 :
-                <div className="card shadow-sm" style={{ marginTop: isMobile ? "5%":"10%"}}>
+                <div className="card shadow-sm">
                     <div className="card-body">
                         <div className="d-flex align-items-center flex-sm-row gap-2 justify-content-between align-items-sm-center mb-3">
         
                           <h5>Personal Information</h5>
-                          <Button variant="outlined" onClick={() => navigate("edit") } startIcon={<FaUserEdit/>}>Edit</Button>
+                          <Button variant="outlined" onClick={() => navigate(`/admin/userEdit/${user?.userId}`) } startIcon={<FaUserEdit/>}>Edit</Button>
                         </div>
                         <div className="card">
                             <div className="card-body">

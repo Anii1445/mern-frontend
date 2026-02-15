@@ -135,9 +135,9 @@ export default function AdminLayout() {
               </Tooltip>
             </div>
           
-            <ul className="dropdown-menu dropdown-menu-end">
-    <li>
-      <Link to="/myaccount/personal-information" className="dropdown-item account-row"  style={{ color: "#3D3C3A", paddingLeft: "12px" }}>
+    <ul className="dropdown-menu dropdown-menu-end">
+    <li onClick={()=>navigate("/admin/admin-info")}>
+      <Link className="dropdown-item account-row"  style={{ color: "#3D3C3A", paddingLeft: "12px" }}>
       <IconButton>
         <Avatar sx={{ width: 28, height: 28, bgcolor: "lightblue", color: "inherit" }}>
           {user?.name?.charAt(0)}
@@ -150,9 +150,9 @@ export default function AdminLayout() {
       </Link>
     </li>
     <li><hr className="dropdown-divider"/></li>
-    <li><Link to="/login" className="dropdown-item account-row" style={{ color: "#3D3C3A" }} onClick={LogoutUser}>
+    <li><Link to="/login" className="dropdown-item account-row" style={{ color: "red" }} onClick={LogoutUser}>
     <IconButton>
-       <RiLogoutCircleRLine style={{ fontSize: "21px" }}/>
+       <RiLogoutCircleRLine style={{ fontSize: "21px", color: "red" }}/>
     </IconButton>
         Logout
       </Link>
@@ -234,7 +234,7 @@ export default function AdminLayout() {
 <List>
   <NavLink
     to="/login"
-    style={{ textDecoration: "none", color: "inherit" }}
+    style={{ textDecoration: "none", color: "red" }}
     onClick={LogoutUser}
   >
     <ListItem disablePadding>
@@ -250,13 +250,17 @@ export default function AdminLayout() {
             minWidth: 0,
             mr: open ? 3 : "auto",
             justifyContent: "center",
-            fontSize: "23px"
+            fontSize: "23px",
+            color:"red"
           }}
         >
           <RiLogoutCircleRLine />
         </ListItemIcon>
         <ListItemText
           primary="Logout"
+          primaryTypographyProps={{
+               sx: { color: "red" }
+          }}
           sx={{ opacity: open ? 1 : 0 }}
         />
       </ListItemButton>
@@ -352,8 +356,10 @@ export default function AdminLayout() {
           <List>
           {isLoggedIn && user && (
               <ListItemButton onClick={() => { navigate("/login"); setMobileOpen(false); LogoutUser() }}>
-                <ListItemIcon><RiLogoutCircleRLine style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
-                <ListItemText primary="Logout" />
+                <ListItemIcon><RiLogoutCircleRLine style={{fontSize: "20px", color: "red"}}/></ListItemIcon>
+                <ListItemText primary="Logout"  primaryTypographyProps={{
+    sx: { color: "red" }
+  }}/>
               </ListItemButton>
             )}
           </List>

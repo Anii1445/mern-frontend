@@ -215,7 +215,7 @@ export default function Whislist() {
   
   return (
     <>
-      <div className="container" style={{ paddingTop: isMobile ? "20%":"10%" }}>
+      <div className="container" style={{ paddingTop: isMobile ? "20%":"7%" }}>
         <div className="justify-content-center">
           {loading ?   
           <div

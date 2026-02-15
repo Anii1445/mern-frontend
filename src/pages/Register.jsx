@@ -100,8 +100,8 @@ export default function Register() {
   },
                       });
                     }
-                }
-                toast.error(res_data.msg && res_data.msg, {
+                    else{
+                       toast.error(res_data.msg && res_data.msg, {
                 position: "top-center",
                 autoClose: 2000, 
                 style: {
@@ -111,6 +111,9 @@ export default function Register() {
     textAlign: "center",
   },
              });
+                    }
+                }
+               
              setLoading(false);
 
         } catch (error) {
@@ -260,18 +263,56 @@ export default function Register() {
                         <div className="col-12 col-md-6">
                             <TextField type="text" label="Name" variant="outlined" size="small"
                                 value={userData.name} onChange={handleChange} name="name" fullWidth
-                                required placeholder='e.g Joel'/>
+                                required placeholder='eg: Joel'/>
                         </div>
                         <div className="col-12 col-md-6">
                             <TextField type="email" label="Email" variant="outlined" size="small"
                                 value={userData.email} onChange={handleChange} name="email" fullWidth
-                                required placeholder='e.g you@gmail.com' />
+                                required placeholder='eg: you@gmail.com' />
                         </div>
-                        <div className="col-12 col-md-6">
-                            <TextField type="text" label="Phone" variant="outlined" size="small"
-                                value={userData.phone} onChange={handleChange} name="phone" fullWidth
-                                required placeholder='e.g 9876354109'/>
-                        </div>
+                        
+
+<div className="col-12 col-md-6">
+  <Box
+    sx={{
+      display: "flex",
+      alignItems: "center",
+      gap: 0,
+    }}
+  >
+    {/* Country Code Box */}
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        px: 1,
+        height: "40px",
+        border: "1px solid #ccc",
+        borderRadius: "4px 0 0 4px",
+        backgroundColor: "#f5f5f5",
+        fontSize: "14px",
+      }}
+    >
+                      <img src="https://up.yimg.com/ib/th/id/OIP.xDGEE9TtQnJi9U7hY4blRwHaHa?pid=Api&rs=1&c=1&qlt=95&w=123&h=123" style={{ width: "20px", marginRight: "2px" }}/>+91
+    </Box>
+
+    {/* Phone Input */}
+    <TextField
+      type="tel"
+      label="Phone"
+      variant="outlined"
+      size="small"
+      name="phone"
+      value={userData.phone}
+      onChange={handleChange}
+      fullWidth
+      required
+      placeholder="9876543210"
+      sx={{ "& fieldset": { borderRadius: "0 4px 4px 0" } }}
+    />
+  </Box>
+</div>
+
                         <div className="col-12 col-md-6">
                             <TextField type={showPasssword ? "text" : "password"} label="Password" variant="outlined" size="small"
                                 value={userData.password} onChange={handleChange} name="password"

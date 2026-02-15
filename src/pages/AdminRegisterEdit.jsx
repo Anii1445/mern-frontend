@@ -6,7 +6,9 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 const API = import.meta.env.VITE_API_URL;
 import { IoArrowBack } from "react-icons/io5";
-
+import { MdOutlineSaveAs } from "react-icons/md";
+import { RxCross2 } from "react-icons/rx";
+import { RiLoader2Line } from "react-icons/ri";
 
 export default function AdminRegisterEdit(){
 
@@ -14,7 +16,7 @@ export default function AdminRegisterEdit(){
     const [editData, setEditData] = useState({});
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
-
+    const [buttonLoading, setButtonLoading] = useState(false);
 
     const getData = async() => {  
         setIsLoading(true);     
@@ -54,7 +56,7 @@ export default function AdminRegisterEdit(){
     const [emailErrors, setEmailErrors] = useState(false);
 
     const Edit = async() => {
-
+        setButtonLoading(true)
         try {
             const response = await fetch(`http://localhost:5000/api/admin/editUserData/${user?.userId}`,{
                 method: "PATCH",
@@ -67,6 +69,7 @@ export default function AdminRegisterEdit(){
 
             const res_data = await response.json();
             if(response.ok){
+                setButtonLoading(false);
                 toast.success("Data Updated Successfully!", {
                     position: "top-center",
                     autoClose: 2000, 
@@ -106,8 +109,11 @@ export default function AdminRegisterEdit(){
   },
              });
             }
+            setButtonLoading(false);
         } catch (error) {
             console.log(error)
+        }finally{
+            setButtonLoading(false)
         }
     }
 
@@ -153,11 +159,11 @@ export default function AdminRegisterEdit(){
 
                                         <div className="row g-3 mt-3">
                                             <div className="col-md-6">
-                                                <Button variant="contained" onClick={Edit} sx={{ marginRight: "5px" }}>
-                                                   Save
+                                                <Button variant="outlined" startIcon={buttonLoading? <RiLoader2Line/>:<MdOutlineSaveAs/>} onClick={Edit} sx={{ marginRight: "5px" }}>
+                                                   {buttonLoading? "Saving...":"Save"}
                                                 </Button>
-                                                 <Button startIcon={<IoArrowBack/>} variant="outlined" onClick={() => navigate("/admin/users")}>
-                                                   Back
+                                                 <Button startIcon={<RxCross2/>} variant="contained" onClick={() => navigate("/admin/users")}>
+                                                   Cancel
                                                 </Button>
                                             </div>
                                             
