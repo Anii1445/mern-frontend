@@ -520,6 +520,14 @@ export default function Home() {
   const [sortProducts, setSortProducts] = useState([]);
   const [totalProducts, setTotalProducts] = useState("");
 
+  const totalFiltersApplied = [
+  selectCategory,
+  selectBrand,
+  selectFlavour,
+  selectWeight,
+  maxValue !== maxValue ? maxValue : null
+].filter(Boolean).length;
+
   const sort = async () => {
     try {
       const response = await fetch(`${API}/api/auth/listSortProduct`, {
@@ -891,7 +899,7 @@ export default function Home() {
             /* 1️⃣ LOADING STATE */
             <div
               ref={productsRef}
-              className="d-flex justify-content-center align-items-center gap-2"
+              className="d-flex justify-content-center align-items-center gap-1"
               style={{ minHeight: "clamp(300px, 70vh, 800px)" }}
             >
               <div className="spinner-grow spinner-grow-sm text-secondary" role="status"></div>
@@ -923,7 +931,7 @@ export default function Home() {
                       startIcon={<FiFilter />}
                       onClick={() => setFilterOpen(true)}
                     >
-                      Add Filters
+                      Add Filters {totalFiltersApplied > 0 && `(${totalFiltersApplied})`}
                     </Button>
                   </div>
                   <div className="col-6 d-flex justify-content-end">
@@ -981,7 +989,7 @@ export default function Home() {
                       <FiFilter
                         style={{ fontSize: "20px", marginRight: "5px" }}
                       />
-                      Filters
+                      Filters {totalFiltersApplied > 0 && `(${totalFiltersApplied})`}
                     </h6>
                   </div>
                   <div className="column-filter">

@@ -50,7 +50,7 @@ const theme = useTheme();
         <div className="container">
             <div className="justify-content-center">
                  {loading ? <div
-    className="d-flex justify-content-center align-items-center gap-2"
+    className="d-flex justify-content-center align-items-center gap-1"
     style={{ minHeight: "clamp(300px, 70vh, 800px)" }}
   >
   <div className="spinner-grow spinner-grow-sm text-secondary" role="status">
