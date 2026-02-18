@@ -86,7 +86,7 @@ ________________________________________
 ![Wishlist Page](./screenshots/wishlist.png)
 
 ### Cart Page
-![Cart Page](./screenshots/cart.png)
+![Cart Page](./screenshots/carts.png)
  
 ### Admin Dashboard Page
 ![Admin Dashboard Page](./screenshots/admin-dashboard.png)
