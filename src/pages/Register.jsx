@@ -293,7 +293,7 @@ export default function Register() {
         fontSize: "14px",
       }}
     >
-                      <img src="https://up.yimg.com/ib/th/id/OIP.xDGEE9TtQnJi9U7hY4blRwHaHa?pid=Api&rs=1&c=1&qlt=95&w=123&h=123" style={{ width: "20px", marginRight: "2px" }}/>+91
+        <img src="https://up.yimg.com/ib/th/id/OIP.xDGEE9TtQnJi9U7hY4blRwHaHa?pid=Api&rs=1&c=1&qlt=95&w=123&h=123" style={{ width: "20px", marginRight: "2px" }}/>+91
     </Box>
 
     {/* Phone Input */}

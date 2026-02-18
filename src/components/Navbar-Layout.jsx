@@ -644,7 +644,7 @@ useEffect(() => {
 }
       </Box>
       <Box onClick={()=>{setMobileOpen(false)}}>
-        <RxCross2 style={{ fontSize: "20px", cursor: "pointer", color:"grey" }} />
+        <IconButton><RxCross2 style={{ fontSize: "20px", cursor: "pointer", color:"grey" }} /></IconButton>
       </Box>
       </Box>
 

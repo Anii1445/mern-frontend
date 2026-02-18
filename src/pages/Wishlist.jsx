@@ -222,7 +222,7 @@ export default function Whislist() {
     className="d-flex justify-content-center align-items-center gap-1"
     style={{ minHeight: "clamp(300px, 70vh, 800px)" }}
   >
-    <div className="spinner-grow spinner-grow-sm text-secondary" role="status">
+    <div className="spinner-grow spinner-grow-sm" role="status">
     </div>
     <div className="text-muted">Loading...</div>
 

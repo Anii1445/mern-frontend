@@ -208,6 +208,7 @@ export default function AdminLayout() {
                      pr: 4.6,
                   }}
                 >
+                  <Tooltip title={item.text} placement="right">
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
@@ -218,6 +219,7 @@ export default function AdminLayout() {
                   >
                     {item.icon}
                   </ListItemIcon>
+                  </Tooltip>
                   <ListItemText
                     primary={item.text}
                     sx={{ opacity: open ? 1 : 0 }}
@@ -324,7 +326,7 @@ export default function AdminLayout() {
       }
             </Box>
             <Box>
-                <RxCross2 style={{ fontSize: "20px", cursor: "pointer", color:"grey" }} onClick={()=>{setMobileOpen(false)}}/>
+                <IconButton><RxCross2 style={{ fontSize: "20px", cursor: "pointer", color:"grey" }} onClick={()=>{setMobileOpen(false)}}/></IconButton>
             </Box>
             </Box>
           

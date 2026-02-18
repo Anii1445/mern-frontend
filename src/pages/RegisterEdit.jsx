@@ -9,7 +9,7 @@ import { FaSave } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
 import { RiLoader2Line } from "react-icons/ri";
-
+import { Box } from "@mui/material";
 
 
 export default function RegisterEdit(){
@@ -150,17 +150,54 @@ export default function RegisterEdit(){
                                                     error={errors === "email" || emailErrors === "Email already exists"}/>
                                             </div>
                                             <div className="col-md-6">
-                                                <TextField type="text" label="Phone" variant="outlined" size="small" disabled style={{backgroundColor: "#EEEEEE"}}
-                                                    value={editData.phone || ""} onChange={handleChange} name="phone" fullWidth
-                                                    required
-                                                    error={errors === "phone"} />
+                                                <Box
+    sx={{
+      display: "flex",
+      alignItems: "center",
+      gap: 0,
+    }}
+  >
+    {/* Country Code Box */}
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        px: 1,
+        height: "40px",
+        border: "1px solid #ccc",
+        borderRadius: "4px 0 0 4px",
+        backgroundColor: "#f5f5f5",
+        fontSize: "14px",
+      }}
+    >
+        <img src="https://up.yimg.com/ib/th/id/OIP.xDGEE9TtQnJi9U7hY4blRwHaHa?pid=Api&rs=1&c=1&qlt=95&w=123&h=123" style={{ width: "20px", marginRight: "2px" }}/>+91
+    </Box>
+
+    {/* Phone Input */}
+    <TextField
+      type="tel"
+      label="Phone"
+      variant="outlined"
+      size="small"
+      name="phone"
+      value={editData.phone || ""}
+      onChange={handleChange}
+      fullWidth
+      required
+      placeholder="9876543210"
+      sx={{ "& fieldset": { borderRadius: "0 4px 4px 0" }, backgroundColor: "#f5f5f5" }}
+      error={errors === "phone"}
+      disabled
+    />
+  </Box>
+                                               
                                             </div>
    
                                         </form>
 
                                         <div className="row g-3 mt-3">
                                             <div className="col-md-6">
-                                                <Button variant="contained" disabled={buttonLoading} startIcon={buttonLoading? <RiLoader2Line/>:<FaSave/>} onClick={Edit}>
+                                                <Button variant="outlined" disabled={buttonLoading} startIcon={buttonLoading? <RiLoader2Line/>:<FaSave/>} onClick={Edit}>
                                                    {buttonLoading?"Saving...":"Save"}
                                                 </Button>
                                                 <Button sx={{ marginLeft: "5px"}} startIcon={<RxCross2/>} variant="contained" onClick={() => {navigate("/myaccount/personal-information")}}>

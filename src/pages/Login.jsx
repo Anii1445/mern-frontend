@@ -20,7 +20,7 @@ const API = import.meta.env.VITE_API_URL;
 import { useTheme, useMediaQuery } from "@mui/material";
 import {Typography, Box} from "@mui/material";
 import { GiBodyBalance } from "react-icons/gi";
-
+import { Divider } from "@mui/material";
 
 export default function Login() {
   const { storeTokenInLS, user, isLoggedIn } = useAuth();
@@ -139,6 +139,20 @@ export default function Login() {
     }
   }, []);
 
+  const fillDemo = (role) => {
+   if (role === "admin") {
+    setUserData({
+      email: "ankit@gmail.com",
+      password: "Anish@1445",
+    });
+  } else {
+    setUserData({
+      email: "shubham@gmail.com",
+      password: "Shubham@1445",
+    });
+  }
+  }
+
   return (
     <>
       <div className="container">
@@ -162,7 +176,7 @@ export default function Login() {
 
 <form onSubmit={handleSubmit}>
         <div className="d-flex justify-content-center">
-            <div className="border rounded-4" style={{ marginTop: isMobile ? "35%":"9%", width: isMobile ? "95%" : "75%", boxShadow: "0 4px 12px rgba(0, 0, 0, 0.12)"}}>
+            <div className="border rounded-4" style={{ marginTop: isMobile ? "13%":"5%", width: isMobile ? "95%" : "75%", boxShadow: "0 4px 12px rgba(0, 0, 0, 0.12)"}}>
              
               <div className="row g-0">
                 <div className="col-12 col-md-6 d-none d-md-block bg-secondary-subtle rounded-start-4">
@@ -267,6 +281,24 @@ export default function Login() {
                           
               </Typography>
                   <h2 className="text-center mb-4 mt-2 mt-md-5">Login</h2>
+
+ <Box sx={{ mb: 3 }}>
+            <Typography sx={{ fontSize: 12, fontWeight: 700, color: 'text.secondary', mb: 1, textTransform: 'uppercase', letterSpacing: 1 }}>
+              Quick Demo
+            </Typography>
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              <Button variant="outlined" size="small" onClick={() => fillDemo('admin')} sx={{ flex: 1, fontSize: 12 }}>
+                Admin Account
+              </Button>
+              <Button variant="outlined" size="small" onClick={() => fillDemo('member')} sx={{ flex: 1, fontSize: 12 }}>
+                Member Account
+              </Button>
+            </Box>
+          </Box>
+
+          <Divider sx={{ mb: 3 }}>
+            <Typography sx={{ fontSize: 12, color: 'text.secondary' }}>or enter manually</Typography>
+          </Divider>
 
                 <div className='row g-3 needs-validation'>
                   <div className="mb-1">
