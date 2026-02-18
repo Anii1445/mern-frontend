@@ -75,23 +75,22 @@ Frontend: npm start
 ________________________________________
 📸 Screenshots: 
  
-### 🔐 Login Page
-![Login Page](./screenshots/sign-up.png)
+### Sign-Up Page
+![Sign-Up Page](./screenshots/sign-up.png)
 
  
-Home Page
+### Login Page
+![Login Page](./screenshots/login.png)
  
-Wishlist Page
-<<<<<<< HEAD
+### Wishlist Page
+![Wishlist Page](./screenshots/wishlist.png)
 
-Carts Page
+### Cart Page
+![Cart Page](./screenshots/cart.png)
  
-=======
- 
-Carts Page
->>>>>>> 43bab88 (Added screenshots folder)
+### Admin Dashboard Page
+![Admin Dashboard Page](./screenshots/admin-dashboard.png)
 
-Admin Dashboard Page
  ________________________________________
 🔐 Authentication Flow
 •	Passwords are hashed using bcrypt
