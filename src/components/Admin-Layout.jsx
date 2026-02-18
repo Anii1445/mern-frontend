@@ -179,10 +179,16 @@ export default function AdminLayout() {
     <Box>
         <Toolbar sx={{ display: "flex", gap:"18px", alignItems:"center", backgroundColor: "#DBE9FA" }}>
         
+        
           <IconButton onClick={() => setOpen(false)} style={{ fontSize: "27px",  border: "1px solid grey", borderRadius: "5px", padding: "5px" }}>
             <IoMenu />
           </IconButton>
+
+          <Box>
           <b style={{ fontSize: "18px" }}>{user?.name}</b>
+          <p style={{ marginTop:"-7px", marginBottom:"0px", fontSize:"14px"}}><span className="badge" style={{ backgroundColor: "lightblue", color:"#36454F" }}>Admin</span></p>
+          </Box>
+
           
         </Toolbar>
 
@@ -247,6 +253,7 @@ export default function AdminLayout() {
           pr: 4.6,
         }}
       >
+        <Tooltip title="Logout" placement="right">
         <ListItemIcon
           sx={{
             minWidth: 0,
@@ -258,6 +265,7 @@ export default function AdminLayout() {
         >
           <RiLogoutCircleRLine />
         </ListItemIcon>
+        </Tooltip>
         <ListItemText
           primary="Logout"
           primaryTypographyProps={{
@@ -366,6 +374,7 @@ export default function AdminLayout() {
                 <ListItemText primary="Logout"  primaryTypographyProps={{
     sx: { color: "red" }
   }}/>
+  <span className="badge" style={{ backgroundColor: "lightblue", color:"#36454F" }}>Admin</span>
               </ListItemButton>
             )}
           </List>
