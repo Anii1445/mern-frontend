@@ -80,9 +80,14 @@ Login Page
 Home Page
  
 Wishlist Page
+<<<<<<< HEAD
 
 Carts Page
  
+=======
+ 
+Carts Page
+>>>>>>> 43bab88 (Added screenshots folder)
 
 Admin Dashboard Page
  ________________________________________
