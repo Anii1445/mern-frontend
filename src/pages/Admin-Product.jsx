@@ -16,6 +16,7 @@ import { BiSolidXCircle } from "react-icons/bi";
 import Divider from "@mui/material/Divider";
 import { useTheme, useMediaQuery } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { Card, Chip, Box, Typography, CardContent } from "@mui/material";
 
 export default function AdminProduct() {
   const [ApiCategory, setApiCategory] = useState([]);

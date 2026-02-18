@@ -11,7 +11,10 @@ import { MdEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { BsBoxSeamFill } from "react-icons/bs";
 const API = import.meta.env.VITE_API_URL;
-
+import { MdAdminPanelSettings } from "react-icons/md";
+import { FaUsers } from "react-icons/fa";
+import { FaUserCheck } from "react-icons/fa";
+import { Card, Chip, Box, Typography, CardContent } from "@mui/material";
 
 export default function AdminUsers() {
   const { token } = useAuth();
@@ -41,6 +44,21 @@ export default function AdminUsers() {
     {
       name: "Role",
       selector: (row) => row.isAdmin === false ? 'User' : 'Admin',
+      sortable: true,
+    },
+    {
+      name: "Status",
+      selector: (row) => <Chip
+                          label='Active'
+                          size="small"
+                          sx={{
+                            height: 22,
+                            fontSize: 11,
+                            fontWeight: 700,
+                            bgcolor: 'rgba(67,233,123,0.15)',
+                            color: 'success.main',
+                          }}
+                        />,
       sortable: true,
     },
     {
@@ -186,7 +204,7 @@ export default function AdminUsers() {
   const TableHeader = (
     <div className="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-md-center">
     
-      <h4 style={{ margin: 0 }}>Users List <small className="fs-6 text-muted">(Total Users: {allUsers.filter(a => !a.isAdmin).length})</small></h4>
+      <h4 style={{ margin: 0, fontWeight: 800, color: '#1976d2', }}>All User Lists </h4>
       <TextField
         variant="outlined"
         placeholder="Search Users..."
@@ -231,6 +249,69 @@ export default function AdminUsers() {
     <div className="text-muted">Loading...</div>
 
   </div>  : 
+  <>
+  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 4 }}>
+        <Box>
+          <Typography variant="h4" sx={{ fontWeight: 800, color: '#1976d2', mb: 0.5 }}>
+            Team Members
+          </Typography>
+          <Typography sx={{ color: 'text.secondary' }}>
+            Manage all registered users in the system
+          </Typography>
+        </Box>
+    </Box>
+   <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 2, mb: 4 }}>
+        <Card>
+          <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2, p: 2.5 }}>
+            <Box sx={{
+              width: 48, height: 48, borderRadius: 2.5,
+              bgcolor: "lightblue", display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <FaUsers style={{ color: '#1565c0', fontSize: "22px" }} />
+            </Box>
+            <Box>
+              <Typography sx={{ fontSize: 13, color: 'text.secondary', fontWeight: 500 }}>Total Users</Typography>
+                <Typography variant="h5" sx={{ fontWeight: 800, color: 'text.primary', lineHeight: 1.2 }}>
+                  {allUsers.length}
+                </Typography>
+            </Box>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2, p: 2.5 }}>
+            <Box sx={{
+              width: 48, height: 48, borderRadius: 2.5,
+              bgcolor: '#FFE87C', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <MdAdminPanelSettings style={{ color: '#D4A017', fontSize: "22px" }} />
+            </Box>
+            <Box>
+              <Typography sx={{ fontSize: 13, color: 'text.secondary', fontWeight: 500 }}>Admins</Typography>
+                <Typography variant="h5" sx={{ fontWeight: 800, color: 'text.primary', lineHeight: 1.2 }}>
+                  {allUsers.filter((a) => a.isAdmin === "true").length}
+                </Typography>
+            </Box>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2, p: 2.5 }}>
+            <Box sx={{
+              width: 48, height: 48, borderRadius: 2.5,
+              bgcolor: '#C3FDB8', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <FaUserCheck style={{ color: '#12AD2B', fontSize: "22px" }} />
+            </Box>
+            <Box>
+                <Typography variant="h5" sx={{ fontWeight: 800, color: 'text.primary', lineHeight: 1.2 }}>
+                  {allUsers.filter((a) => a.isAdmin === "false").length}
+                </Typography>
+            </Box>
+          </CardContent>
+        </Card>
+      </Box>
+
         <div className="card shadow-sm">
           <div className="card-body">
             {allUsers ? (
@@ -249,7 +330,8 @@ export default function AdminUsers() {
               <h3>Access Denied, Not an Admin</h3>
             )}
           </div>
-        </div>}
+        </div>
+        </>}
       </div>
     </div>
     </>

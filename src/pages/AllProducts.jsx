@@ -10,6 +10,8 @@ import DataTable from "react-data-table-component";
 import {Button} from "@mui/material";
 import { FaEye } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
+import { Card, Chip, Box, Typography, CardContent } from "@mui/material";
+import { FaBoxOpen } from "react-icons/fa";
 
 
 export default function AllProducts(){
@@ -84,6 +86,21 @@ export default function AllProducts(){
           hide: "sm"
         },
         {
+          name: "Stock",
+          selector: (row) => <Chip
+                          label='InStock'
+                          size="small"
+                          sx={{
+                            height: 22,
+                            fontSize: 11,
+                            fontWeight: 700,
+                            bgcolor: 'rgba(67,233,123,0.15)',
+                            color: 'success.main',
+                          }}
+                        />,
+          sortable: true
+        },
+        {
               name: "Actions",
               button: "true",
               cell: (row) => (
@@ -103,8 +120,11 @@ export default function AllProducts(){
 
      const TableHeader = (
         <div className="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-md-center">
-          <h4 style={{ margin: 0 }}>Products List <small className="fs-6 text-muted">(Total Products: {allProducts?.length})</small></h4>
-          <div className="d-flex flex-column flex-md-row gap-2">
+        <Box>
+          <Typography variant="h4" sx={{ fontWeight: 800, color: '#1976d2', mb: 0.5 }}>
+            All Product Lists
+          </Typography>
+        </Box>          
           <TextField
             variant="outlined"
             placeholder="Search Products..."
@@ -133,8 +153,7 @@ export default function AllProducts(){
               },
             }}
           />
-        <Button variant="outlined" startIcon={<FiPlus/>} onClick={()=>{navigate("/admin/addproducts")}}>Add More</Button>
-        </div>
+        
         </div>
       );
 
@@ -162,7 +181,28 @@ export default function AllProducts(){
     </div>
     <div className="text-muted">Loading...</div>
 
-  </div>  : 
+  </div>  :
+  <> 
+  <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, mb: 4 }}>
+                  <Card>
+                    <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2, p: 2.5 }}>
+                      <Box sx={{
+                        width: 48, height: 48, borderRadius: 2.5,
+                        bgcolor: "lightblue", display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      }}>
+                        <FaBoxOpen style={{ color: '#1565c0', fontSize: "22px" }} />
+                      </Box>
+                      <Box>
+                        <Typography sx={{ fontSize: 13, color: 'text.secondary', fontWeight: 500 }}>Total Products</Typography>
+                          <Typography variant="h5" sx={{ fontWeight: 800, color: 'text.primary', lineHeight: 1.2 }}>
+                            {allProducts.length}
+                          </Typography>
+                      </Box>
+                      <Button variant="outlined" startIcon={<FiPlus/>} onClick={()=>{navigate("/admin/addproducts")}}>Add More</Button>
+
+                    </CardContent>
+                  </Card>
+        </Box>
         <div className="card shadow-sm">
           <div className="card-body">
             {allProducts ? (
@@ -181,7 +221,8 @@ export default function AllProducts(){
               <h3>Access Denied, Not an Admin</h3>
             )}
           </div>
-        </div>}
+        </div>
+        </>}
       </div>
     </div>
         </>

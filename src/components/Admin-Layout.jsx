@@ -185,8 +185,8 @@ export default function AdminLayout() {
           </IconButton>
 
           <Box>
-          <b style={{ fontSize: "18px" }}>{user?.name}</b>
-          <p style={{ marginTop:"-7px", marginBottom:"0px", fontSize:"14px"}}><span className="badge" style={{ backgroundColor: "lightblue", color:"#36454F" }}>Admin</span></p>
+          <b style={{ fontSize: "18px", color:"#1565c0" }}>{user?.name}</b>
+          <p style={{ marginTop:"-7px", marginBottom:"0px", fontSize:"14px"}}><span className="badge" style={{ backgroundColor: "lightblue", color:"#1565c0" }}>Admin</span></p>
           </Box>
 
           

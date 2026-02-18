@@ -4,6 +4,7 @@ import { FaArrowTrendUp } from "react-icons/fa6";
 const API = import.meta.env.VITE_API_URL;
 import { Button } from "@mui/material";
 import { useTheme, useMediaQuery } from "@mui/material";
+import { Card, Chip, Box, Typography, CardContent } from "@mui/material";
 
 import {
   ResponsiveContainer,
@@ -131,12 +132,16 @@ const getBestSellingProducts = (orders, limit = 5) => {
     <div className="text-muted">Loading...</div>
   </div>      ) : (
     <>
-      <div className="card mb-2">
-                    <div className="card-body">
-
- <h4 className="mb-0">Admin Dashboard</h4>
-                        </div>
-                        </div> 
+     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 4 }}>
+        <Box>
+          <Typography variant="h4" sx={{ fontWeight: 800, color: '#1976d2', mb: 0.5 }}>
+            Admin Dashboard
+          </Typography>
+          <Typography sx={{ color: 'text.secondary' }}>
+            Data insight of all orders
+          </Typography>
+        </Box>
+    </Box>
 
       
         <div className="row g-3">
