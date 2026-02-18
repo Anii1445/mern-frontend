@@ -185,7 +185,7 @@ const getBestSellingProducts = (orders, limit = 5) => {
 
         <div className="card shadow-sm mt-3">
   <div className="card-body">
-    <h5 className="mb-3">Sales Overview (Last 7 Days)</h5>
+    <h4 className="mb-3" style={{ color: '#1565c0' }}>Sales Overview (Last 7 Days)</h4>
 
     <div style={{ width: "100%", height: 300 }}>
       <ResponsiveContainer>
@@ -220,10 +220,10 @@ const getBestSellingProducts = (orders, limit = 5) => {
 
 <div className="card mt-3 shadow-sm">
   <div className="card-header d-flex justify-content-between align-items-center">
-    <h5 className="mb-0">Recent Orders</h5>
+    <h4 className="mb-0" style={{ color: '#1565c0'}}>Recent Orders</h4>
     <Button
      variant="outlined"    
-     size="small"  
+     size="medium"  
      onClick={() => navigate("/admin/users")}
     >
       View All

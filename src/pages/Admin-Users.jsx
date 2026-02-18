@@ -204,7 +204,7 @@ export default function AdminUsers() {
   const TableHeader = (
     <div className="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-md-center">
     
-      <h4 style={{ margin: 0, fontWeight: 800, color: '#1976d2', }}>All User Lists </h4>
+      <h4 style={{ margin: 0, fontWeight: 800, color: '#1976d2', }}>User Lists </h4>
       <TextField
         variant="outlined"
         placeholder="Search Users..."
@@ -253,14 +253,14 @@ export default function AdminUsers() {
   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 4 }}>
         <Box>
           <Typography variant="h4" sx={{ fontWeight: 800, color: '#1976d2', mb: 0.5 }}>
-            Team Members
+           All Users
           </Typography>
           <Typography sx={{ color: 'text.secondary' }}>
             Manage all registered users in the system
           </Typography>
         </Box>
     </Box>
-   <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 2, mb: 4 }}>
+   <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 2, mb: 2 }}>
         <Card>
           <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2, p: 2.5 }}>
             <Box sx={{

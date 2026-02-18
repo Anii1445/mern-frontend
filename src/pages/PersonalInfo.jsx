@@ -73,7 +73,7 @@ const theme = useTheme();
                     <div className="card-body">
                         <div className="d-flex align-items-center flex-sm-row gap-2 justify-content-between align-items-sm-center mb-3">
         
-                          <h5>Personal Information</h5>
+                          <h4>Personal Information</h4>
                           <Button variant="outlined" onClick={() => navigate("edit") } startIcon={<FaUserEdit/>}>Edit</Button>
                         </div>
                         <div className="card">

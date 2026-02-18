@@ -120,11 +120,8 @@ export default function AllProducts(){
 
      const TableHeader = (
         <div className="d-flex flex-column flex-md-row gap-2 justify-content-between align-items-md-center">
-        <Box>
-          <Typography variant="h4" sx={{ fontWeight: 800, color: '#1976d2', mb: 0.5 }}>
-            All Product Lists
-          </Typography>
-        </Box>          
+             <h4 style={{ margin: 0, fontWeight: 800, color: '#1976d2', }}>Product Lists </h4>
+      
           <TextField
             variant="outlined"
             placeholder="Search Products..."
@@ -183,9 +180,20 @@ export default function AllProducts(){
 
   </div>  :
   <> 
-  <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, mb: 4 }}>
-                  <Card>
-                    <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2, p: 2.5 }}>
+   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 4 }}>
+        <Box>
+          <Typography variant="h4" sx={{ fontWeight: 800, color: '#1976d2', mb: 0.5 }}>
+           All Products
+          </Typography>
+          <Typography sx={{ color: 'text.secondary' }}>
+            Manage all products in the system
+          </Typography>
+        </Box>
+    </Box>
+  <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, mb: 2 }}>
+                  <Card sx={{ width: "100%" }}>
+                    <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: "space-between", p: 2.5 }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2}}>
                       <Box sx={{
                         width: 48, height: 48, borderRadius: 2.5,
                         bgcolor: "lightblue", display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -198,8 +206,10 @@ export default function AllProducts(){
                             {allProducts.length}
                           </Typography>
                       </Box>
+                      </Box>
+                      <Box>
                       <Button variant="outlined" startIcon={<FiPlus/>} onClick={()=>{navigate("/admin/addproducts")}}>Add More</Button>
-
+                      </Box>
                     </CardContent>
                   </Card>
         </Box>

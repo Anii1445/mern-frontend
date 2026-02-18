@@ -29,8 +29,8 @@ export default function MyAccount() {
                     <NavLink
   to="personal-information"
   className={({ isActive }) =>
-    `list-group-item list-group-item-action list-group-item-light ${
-      isActive ? "active-item" : ""
+    `flex-fill ${
+      isActive ? "active-item" : "text-dark"
     }`
   }
   style={{ padding: "30px", textDecoration: "none" }}
@@ -42,8 +42,8 @@ export default function MyAccount() {
 <NavLink
   to="myorders"
   className={({ isActive }) =>
-    `list-group-item list-group-item-action list-group-item-light ${
-      isActive ? "active-item" : ""
+    `flex-fill ${
+      isActive ? "active-item" : "text-dark"
     }`
   }
   style={{ padding: "30px", textDecoration: "none" }}
@@ -55,8 +55,8 @@ export default function MyAccount() {
                     <NavLink
   to="addresses"
   className={({ isActive }) =>
-    `list-group-item list-group-item-action list-group-item-light ${
-      isActive ? "active-item" : ""
+    `flex-fill ${
+      isActive ? "active-item" : "text-dark"
     }`
   }
   style={{ padding: "30px", textDecoration: "none" }}
@@ -67,8 +67,8 @@ export default function MyAccount() {
                     <NavLink
   to="mywishlist"
   className={({ isActive }) =>
-    `list-group-item list-group-item-action list-group-item-light ${
-      isActive ? "active-item" : ""
+    `flex-fill ${
+      isActive ? "active-item" : "text-dark"
     }`
   }
   style={{ padding: "30px", textDecoration: "none" }}
@@ -80,11 +80,11 @@ export default function MyAccount() {
   onClick={LogoutUser}
   to="/login"
   className={({ isActive }) =>
-    `list-group-item list-group-item-action list-group-item-light ${
-      isActive ? "active-item" : ""
+    `${
+      isActive ? "active-item" : "text-danger"
     }`
   }
-  style={{ padding: "30px", textDecoration: "none", color: "red" }}
+  style={{ padding: "30px", textDecoration: "none" }}
 >
   <RiLogoutCircleRLine style={{ marginRight: "5%", fontSize: "20px", color: "red" }} />
   Logout

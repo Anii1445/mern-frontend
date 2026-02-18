@@ -387,7 +387,7 @@ useEffect(() => {
                               alignItems: "center",
                               marginBottom: isMobile ? "4%":"2%",
                        }}>
-                        <div><h5>My Addresses</h5></div>
+                        <div><h4>My Addresses</h4></div>
                         <Button
                     variant="outlined"
                     startIcon={<FiPlus />}

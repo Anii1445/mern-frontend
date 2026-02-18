@@ -127,7 +127,7 @@ export default function AdminLayout() {
               <Tooltip title={ user ? user.name : "Account"}>
                 <IconButton size="small">
                   <Avatar
-                    sx={{ width: isMobile ? 28 : 32, height: isMobile ? 28 : 32, bgcolor: "lightblue", color: "inherit" }}
+                    sx={{ width: isMobile ? 28 : 32, height: isMobile ? 28 : 32, bgcolor: "lightblue", color: '#1565c0'}}
                   >
                     {user?.name?.charAt(0)}
                   </Avatar>
@@ -139,7 +139,7 @@ export default function AdminLayout() {
     <li onClick={()=>navigate("/admin/admin-info")}>
       <Link className="dropdown-item account-row"  style={{ color: "#3D3C3A", paddingLeft: "12px" }}>
       <IconButton>
-        <Avatar sx={{ width: 28, height: 28, bgcolor: "lightblue", color: "inherit" }}>
+        <Avatar sx={{ width: 28, height: 28, bgcolor: "lightblue", color: '#1565c0' }}>
           {user?.name?.charAt(0)}
         </Avatar>
       </IconButton>
@@ -328,8 +328,8 @@ export default function AdminLayout() {
             <Box sx={{ maxWidth: 150, cursor: "pointer" }} onClick={() => navigate("/login")}><Typography variant="h6" style={{ fontSize:"16px" }}>Login / Signup</Typography></Box>
             :
            <Box sx={{ maxWidth: 150 }}>
-               <Typography variant="h6" style={{ fontSize:"18px" }}>Hi,</Typography>
-               <Typography variant="h6" style={{ fontSize:"16px", marginTop: "-5px" }} noWrap title={user?.name}>{user?.name}</Typography>
+               <Typography variant="h6" style={{ fontSize:"18px" }}>Hi,👋</Typography>
+               <Typography variant="h6" style={{ fontSize:"16px", marginTop: "-5px", color: '#1565c0' }} noWrap title={user?.name}>{user?.name}</Typography>
            </Box>            
       }
             </Box>
@@ -374,7 +374,7 @@ export default function AdminLayout() {
                 <ListItemText primary="Logout"  primaryTypographyProps={{
     sx: { color: "red" }
   }}/>
-  <span className="badge" style={{ backgroundColor: "lightblue", color:"#36454F" }}>Admin</span>
+  <span className="badge" style={{ backgroundColor: "lightblue", color: "#1769aa" }}>Admin</span>
               </ListItemButton>
             )}
           </List>

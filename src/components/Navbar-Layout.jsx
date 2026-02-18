@@ -489,7 +489,7 @@ useEffect(() => {
     <Tooltip title={user ? user.name : "Account"}>
       <IconButton size="small">
         <Avatar
-          sx={{ width: isMobile ? 28:32, height: isMobile? 28:32, bgcolor: "lightblue", color: "#1769aa" }}
+          sx={{ width: isMobile ? 28:32, height: isMobile? 28:32, bgcolor: "lightblue", color: '#1565c0' }}
         >
           {user?.name?.charAt(0)}
         </Avatar>
@@ -501,7 +501,7 @@ useEffect(() => {
     <li>
       <Link to="/myaccount/personal-information" className="dropdown-item account-row"  style={{ color: "#3D3C3A", paddingLeft: "12px" }}>
       <IconButton>
-        <Avatar sx={{ width: 28, height: 28, bgcolor: "lightblue", color: "#1769aa" }}>
+        <Avatar sx={{ width: 28, height: 28, bgcolor: "lightblue", color: '#1565c0' }}>
           {user?.name?.charAt(0)}
         </Avatar>
       </IconButton>
@@ -515,7 +515,7 @@ useEffect(() => {
    
     <li><Link to="/myaccount/myorders" className="dropdown-item account-row" style={{ color: "#3D3C3A" }}>
         <IconButton>
-          <BsFillBoxSeamFill style={{ fontSize: "21px" }}/>
+          <BsFillBoxSeamFill style={{ fontSize: "21px", color: '#1565c0' }}/>
           </IconButton>
           My Orders
         </Link>
@@ -630,7 +630,7 @@ useEffect(() => {
      <Box sx={{ display: "flex", justifyContent: "space-between", gap:"24px", alignItems: "center"}}>     
       <Box sx={{ display: "flex", justifyContent: "left", gap:"24px", alignItems: "center", paddingLeft: "3px"}}>
       <Box>
-        <Avatar sx={{ width: 45, height: 45, bgcolor: "lightblue", color: "#1769aa" }}>
+        <Avatar sx={{ width: 45, height: 45, bgcolor: "lightblue", color: '#1565c0' }}>
           {user?.name?.charAt(0)}
         </Avatar>
       </Box>
@@ -638,8 +638,8 @@ useEffect(() => {
       :
 
       <Box sx={{ maxWidth: 150 }}>
-        <Typography variant="h6" style={{ fontSize:"18px" }}>Hi,</Typography>
-        <Typography variant="h6" style={{ fontSize:"16px", marginTop: "-5px" }} noWrap title={user?.name}>{user?.name}</Typography>
+        <Typography variant="h6" style={{ fontSize:"18px" }}>Hi,👋</Typography>
+        <Typography variant="h6" style={{ fontSize:"16px", marginTop: "-5px", color: "#1769aa" }} noWrap title={user?.name}>{user?.name}</Typography>
       </Box>
 }
       </Box>

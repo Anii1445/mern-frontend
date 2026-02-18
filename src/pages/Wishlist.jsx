@@ -215,7 +215,7 @@ export default function Whislist() {
   
   return (
     <>
-      <div className="container" style={{ paddingTop: isMobile ? "20%":"7%" }}>
+      <div className="container" style={{ paddingTop: isMobile ? "20%":"10%" }}>
         <div className="justify-content-center">
           {loading ?   
           <div
@@ -245,14 +245,14 @@ export default function Whislist() {
               <div className="col-12">
                 <div className="card shadow">
                   <div className="card-body">
-                    <h5 className="mb-4 pt-2">Your Whishlist</h5>
+                    <h4 className="mb-4 pt-2">Your Whishlist</h4>
                     {wishlists.map((c, index) => {
                       const isLoading = deleteLoading === c._id;
                       const load = movetocartLoading === c.variant_id
                       return (
                         <div className="card mb-3" key={index}>
                           <div className="card-body">
-                            <div className="row">
+                            <div className="row d-flex align-items-center">
                               <div className="col-12 col-md-2 text-center mb-2 mb-md-0">
                                 <img className="img-fluid" src={c.product?.variant?.image[0]} style={{ maxWidth: isMobile ? "30%":"60%", cursor: "pointer"}} onClick={ ()=> {navigate(`/product/view/${c.product_id}`)}}/>
                               </div>

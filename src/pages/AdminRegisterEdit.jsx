@@ -137,7 +137,7 @@ export default function AdminRegisterEdit(){
   </div> :
             <div className="card">
                 <div className="card-body">
-                    <h4 className="mb-4">Edit Personal Information</h4>
+                    <h4 className="mb-4" style={{ color: '#1565c0'}}>Edit Personal Information</h4>
                     <form className='row g-3'>
                                             <div className="col-md-6">
                                                 <TextField type="text" label="Name" variant="outlined" size="small"
