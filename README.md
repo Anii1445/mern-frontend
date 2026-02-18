@@ -75,7 +75,8 @@ Frontend: npm start
 ________________________________________
 📸 Screenshots: 
  
-Login Page
+Login Page:
+"./screenshots/sign-up.png"
  
 Home Page
  
