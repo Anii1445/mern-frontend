@@ -139,7 +139,7 @@ export default function AdminLayout() {
     <li onClick={()=>navigate("/admin/admin-info")}>
       <Link className="dropdown-item account-row"  style={{ color: "#3D3C3A", paddingLeft: "12px" }}>
       <IconButton>
-        <Avatar sx={{ width: 28, height: 28, bgcolor: "lightblue", color: '#1565c0' }}>
+        <Avatar sx={{ width: isMobile ? 28:32, height: isMobile? 28:32, bgcolor: "lightblue", color: '#1565c0' }}>
           {user?.name?.charAt(0)}
         </Avatar>
       </IconButton>
@@ -180,8 +180,8 @@ export default function AdminLayout() {
         <Toolbar sx={{ display: "flex", gap:"18px", alignItems:"center", backgroundColor: "#DBE9FA" }}>
         
         
-          <IconButton onClick={() => setOpen(false)} style={{ fontSize: "27px",  border: "1px solid grey", borderRadius: "5px", padding: "5px" }}>
-            <IoMenu />
+          <IconButton onClick={() => setOpen(false)} style={{ fontSize: "27px",  border: "1px solid #1769aa", borderRadius: "5px", padding: "5px" }}>
+            <IoMenu style={{ color:"#1769aa"}}/>
           </IconButton>
 
           <Box>
@@ -220,7 +220,8 @@ export default function AdminLayout() {
                       minWidth: 0,
                       mr: open ? 3 : "auto",
                       justifyContent: "center",
-                      fontSize: "23px"
+                      fontSize: "23px",
+                      color: "#1769aa"
                     }}
                   >
                     {item.icon}
@@ -320,7 +321,7 @@ export default function AdminLayout() {
            <Box sx={{ display: "flex", justifyContent: "space-between", gap:"24px", alignItems: "center"}}> 
            <Box sx={{ display: "flex", justifyContent: "left", gap:"24px", alignItems: "center", paddingLeft: "3px"}}>
             <Box>
-              <Avatar sx={{ width: 45, height: 45, bgcolor: "lightblue", color: "#1769aa" }}>
+              <Avatar sx={{ width: 45, height: 45, bgcolor: "lightblue", color: "#1769aa", fontSize:"25px" }}>
                 {user?.name?.charAt(0)}
               </Avatar>
             </Box>
@@ -343,23 +344,23 @@ export default function AdminLayout() {
       
           <List>
             <ListItemButton onClick={() => { navigate("/admin/dashboard"); setMobileOpen(false); }}>
-              <ListItemIcon><VscGraph style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
+              <ListItemIcon><VscGraph style={{fontSize: "22px", color: "#1769aa"}}/></ListItemIcon>
               <ListItemText primary="Dashboard" />
             </ListItemButton>
       
             <ListItemButton onClick={() => { navigate("/admin/allproducts"); setMobileOpen(false); }}>
-              <ListItemIcon><FaBoxOpen style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
+              <ListItemIcon><FaBoxOpen style={{fontSize: "22px", color: "#1769aa"}}/></ListItemIcon>
               <ListItemText primary="Products" />
             </ListItemButton>
       
             <ListItemButton onClick={() => { navigate("/admin/users"); setMobileOpen(false); }}>
-              <ListItemIcon><FaUsers style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
+              <ListItemIcon><FaUsers style={{fontSize: "22px", color: "#1769aa"}}/></ListItemIcon>
               <ListItemText primary="Users" />
             </ListItemButton>
       
             
               <ListItemButton onClick={() => { navigate("/admin/servicecenter"); setMobileOpen(false); }}>
-                <ListItemIcon><RiCustomerService2Fill style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
+                <ListItemIcon><RiCustomerService2Fill style={{fontSize: "22px", color: "#1769aa"}}/></ListItemIcon>
                 <ListItemText primary="Service Center" />
               </ListItemButton>
           </List>
@@ -370,7 +371,7 @@ export default function AdminLayout() {
           <List>
           {isLoggedIn && user && (
               <ListItemButton onClick={() => { navigate("/login"); setMobileOpen(false); LogoutUser() }}>
-                <ListItemIcon><RiLogoutCircleRLine style={{fontSize: "20px", color: "red"}}/></ListItemIcon>
+                <ListItemIcon><RiLogoutCircleRLine style={{fontSize: "22px", color: "red"}}/></ListItemIcon>
                 <ListItemText primary="Logout"  primaryTypographyProps={{
     sx: { color: "red" }
   }}/>

@@ -501,7 +501,7 @@ useEffect(() => {
     <li>
       <Link to="/myaccount/personal-information" className="dropdown-item account-row"  style={{ color: "#3D3C3A", paddingLeft: "12px" }}>
       <IconButton>
-        <Avatar sx={{ width: 28, height: 28, bgcolor: "lightblue", color: '#1565c0' }}>
+        <Avatar sx={{ width:isMobile ? 28:32, height: isMobile? 28:32, bgcolor: "lightblue", color: '#1565c0' }}>
           {user?.name?.charAt(0)}
         </Avatar>
       </IconButton>
@@ -630,7 +630,7 @@ useEffect(() => {
      <Box sx={{ display: "flex", justifyContent: "space-between", gap:"24px", alignItems: "center"}}>     
       <Box sx={{ display: "flex", justifyContent: "left", gap:"24px", alignItems: "center", paddingLeft: "3px"}}>
       <Box>
-        <Avatar sx={{ width: 45, height: 45, bgcolor: "lightblue", color: '#1565c0' }}>
+        <Avatar sx={{ width: 45, height: 45, bgcolor: "lightblue", color: '#1565c0', fontSize: "25px" }}>
           {user?.name?.charAt(0)}
         </Avatar>
       </Box>
@@ -654,29 +654,29 @@ useEffect(() => {
 
     <List>
       <ListItemButton onClick={() => { navigate("/"); setMobileOpen(false); }}>
-        <ListItemIcon><ImHome style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
+        <ListItemIcon><ImHome style={{fontSize: "22px", color: "#1769aa"}}/></ListItemIcon>
         <ListItemText primary="Home" />
       </ListItemButton>
 
       <ListItemButton onClick={() => { navigate("/wishlist"); setMobileOpen(false); }}>
-        <ListItemIcon><FaHeart style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
+        <ListItemIcon><FaHeart style={{fontSize: "22px", color: "#1769aa"}}/></ListItemIcon>
         <ListItemText primary="Wishlists" />
       </ListItemButton>
 
       <ListItemButton onClick={() => { navigate("/carts"); setMobileOpen(false); }}>
-        <ListItemIcon><FaCartShopping style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
+        <ListItemIcon><FaCartShopping style={{fontSize: "22px", color: "#1769aa"}}/></ListItemIcon>
         <ListItemText primary="Cart" />
       </ListItemButton>
 
       
         <ListItemButton onClick={() => { navigate("/myaccount/myorders"); setMobileOpen(false); }}>
-          <ListItemIcon><BsFillBoxSeamFill style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
+          <ListItemIcon><BsFillBoxSeamFill style={{fontSize: "22px", color: "#1769aa"}}/></ListItemIcon>
           <ListItemText primary="My Orders" />
         </ListItemButton>
       
 
        <ListItemButton onClick={() => { navigate("/myaccount/personal-information"); setMobileOpen(false); }}>
-          <ListItemIcon><FaUserCircle style={{fontSize: "20px", color: "#1769aa"}}/></ListItemIcon>
+          <ListItemIcon><FaUserCircle style={{fontSize: "22px", color: "#1769aa"}}/></ListItemIcon>
           <ListItemText primary="My Account" />
         </ListItemButton>
 
@@ -688,7 +688,7 @@ useEffect(() => {
     <List>
     
         <ListItemButton onClick={() => { navigate("/login"); setMobileOpen(false); LogoutUser() }}>
-          <ListItemIcon><RiLogoutCircleRLine style={{fontSize: "20px", color: "red"}}/></ListItemIcon>
+          <ListItemIcon><RiLogoutCircleRLine style={{fontSize: "22px", color: "red"}}/></ListItemIcon>
           <ListItemText primary="Logout"  primaryTypographyProps={{
     sx: { color: "red" }
   }}/>
