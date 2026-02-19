@@ -27,12 +27,19 @@ ________________________________________
 •	Protected Admin Routes
 ________________________________________
 🛠 Tech Stack
-	Frontend	Backend
-React.js	Node.js
-React Router	Express.js
-Context API and Redux	MongoDB + Mongoose 
-MUI	JWT Authentication
-Bootstrap	bcrypt for password hashing
+Frontend
+•	React.js
+•	React Router
+•	Context API and Redux 
+•	Axios
+•	MUI and Bootstrap
+
+Backend
+•	Node.js
+•	Express.js
+•	MongoDB
+•	JWT Authentication
+•	bcrypt for password hashing
 
 ________________________________________
 📂 Project Structure
