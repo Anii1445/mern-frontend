@@ -13,7 +13,7 @@ import { BsBoxSeamFill } from "react-icons/bs";
 const API = import.meta.env.VITE_API_URL;
 import { MdAdminPanelSettings } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
-import { FaUserCheck } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 import { Card, Chip, Box, Typography, CardContent } from "@mui/material";
 
 export default function AdminUsers() {
@@ -43,7 +43,7 @@ export default function AdminUsers() {
     },
     {
       name: "Role",
-      selector: (row) => row.isAdmin === false ? 'User' : 'Admin',
+      selector: (row) => row.isAdmin === false ? <span style={{ color: "green"}}>User</span> : <span style={{ color: "#FF8C00" }}>Admin</span>,
       sortable: true,
     },
     {
@@ -71,7 +71,7 @@ export default function AdminUsers() {
           className="btn btn-white border border-success btn-sm w-100"
           onClick={() => handleEdit(row._id)}
         >
-          <MdEdit style={{ color: "grey" }} /> Edit
+          <MdEdit style={{ color: "green" }} /> Edit
         </button>
         </div>
         :
@@ -80,13 +80,13 @@ export default function AdminUsers() {
           className="btn btn-white border border-danger btn-sm w-100"
           onClick={() => handleDelete(row._id)}
         >
-          <RiDeleteBin6Fill style={{ color: "grey", fontSize: "17px" }} /> Delete
+          <RiDeleteBin6Fill style={{ color: "#E42217", fontSize: "17px" }} /> Delete
         </button>
         <button
           className="btn btn-white border border-primary btn-sm w-100"
           onClick={() => navigate(`/admin/userOrders/${row._id}`)}
         >
-          <BsBoxSeamFill style={{ color: "grey" }} /> Orders
+          <BsBoxSeamFill style={{ color: '#1976d2', }} /> Orders
         </button>
         </div>
         
@@ -236,6 +236,8 @@ export default function AdminUsers() {
     </div>
   );
 
+  console.log(allUsers)
+
   return (
     <> 
     <div className="container-fluid container-md">
@@ -284,12 +286,12 @@ export default function AdminUsers() {
               width: 48, height: 48, borderRadius: 2.5,
               bgcolor: '#FFE87C', display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
-              <MdAdminPanelSettings style={{ color: '#D4A017', fontSize: "22px" }} />
+              <MdAdminPanelSettings style={{ color: '#D4A017', fontSize: "25px" }} />
             </Box>
             <Box>
               <Typography sx={{ fontSize: 13, color: 'text.secondary', fontWeight: 500 }}>Admins</Typography>
                 <Typography variant="h5" sx={{ fontWeight: 800, color: 'text.primary', lineHeight: 1.2 }}>
-                  {allUsers.filter((a) => a.isAdmin === "true").length}
+                  {allUsers.filter((a) => a.isAdmin === true).length}
                 </Typography>
             </Box>
           </CardContent>
@@ -301,11 +303,11 @@ export default function AdminUsers() {
               width: 48, height: 48, borderRadius: 2.5,
               bgcolor: '#C3FDB8', display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
-              <FaUserCheck style={{ color: '#12AD2B', fontSize: "22px" }} />
+              <FaUser style={{ color: '#12AD2B', fontSize: "18px" }} />
             </Box>
             <Box>
                 <Typography variant="h5" sx={{ fontWeight: 800, color: 'text.primary', lineHeight: 1.2 }}>
-                  {allUsers.filter((a) => a.isAdmin === "false").length}
+                  {allUsers.filter((a) => a.isAdmin === false).length}
                 </Typography>
             </Box>
           </CardContent>
