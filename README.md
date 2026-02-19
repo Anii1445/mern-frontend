@@ -30,9 +30,8 @@ ________________________________________
 Frontend
 •	React.js
 •	React Router
-•	Context API / Redux (whichever you used)
-•	Axios
-•	MUI / Tailwind CSS (mention correct one)
+•	Context API and Redux 
+•	MUI 
 
 Backend
 •	Node.js
