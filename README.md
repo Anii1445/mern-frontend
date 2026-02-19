@@ -26,29 +26,14 @@ ________________________________________
 •	View All Orders
 •	Protected Admin Routes
 ________________________________________
-
 🛠 Tech Stack
-Layer	Technology
-Frontend	React 18 + Vite + Material UI v5
-State	Zustand (client) + React Query v5 (server)
-Backend	Node.js + Express
-Database	MongoDB + Mongoose
-Auth	JWT (access + refresh) + bcryptjs
-File Storage	Cloudinary + Multer
-Deployment	Vercel (frontend) + Render (backend)
-🛠 Tech Stack
-Frontend
-•	React.js
-•	React Router
-•	Context API and Redux 
-•	MUI 
+	Frontend	Backend
+React.js	Node.js
+React Router	Express.js
+Context API and Redux	MongoDB + Mongoose 
+MUI	JWT Authentication
+Bootstrap	bcrypt for password hashing
 
-Backend
-•	Node.js
-•	Express.js
-•	MongoDB
-•	JWT Authentication
-•	bcrypt for password hashing
 ________________________________________
 📂 Project Structure
 ecommerce-app/
