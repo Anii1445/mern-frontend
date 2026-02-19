@@ -26,6 +26,16 @@ ________________________________________
 •	View All Orders
 •	Protected Admin Routes
 ________________________________________
+
+🛠 Tech Stack
+Layer	Technology
+Frontend	React 18 + Vite + Material UI v5
+State	Zustand (client) + React Query v5 (server)
+Backend	Node.js + Express
+Database	MongoDB + Mongoose
+Auth	JWT (access + refresh) + bcryptjs
+File Storage	Cloudinary + Multer
+Deployment	Vercel (frontend) + Render (backend)
 🛠 Tech Stack
 Frontend
 •	React.js
