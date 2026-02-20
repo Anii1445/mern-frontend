@@ -1,6 +1,6 @@
 # 🛒 E-Commerce Web Application (MERN Stack)
 
-A full-featured **MERN Stack E-Commerce Application** built with modern web technologies.
+A full-featured **MERN Stack E-Commerce Application** built with modern web technologies, designed specifically for fitness enthusiasts.
 Users can browse products, manage cart, place orders, check order history, manage wishlists, add reviews & ratings — and admins can manage products & users.
 
 ---
