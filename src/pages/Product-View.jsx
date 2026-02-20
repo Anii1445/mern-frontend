@@ -1564,11 +1564,10 @@ return (
                       {showModal && (
                         <div
                           className="modal fade show"
-                          style={{ display: "block", top: "8%",         
-                          position: "fixed", backgroundColor: "rgba(0,0,0,0.40)"  }}
+                          style={{ display: "block", marginTop: "2%", backgroundColor: "rgba(0,0,0,0.40)"  }}
                           tabIndex="-1"
                         >
-                          <div class="modal-dialog">
+                          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                             <div class="modal-content">
                               <div class="modal-header align-items-start justify-content-end">
                                 <div>
@@ -1603,11 +1602,11 @@ return (
                                 ></button>
                               </div>
                               <div class="modal-body">
-                                <div className="row">
-                                  <div className="col-4 text-start align-items-center">
+                                <div className="row mb-2">
+                                  <div className="col-12 col-md-4 text-start align-items-center">
                                     Rate this product *
                                   </div>
-                                  <div className="col-8 text-start d-flex align-items-center">
+                                  <div className="col-12 col-md-8 text-start d-flex align-items-center">
                                     <Rating
                                       name="simple-controlled"
                                       value={value}

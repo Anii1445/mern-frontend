@@ -602,7 +602,7 @@ export default function Checkout() {
 {showModal && 
       <div
         className="modal fade show"
-        style={{ display: "block", marginTop: "2%",backgroundColor: "rgba(0,0,0,0.40)"  }}
+        style={{ display: "block", marginTop: "7%",backgroundColor: "rgba(0,0,0,0.40)"  }}
         tabIndex="-1"
       >
         <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
