@@ -1,7 +1,6 @@
 # 🛒 E-Commerce Web Application (MERN Stack)
 
-A full-featured **MERN Stack E-Commerce Application** built with modern web technologies.
-Users can browse products, manage cart, place orders, check order history, manage wishlists, add reviews & ratings — and admins can manage products & users.
+A full-featured **MERN Stack E-Commerce Application** built with modern web technologies, designed specifically for fitness enthusiasts. Users can browse products, manage cart, place orders, check order history, manage wishlists, add reviews & ratings — and admins can manage products & users.
 
 ---
 
@@ -186,4 +185,8 @@ npm start
 | Platform | Link |
 |---------|------|
 | 🐙 GitHub | [github.com/Anii1445](https://github.com/Anii1445) |
+<<<<<<< HEAD
 | 💼 LinkedIn | [linkedin.com/in/yourprofile](https://linkedin.com/in/yourprofile) |
+=======
+| 💼 LinkedIn | [linkedin.com/in/yourprofile](https://linkedin.com/in/yourprofile) |
+>>>>>>> 2a9f99a889c2bf67361f3c29570c94c6dc7c61cc
