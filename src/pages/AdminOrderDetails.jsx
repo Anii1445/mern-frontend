@@ -161,7 +161,7 @@ export default function AdminOrderDetails(){
                                     </div>
                                     <div className="col-9 col-md-11">
                                         <div><small>{o?.product?.name}</small></div>
-                                        <div style={{ color: "grey" }}><small>{o?.variant?.qty ? `${o?.variant?.qty} Capsules` : o?.variant?.weight > 999 ? `${o?.variant?.weight/1000}Kg` : `${o?.variant?.weight}g`} {!o?.variant?.qty && `| ${o?.variant?.flavour}`}</small></div>
+                                        <div style={{ color: "grey" }}><small>{o?.variant?.qty ? `${o?.variant?.qty} Capsules` : o?.variant?.weight > 999 ? `${o?.variant?.weight/1000}Kg` : `${o?.variant?.weight}g`} {o?.variant?.flavour && `| ${o?.variant?.flavour}`}</small></div>
                                         <div style={{ color: "grey" }}><small>Qty: {o?.qty}</small></div>
                                     </div>    
                                       {index < orderDetails?.items?.length - 1 && <Divider sx={{ backgroundColor: "black", margin: "10px 0"}}/>}

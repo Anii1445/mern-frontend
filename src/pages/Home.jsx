@@ -1336,11 +1336,11 @@ export default function Home() {
                                 </small>
                               </div>
                               <div style={{ display: "inline" }}>
-                                <small>{p.variant[0].flavour}</small> |{" "}
+                                <small>{p?.variant?.[0]?.flavour}</small> {" "}
                                 <small>
-                                  {p.variant[0].weight > 999
-                                    ? `${p.variant[0].weight / 1000}Kg`
-                                    : `${p.variant[0].weight}g`}
+                                  {p.variant[0].qty ? `${p.variant[0].qty} Capsules` : p.variant[0].weight > 999
+                                    ? `| ${p.variant[0].weight / 1000}Kg`
+                                    : `| ${p.variant[0].weight}g`}
                                 </small>
                               </div>
                               <div className="mt-3">

@@ -212,6 +212,8 @@ export default function Whislist() {
     navigate("/carts");
   }
 
+
+  console.log(wishlists)
   
   return (
     <>
@@ -258,8 +260,8 @@ export default function Whislist() {
                               </div>
                               <div className="col-12 col-md-7">
                                 <p style={{ fontSize: isMobile ? "14px":"15px", marginBottom: "5px"}}>
-                                  {c.product.brand.toUpperCase()}, {c.product.name}, {c.product?.variant?.weight > 999 ? `${c.product?.variant?.weight/1000}Kg` : `${c.product?.variant?.weight}g`}{" "}
-                                  {c.product_flavour}
+                                  {c.product.brand.toUpperCase()}, {c.product.name}, {c.product?.variant?.qty ? `${c.product?.variant?.qty} Capsules` : c.product?.variant?.weight > 999 ? `${c.product?.variant?.weight/1000}Kg` : `${c.product?.variant?.weight}g`}{" "}
+                                  {c.product?.variant?.flavour && `, ${c.product?.variant?.flavour}`}
                                 </p>
                                 <h5 style={{ display: "inline", marginRight: "3%" }}>Price: ₹{c.product?.variant?.price}</h5>
                                 <h6 style={{ color: "#50C878", display: "inline", fontSize: isMobile && "14px" }}>( You Saved ₹{Number(c.product?.variant?.mrp - c.product?.variant?.price)} )</h6>
