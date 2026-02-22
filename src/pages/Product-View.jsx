@@ -361,7 +361,8 @@ useEffect(() => {
               : product?.variant?.[0]?.weight,  
             product_mrp: mrp ? mrp : product?.variant?.[0]?.mrp,
             product_qty: qty,
-            product_img: product?.variant?.[0]?.image
+            product_img: product?.variant?.[0]?.image,
+            quantity: product?.variant?.[0]?.qty
           }),
         });
 
@@ -370,12 +371,13 @@ useEffect(() => {
                 position: "top-center",
                 autoClose: 2000, 
                 style: {
-    maxWidth: "80px", // or any width that fits mobile
-    width: "auto",
-    margin: "0 auto",
-    textAlign: "center",
-  },
+                maxWidth: "80px", // or any width that fits mobile
+                width: "auto",
+                margin: "0 auto",
+                textAlign: "center",
+                 },
              });
+          setLoadingButton(false);
           getCartByUser();
           setQty(1);
         }
@@ -454,6 +456,7 @@ useEffect(() => {
             product_weight: selectWeight
               ? selectWeight
               : product?.variant?.[0]?.weight,
+            product_qty: product?.variant?.[0]?.qty
           }),
         }
       );
@@ -857,7 +860,7 @@ return (
           <div className="col-12 col-md-1 order-2 order-md-1 border rounded-4">
             <Box sx={{
                width: "100px",
-               height: "400px",
+               height: "480px",
                overflow: "hidden",
                flexShrink: 0,
                padding: "10% 0% 10% 0%"
@@ -865,7 +868,7 @@ return (
             <Swiper
              onSwiper={setThumbsSwiper}
              modules={[Thumbs, Navigation, Pagination]}
-             spaceBetween={12}
+             spaceBetween={-40}
              slidesPerView={4}
              direction="vertical"
              watchSlidesProgress
@@ -917,9 +920,9 @@ return (
 
             <h4 style={{ fontSize: isMobile && "20px" }}>
               {product?.brand} - {product?.name} |{" "}
-              {selectWeight ? `${selectWeight > 999 ? `${selectWeight/1000}Kg` : `${selectWeight}g` }`
-                : `${product?.variant?.[0]?.weight > 999 ? `${product?.variant?.[0]?.weight/1000}Kg` : `${product?.variant?.[0]?.weight}g` }`} | {''}
-              {selectFlavour ? selectFlavour : product?.variant?.[0]?.flavour}  
+              {product?.category !== "Workout Essentials" ? selectWeight ? `${selectWeight > 999 ? `${selectWeight/1000}Kg` : `${selectWeight}g` }`
+                : `${product?.variant?.[0]?.weight > 999 ? `${product?.variant?.[0]?.weight/1000}Kg` : `${product?.variant?.[0]?.weight}g` }` : `${product?.variant?.[0]?.qty} Capsules`}
+              {product?.category !== "Workout Essentials" ? selectFlavour ? `, ${selectFlavour}` : `, ${product?.variant?.[0]?.flavour}` : ""}  
             </h4>
             <div style={{ marginBottom: "5px" }}>
             <small>
@@ -1046,11 +1049,11 @@ return (
             </Button>}
             </div>
             
-            <p className="mb-2" style={{marginTop: isMobile ? "10px":"20px"}}>
-              Fullfilled By: <b>{product?.supplier}</b>
-            </p>
+            <div className="mb-2" style={{marginTop: isMobile ? "10px":"20px"}}>
+              Fullfilled By: <b style={{ color: "#625D5D"}}>{product?.supplier}</b>
+            </div>
 
-            <Divider sx={{ backgroundColor: "grey" }}/>
+           {product?.category !== "Workout Essentials" ? <><Divider sx={{ backgroundColor: "grey" }}/>
             <div className="mt-2">
               <h5
                 className="text-secondary"
@@ -1123,7 +1126,7 @@ return (
                   </Grid>
                 )})}
               </Grid>
-            </div>
+            </div></> : <div>Quantity (N): <b style={{ color: "#625D5D"}}>{`${product?.variant?.[0].qty} Capsules`}</b> </div>}
           </div>
         </div>
 
@@ -1225,12 +1228,17 @@ return (
     </h2>
     <div id="collapseTwo" className="accordion-collapse collapse"  data-bs-parent="#accordionExample">
       <div className="accordion-body">
-        <div style={{ fontSize: "15px" }}><strong>Dietary Preference</strong>: {product?.dietaryPreference}</div>
+        <div style={{ fontSize: "15px" }}><strong>Diet Type</strong>: {product?.dietaryPreference}</div>
         <div style={{ fontSize: "15px" }}><strong>Form</strong>: {product?.form}</div>
         <div style={{ fontSize: "15px" }}><strong>Maximum Shelf Life</strong>: {product?.bestBefore}</div>
-        <div style={{ fontSize: "15px" }}><strong>Number of servings</strong>: {selectWeight > 4 ? Math.round(selectWeight/product?.servingSize) : Math.round(selectWeight/product?.servingSize * 1000)}</div>
-        <div style={{ fontSize: "15px" }}><strong>Serving Size</strong>: {product?.servingSize}</div>
-
+        {product?.category === "Workout Essentials" ? 
+          <div style={{ fontSize: "15px" }}><strong>Number of Capsules (N)</strong>: {`${product?.variant?.[0]?.qty} Capsules`}</div>
+        :
+        <>
+          <div style={{ fontSize: "15px" }}><strong>Number of servings</strong>: {selectWeight > 4 ? Math.round(selectWeight/product?.servingSize) : Math.round(selectWeight/product?.servingSize * 1000)}</div>
+          <div style={{ fontSize: "15px" }}><strong>Serving Size</strong>: {product?.servingSize}</div>
+        </>
+        }
       </div>
     </div>
   </div>
@@ -1254,8 +1262,8 @@ return (
     </h2>
     <div id="collapseFour" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
       <div className="accordion-body">
-        <div style={{ fontSize: "15px" }}><strong>FSSAI Number</strong>: {prod?.fssai}</div>
-        <div style={{ fontSize: "15px" }}><strong>Manufacturer</strong>: {prod?.manufacturer}</div>    
+        <div style={{ fontSize: "15px" }}><strong>FSSAI Number</strong>: {product?.fssai}</div>
+        <div style={{ fontSize: "15px" }}><strong>Manufacturer</strong>: {product?.manufacturer}</div>    
       </div>
     </div>
   </div>
@@ -1267,7 +1275,7 @@ return (
     </h2>
     <div id="collapseFive" className="accordion-collapse collapse" data-bs-parent="#accordionExample">
       <div className="accordion-body">
-        <small>{prod?.manufacturer}</small>
+        <small>{product?.manufacturer}</small>
       </div>
     </div>
   </div>
@@ -1357,9 +1365,9 @@ return (
         <div style={{ marginTop: "5%" }}>
           <h2 className="text-center" style={{ fontSize: isMobile && "18px" }}>
             {product?.brand} {product?.name} |{" "}
-            {selectWeight && selectFlavour
+            {product?.category !== "Workout Essentials" ? selectWeight && selectFlavour
               ? `${selectWeight > 999 ? `${selectWeight/1000}Kg`: `${selectWeight}g`} | ${selectFlavour}`
-              : `${product?.variant?.[0]?.weight > 999 ? `${product?.variant?.[0]?.weight}Kg` : `${product?.variant?.[0]?.weight}g`} | ${product?.variant?.[0]?.flavour}`}{" "}
+              : `${product?.variant?.[0]?.weight > 999 ? `${product?.variant?.[0]?.weight}Kg` : `${product?.variant?.[0]?.weight}g`} | ${product?.variant?.[0]?.flavour}` : `${product?.variant?.[0]?.qty} Capsules`}{" "}
             (Reviews)
           </h2>
 
@@ -1704,7 +1712,7 @@ sx={{
             <div className="col-12 col-md-9" style={{ marginTop : isMobile && "5%"}}>
               <div className="d-flex justify-content-between align-items-center">
                 <h6>
-                  All Flavour ({AllReviewByCustomers.length} Reviews)
+                  {product?.category === "Workout Essentials" ? `All Reviews (${AllReviewByCustomers.length} Reviews)` : `All Flavour (${AllReviewByCustomers.length} Reviews)`}
                 </h6>
                 <div>
                   {AllReviewByCustomers.length > 0 && 

@@ -164,7 +164,7 @@ const theme = useTheme();
                                     </div>
                                     <div className="col-9 col-md-11">
                                         <div><small  className="d-block">{i.product.name}</small></div>
-                                        <div><small className="text-muted">{i.variant.weight > 999 ? `${i.variant.weight/1000}Kg` : `${i.variant.weight}g`}, {i.variant.flavour}</small></div>
+                                        <div><small className="text-muted">{i.variant.qty ? `${i.variant.qty} Capsules` : i.variant.weight > 999 ? `${i.variant.weight/1000}Kg` : `${i.variant.weight}g`}{!i.variant.qty && `, ${i.variant.flavour}`}</small></div>
                                     </div>    
                                 </div>
                                 </div>

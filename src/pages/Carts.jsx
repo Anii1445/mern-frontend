@@ -422,7 +422,7 @@ export default function Carts() {
                               </div>
                               <div className="col-8 col-md-8">
                                 <p style={{ fontSize: "15px", marginBottom: "5px"}}>
-                                  {c.product.brand}, {c.product.name}, {c.product_weight > 999 ? `${c.product_weight/1000}Kg` : `${c.product_weight}g`}, {c.product_flavour}
+                                  {c.product.brand}, {c.product.name}, {c.quantity ? `${c.quantity} Capsules` : c.product_weight > 999 ? `${c.product_weight/1000}Kg` : `${c.product_weight}g`}{!c.quantity && `, ${c.product_flavour}`}
                                 </p>
                                 <h5 style={{ display: "inline", marginRight: "4%" }}>₹{(c.product_price * c.product_qty).toLocaleString("en-IN")}</h5>
                                 <p style={{ display: "inline", color:"grey" }}>MRP: <del>₹{(c.product_mrp * c.product_qty).toLocaleString("en-IN")}</del></p>

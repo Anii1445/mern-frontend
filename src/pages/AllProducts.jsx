@@ -12,6 +12,10 @@ import { FaEye } from "react-icons/fa";
 import { FiPlus } from "react-icons/fi";
 import { Card, Chip, Box, Typography, CardContent } from "@mui/material";
 import { FaBoxOpen } from "react-icons/fa";
+import { MdDeleteForever } from "react-icons/md";
+import { toast } from "react-toastify";
+import { FaCheck } from "react-icons/fa6";
+import { RxCross2 } from "react-icons/rx";
 
 
 export default function AllProducts(){
@@ -47,13 +51,76 @@ export default function AllProducts(){
           setisLoading(false);
         }
     }
+
     useEffect(()=>{
-        if(token){
            getAllProducts();
-        }
-    },[user, token]);
+    },[search ,token]);
 
 
+    const deleteProduct = async (id) => {
+        toast(
+          ({ closeToast }) => (
+            <div>
+              <p style={{ color: "black" }}>Are you sure you want to delete this user?</p>
+              <div className="d-flex gap-1 align-items-center">
+              <button
+                className="btn btn-outline-danger btn-sm border d-flex gap-1 align-items-center"
+                onClick={async () => {
+                  // Your delete logic here
+                  setisLoading(true);
+                  try {
+                    const response = await fetch(
+                      `${API}/api/admin/deleteProduct/${id}`,
+                      {
+                        method: "DELETE",
+                        headers: {
+                          Authorization: `Bearer ${token}`,
+                        },
+                      }
+                    );
+    
+                    if (response.ok) {
+                      setisLoading(false);
+                      toast.success("Product Deleted Successfully!", {
+                        position: "top-center",
+                        autoClose: 2000, 
+                        style: {
+        maxWidth: "80px", // or any width that fits mobile
+        width: "auto",
+        margin: "0 auto",
+        textAlign: "center",
+      },
+                    });
+                      getAllProducts();
+                    }
+                  } catch (error) {
+                    console.log(error);
+                  }finally{
+                    setisLoading(false);
+                  }
+                  closeToast();
+                }}
+              >
+                <FaCheck/>Yes
+              </button>
+              <button
+                className="btn btn-primary btn-sm border d-flex gap-1 align-items-center"
+                onClick={closeToast}
+              >
+               <RxCross2/>No
+              </button>
+              </div>
+            </div>
+          ),
+          {
+            position: "top-center",  
+            autoClose: false,
+            closeOnClick: false,
+            draggable: false,
+          }
+        );
+      };
+    
     console.log(allProducts);
      const columns = [
         {
@@ -94,7 +161,7 @@ export default function AllProducts(){
                             height: 22,
                             fontSize: 11,
                             fontWeight: 700,
-                            bgcolor: 'rgba(67,233,123,0.15)',
+                            bgcolor: '#C3FDB8',
                             color: 'success.main',
                           }}
                         />,
@@ -103,17 +170,23 @@ export default function AllProducts(){
         {
               name: "Actions",
               button: "true",
+              width: "150px",
               cell: (row) => (
-          
-                <Button
-                 variant="outlined"
-                 size="size"
-                 startIcon={<FaEye/>}
+               <div className="d-flex gap-1 align-items-center">
+                <button
+                className="btn btn-outline-primary btn-sm d-flex gap-1 align-items-center"
                  onClick={() => navigate(`/admin/productVariants/${row._id}`)}
                 >
-                  View
-                </Button>
-                )
+                  <FaEye/>View
+                </button>
+                <button
+                 className="btn btn-outline-danger btn-sm d-flex gap-1 align-items-center"
+                 onClick={() => deleteProduct(row._id)}
+                >
+                  <MdDeleteForever style={{ fontSize: "17px"}}/>Delete
+                </button>
+                </div>
+              )
         }
       ];
     

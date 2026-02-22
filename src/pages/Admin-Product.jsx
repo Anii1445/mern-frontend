@@ -3,6 +3,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { FaArrowLeft } from "react-icons/fa6";
+import { LuUpload } from "react-icons/lu";
 import { useState } from "react";
 import { ImSpinner8 } from "react-icons/im";
 import FormControl from "@mui/material/FormControl";
@@ -50,7 +51,7 @@ const API = import.meta.env.VITE_API_URL;
 
   // Dynamic fields state
   const [variant, setVariant] = useState([
-    { weight: "", flavour: "", inStock: "", mrp: "", price: "", image: [] },
+    { weight: "", qty: "", flavour: "", inStock: "", mrp: "", price: "", image: [] },
   ]);
 
   // Add new dynamic field
@@ -59,6 +60,7 @@ const API = import.meta.env.VITE_API_URL;
       ...variant,
       {
         weight: "",
+        qty: "",
         flavour: "",
         inStock: "",
         mrp: "",
@@ -242,6 +244,7 @@ const API = import.meta.env.VITE_API_URL;
           {
             image: [],
             weight: "",
+            qty:"",
             flavour: "",
             inStock: "",
             mrp: "",
@@ -267,6 +270,7 @@ const API = import.meta.env.VITE_API_URL;
       }
       else{
         if (res_data.extraDetails) {
+          console.log(res_data.extraDetails)
         setErrors(res_data.extraDetails[0].field);
 
             toast.error(res_data.extraDetails[0].message, {
@@ -301,7 +305,7 @@ const API = import.meta.env.VITE_API_URL;
 
   setVariant(updatedVariant);
 };
-console.log(errors)
+
 
   return (
     <>
@@ -548,7 +552,7 @@ console.log(errors)
                   <TextField
                   size="small"
                     type="text"
-                    label="Serving Size"
+                    label="Serving Size of 1 scoop"
                     variant="outlined"
                     value={servingSize}
                     onChange={(e) => setServingSize(e.target.value)}
@@ -604,8 +608,8 @@ console.log(errors)
                           handleImageChange(index, Array.from(e.target.files))
                          }
                       />
-                      <label htmlFor={`image-upload-${index}`} style={{border: "1px solid lightgrey", padding: "7px", backgroundColor: "#EEEEEE", cursor: "pointer", display:"flex", borderRadius: "6px"}}>
-                         Upload Images
+                      <label htmlFor={`image-upload-${index}`} style={{border: "1px solid #1565c0", borderWidth: "2px", borderStyle: "dashed", color: '#1565c0', padding: "6px", justifyContent:"center", backgroundColor: "#EEEEEE", cursor: "pointer", display:"flex", alignItems:"center", borderRadius: "6px", gap: "5px"}}>
+                         <LuUpload/> Upload Images
                       </label>
                       <div className="d-flex gap-2 mt-2 flex-wrap">
                         {field.image.map((file, imgIndex) => (
@@ -646,6 +650,23 @@ console.log(errors)
 
                       </div>
 
+                      {category === "Workout Essentials" ? 
+                      <div className="col-12 col-md-2 ">
+                         <TextField
+                          type="text"
+                          label="Qty (N)"
+                          variant="outlined"
+                          value={field.qty}
+                          onChange={(e) =>
+                            handleChange(index, "qty", e.target.value)
+                          }
+                          name="qty"
+                          size="small"
+                          fullWidth
+                          required
+                        />
+                      </div> 
+                      : 
                       <div className="col-12 col-md-2 ">
                         <FormControl fullWidth size="small">
                           <InputLabel id="demo-simple-small-label">
@@ -673,9 +694,9 @@ console.log(errors)
                             
                           </Select>
                         </FormControl>
-                      </div>
+                      </div>}
 
-                      <div className="col-12 col-md-2">
+                      {category !== "Workout Essentials" && <div className="col-12 col-md-2">
                         <FormControl fullWidth size="small">
                           <InputLabel id="demo-simple-small-label">
                             Flavour
@@ -703,7 +724,7 @@ console.log(errors)
                             })}
                           </Select>
                         </FormControl>
-                      </div>
+                      </div>}
                       
                       <div className="col-6 col-md-1">
                         <TextField
@@ -779,7 +800,7 @@ console.log(errors)
               <Button loading={loading}
                   loadingPosition="start" fullWidth
                   startIcon={ loading && <ImSpinner8 /> } variant="contained" onClick={add}>
-                ADD
+                {loading ? "Adding..." : "Add"}
               </Button>
             </div>
           </div>

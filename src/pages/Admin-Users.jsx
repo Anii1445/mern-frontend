@@ -15,6 +15,8 @@ import { MdAdminPanelSettings } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { Card, Chip, Box, Typography, CardContent } from "@mui/material";
+import { FaCheck } from "react-icons/fa6";
+import { RxCross2 } from "react-icons/rx";
 
 export default function AdminUsers() {
   const { token } = useAuth();
@@ -43,7 +45,7 @@ export default function AdminUsers() {
     },
     {
       name: "Role",
-      selector: (row) => row.isAdmin === false ? <span style={{ color: "green"}}>User</span> : <span style={{ color: "#FF8C00" }}>Admin</span>,
+      selector: (row) => row.isAdmin === false ? <span style={{ color: "green"}}>User</span> : <span style={{ color: "#D4A017" }}>Admin</span>,
       sortable: true,
     },
     {
@@ -55,7 +57,7 @@ export default function AdminUsers() {
                             height: 22,
                             fontSize: 11,
                             fontWeight: 700,
-                            bgcolor: 'rgba(67,233,123,0.15)',
+                            bgcolor: '#C3FDB8',
                             color: 'success.main',
                           }}
                         />,
@@ -64,11 +66,11 @@ export default function AdminUsers() {
     {
       name: "Actions",
       button: "true",
-      width: "160px",
+      width: "170px",
       cell: (row) => (row.isAdmin ?
         <div className="d-flex flex-md-row gap-1 w-100">
         <button
-          className="btn btn-white border border-success btn-sm w-100"
+          className="btn btn-white border border-success d-flex align-items-center justify-content-center btn-sm w-100"
           onClick={() => handleEdit(row._id)}
         >
           <MdEdit style={{ color: "green" }} /> Edit
@@ -77,16 +79,16 @@ export default function AdminUsers() {
         :
         <div className="d-flex flex-md-row gap-1 w-100">
         <button
-          className="btn btn-white border border-danger btn-sm w-100"
+          className="btn btn-white border border-danger d-flex gap-1 align-items-center btn-sm w-100"
           onClick={() => handleDelete(row._id)}
         >
-          <RiDeleteBin6Fill style={{ color: "#E42217", fontSize: "17px" }} /> Delete
+          <RiDeleteBin6Fill style={{ color: "#E42217", fontSize: "17px" }} />Delete
         </button>
         <button
-          className="btn btn-white border border-primary btn-sm w-100"
+          className="btn btn-white border border-primary d-flex gap-1 align-items-center btn-sm w-100"
           onClick={() => navigate(`/admin/userOrders/${row._id}`)}
         >
-          <BsBoxSeamFill style={{ color: '#1976d2', }} /> Orders
+          <BsBoxSeamFill style={{ color: '#1976d2', }} />Orders
         </button>
         </div>
         
@@ -102,11 +104,13 @@ export default function AdminUsers() {
     toast(
       ({ closeToast }) => (
         <div>
-          <p>Are you sure you want to delete this user?</p>
+          <p style={{ color: "black" }}>Are you sure you want to delete this user?</p>
+          <div className="d-flex gap-1 align-items-center">
           <button
-            className="btn btn-light btn-sm border"
+            className="btn btn-outline-danger btn-sm border d-flex gap-1 align-items-center"
             onClick={async () => {
               // Your delete logic here
+              setisLoading(true);
               try {
                 const response = await fetch(
                   `${API}/api/admin/user/delete/${id}`,
@@ -119,6 +123,7 @@ export default function AdminUsers() {
                 );
 
                 if (response.ok) {
+                  setisLoading(false);
                   toast.success("User Deleted Successfully!", {
                     position: "top-center",
                     autoClose: 2000, 
@@ -133,18 +138,21 @@ export default function AdminUsers() {
                 }
               } catch (error) {
                 console.log(error);
+              }finally{
+                setisLoading(false);
               }
               closeToast();
             }}
           >
-            Yes
+            <FaCheck/>Yes
           </button>
           <button
-            className="btn btn-light ms-2 btn-sm border"
+            className="btn btn-primary btn-sm border d-flex gap-1 align-items-center"
             onClick={closeToast}
           >
-            No
+           <RxCross2/>No
           </button>
+          </div>
         </div>
       ),
       {
@@ -274,7 +282,7 @@ export default function AdminUsers() {
             <Box>
               <Typography sx={{ fontSize: 13, color: 'text.secondary', fontWeight: 500 }}>Total Users</Typography>
                 <Typography variant="h5" sx={{ fontWeight: 800, color: 'text.primary', lineHeight: 1.2 }}>
-                  {allUsers.length}
+                  {allUsers? allUsers.length : 0}
                 </Typography>
             </Box>
           </CardContent>
@@ -291,7 +299,7 @@ export default function AdminUsers() {
             <Box>
               <Typography sx={{ fontSize: 13, color: 'text.secondary', fontWeight: 500 }}>Admins</Typography>
                 <Typography variant="h5" sx={{ fontWeight: 800, color: 'text.primary', lineHeight: 1.2 }}>
-                  {allUsers.filter((a) => a.isAdmin === true).length}
+                  {allUsers? allUsers.filter((a) => a?.isAdmin === true).length : 0}
                 </Typography>
             </Box>
           </CardContent>
@@ -306,8 +314,9 @@ export default function AdminUsers() {
               <FaUser style={{ color: '#12AD2B', fontSize: "18px" }} />
             </Box>
             <Box>
+               <Typography sx={{ fontSize: 13, color: 'text.secondary', fontWeight: 500 }}>Users</Typography>
                 <Typography variant="h5" sx={{ fontWeight: 800, color: 'text.primary', lineHeight: 1.2 }}>
-                  {allUsers.filter((a) => a.isAdmin === false).length}
+                  {allUsers? allUsers.filter((a) => a?.isAdmin === false).length : 0}
                 </Typography>
             </Box>
           </CardContent>
@@ -329,7 +338,7 @@ export default function AdminUsers() {
                 />
               </div>
             ) : (
-              <h3>Access Denied, Not an Admin</h3>
+              <h3>Access Denied, Not an Admin OR No Users</h3>
             )}
           </div>
         </div>

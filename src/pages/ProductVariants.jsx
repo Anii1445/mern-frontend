@@ -11,6 +11,8 @@ import {Button} from "@mui/material";
 import { FaEye } from "react-icons/fa";
 import { useTheme, useMediaQuery } from "@mui/material";
 import { FaArrowLeft } from "react-icons/fa6";
+import { Chip } from "@mui/material";
+
 
 export default function ProductVariants(){
 
@@ -22,7 +24,7 @@ export default function ProductVariants(){
     const navigate = useNavigate();
     const [isloading, setisLoading] = useState(false);
     const { id } = useParams();
-    const [filteredVariants, setFilteredVariants] = useState(false);
+    const [filteredVariants, setFilteredVariants] = useState([]);
 
     const getAllProducts = async() => {
 
@@ -57,16 +59,21 @@ export default function ProductVariants(){
     },[user, token]);
 
 
+    const hasFlavour = productVariants.some(
+  (variant) => variant.flavour
+       );
     console.log(productVariants);
      const columns = [
-        {
-          name: "Flavour",
-          selector: (row) => row.flavour,
-          sortable: true,
-        },
+         ...(hasFlavour
+    ? [{
+        name: "Flavour",
+        selector: (row) => row.flavour,
+        sortable: true,
+      }]
+    : []),
         {
           name: "Weight",
-          selector: (row) => row.weight > 999 ? `${row.weight/1000}Kg` : `${row.weight}g`,
+          selector: (row) => row.weight ? row.weight > 999 ? `${row.weight/1000}Kg` : `${row.weight}g` : `${row.qty} Capsules`,
           sortable: true,
         },
         {
@@ -82,7 +89,17 @@ export default function ProductVariants(){
         },
         {
           name: "Stock",
-          selector: (row) => `${row.inStock} Unit`,
+          selector: (row) => <Chip
+                          label={`${row.inStock} Unit`}
+                          size="small"
+                          sx={{
+                            height: 22,
+                            fontSize: 11,
+                            fontWeight: 700,
+                            bgcolor: '#C3FDB8',
+                            color: 'success.main',
+                          }}
+                        />,
           sortable: true,
         }
       ];
@@ -138,9 +155,19 @@ export default function ProductVariants(){
   if (!search) {
     setFilteredVariants(productVariants);
   } else {
-    const filtered = productVariants.filter((variant) =>
-      variant.flavour.toLowerCase().includes(search.toLowerCase())
-    );
+    const filtered = productVariants.filter((variant) => {
+      const flavour = variant.flavour?.toLowerCase() || "";
+      const weightText = variant.weight
+            ? variant.weight > 999
+                 ? `${variant.weight / 1000}kg`
+                    : `${variant.weight}g`
+                        : "";
+
+     return (
+       flavour.includes(search) ||
+       weightText.includes(search)
+     );
+   });
     setFilteredVariants(filtered);
   }
 }, [search, productVariants]);

@@ -356,6 +356,7 @@ export default function Home() {
     price,
     mrp,
     img,
+    qty
   ) => {
     setButtonLoading(variant_id);
     if (isLoggedIn) {
@@ -376,6 +377,7 @@ export default function Home() {
             product_mrp: mrp,
             product_qty: 1,
             product_img: img,
+            quantity: qty
           }),
         });
 
@@ -1229,7 +1231,7 @@ export default function Home() {
                                e.stopPropagation(); view(p._id);
                               }} style={{ cursor: "pointer" }}>
                             <div
-                              className="card-header"
+                              className="card-header bg-white"
                             >
                               <Box
                                 sx={{ fontSize: { xs: "24px", sm: "24px" } }}
@@ -1430,6 +1432,7 @@ export default function Home() {
                                         p.variant[0].price,
                                         p.variant[0].mrp,
                                         p.variant[0].image[0],
+                                        p.variant[0].qty
                                       );
                                     }}
                                   >

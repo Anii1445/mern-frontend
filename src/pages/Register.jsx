@@ -89,6 +89,7 @@ export default function Register() {
             else {
 
                 if (res_data.extraDetails) {
+                  console.log(res_data.extraDetails)
                         toast.error(res_data.extraDetails[0].message, {
                            position: "top-center",
                            autoClose: 2000, 

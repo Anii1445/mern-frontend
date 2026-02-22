@@ -33,7 +33,7 @@ export default function MyAccount() {
       isActive ? "active-item" : "text-dark"
     }`
   }
-  style={{ padding: "30px", textDecoration: "none" }}
+  style={{ padding: "30px", textDecoration: "none", display: "flex", alignItems: "center" }}
 >
   <FaUser style={{ marginRight: "5%", fontSize: "20px" }} />
   Personal Information
@@ -46,7 +46,7 @@ export default function MyAccount() {
       isActive ? "active-item" : "text-dark"
     }`
   }
-  style={{ padding: "30px", textDecoration: "none" }}
+  style={{ padding: "30px", textDecoration: "none", display: "flex", alignItems: "center" }}
 >
   <BsBoxSeamFill style={{ marginRight: "5%", fontSize: "20px" }} />
   My Orders
@@ -59,7 +59,7 @@ export default function MyAccount() {
       isActive ? "active-item" : "text-dark"
     }`
   }
-  style={{ padding: "30px", textDecoration: "none" }}
+  style={{ padding: "30px", textDecoration: "none", display: "flex", alignItems: "center" }}
 >
   <FaLocationDot style={{ marginRight: "5%", fontSize: "20px" }} />
   Addresses
@@ -71,7 +71,7 @@ export default function MyAccount() {
       isActive ? "active-item" : "text-dark"
     }`
   }
-  style={{ padding: "30px", textDecoration: "none" }}
+  style={{ padding: "30px", textDecoration: "none", display: "flex", alignItems: "center" }}
 >
   <FaHeart style={{ marginRight: "5%", fontSize: "20px" }} />
   My Wishlist
@@ -84,7 +84,7 @@ export default function MyAccount() {
       isActive ? "active-item" : "text-danger"
     }`
   }
-  style={{ padding: "30px", textDecoration: "none" }}
+  style={{ padding: "30px", textDecoration: "none", display: "flex", alignItems: "center" }}
 >
   <RiLogoutCircleRLine style={{ marginRight: "5%", fontSize: "20px", color: "red" }} />
   Logout

@@ -148,7 +148,7 @@ export default function AllUserOrders(){
                                     </div>
                                     <div className="col-md-11">
                                         <div><small>{i.product.name}</small></div>
-                                        <div style={{ color: "grey" }}><small>{i.variant.weight > 999 ? `${i.variant.weight/1000}Kg` : `${i.variant.weight}g`}, {i.variant.flavour}</small></div>
+                                        <div style={{ color: "grey" }}><small>{i.variant.qty ? `${i.variant.qty} Capsules` : i.variant.weight > 999 ? `${i.variant.weight/1000}Kg` : `${i.variant.weight}g`}{!i.variant.qty && `, ${i.variant.flavour}`}</small></div>
                                     </div>    
                                 </div>
                                 </div>
