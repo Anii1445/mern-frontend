@@ -203,7 +203,7 @@ const handlePay = async() => {
                         totalOrderMRP: orderInfo?.cartTotalMRP ? orderInfo?.cartTotalMRP : orderInfo?.mrp,
                         paymentMode: "Card",
                         paymentStatus: "Success",
-                        orderStatus: "Processing",
+                        orderStatus: "Placed",
                         deliverAddress: userAddress
 
                       }),
@@ -238,9 +238,8 @@ const handleUPIPay = async() => {
     product_price: item.product_price
   }));
 
-
   try {
-      const response = await fetch(`${API}/api/auth/createOrder`,{
+      const response = await fetch(`http://localhost:5000/api/auth/createOrder`,{
       method: "POST",
       headers: {
                         Authorization: `Bearer ${token}`,
@@ -253,7 +252,53 @@ const handleUPIPay = async() => {
                         totalOrderMRP: orderInfo?.cartTotalMRP ? orderInfo?.cartTotalMRP : orderInfo?.mrp,
                         paymentMode: "UPI",
                         paymentStatus: "Success",
-                        orderStatus: "Processing",
+                        orderStatus: "Placed",
+                        deliverAddress: userAddress
+                      }),
+    });
+
+         if(response.ok){
+               fireConfetti();
+               swal({
+                  title: "Order Placed🎉",
+                  text: "Thank You!! Your order has been placed successfully",
+                  icon: "success",
+                  timer: 3500,        
+                  buttons: false, 
+                }).then(() => {
+                 navigate("/");
+              });
+        }
+    }
+    catch (error) {
+    console.log(error)
+  }
+}
+
+const handleCOD = async() => {
+
+  const items = orderInfo.cartProducts.map(item => ({
+    product_id: item.product_id,
+    variant_id: item.variant_id,
+    product_qty: item.product_qty,
+    product_price: item.product_price
+  }));
+
+  try {
+      const response = await fetch(`http://localhost:5000/api/auth/createOrder`,{
+      method: "POST",
+      headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({
+                        user_id: user.userId,
+                        items,
+                        totalOrderPrice: orderInfo?.cartTotalPRICE ? orderInfo?.cartTotalPRICE : orderInfo?.price,
+                        totalOrderMRP: orderInfo?.cartTotalMRP ? orderInfo?.cartTotalMRP : orderInfo?.mrp,
+                        paymentMode: "UPI",
+                        paymentStatus: "Success",
+                        orderStatus: "Placed",
                         deliverAddress: userAddress
                       }),
     });
@@ -333,7 +378,7 @@ console.log(orderInfo)
               <h5 className="mb-3">Payment Method</h5>
               <p  style={{
     display: "inline-flex",
-    marginRight: isMobile ? "0" : "2%",
+    marginRight: isMobile ? "0" : "1.5%",
     marginBottom: isMobile ? "8px" : "4px",
     padding: "8px",
     cursor: "pointer",
@@ -342,13 +387,15 @@ console.log(orderInfo)
     borderRadius: "4px",
     border:
       paymentMethod === "UPI"
-        && `2px solid ${theme.palette.primary.main}`,
-    backgroundColor:
-         "#DCDCDC",
+        ? `2px solid ${theme.palette.primary.main}`: "1px solid lightgrey",
+    backgroundColor: paymentMethod === "UPI" ? "#EBF4FA" : "#F5F5F5",
   }} onClick={()=>setPaymentMethod("UPI")}>Pay Using UPI <img src="/upi.svg" style={{ width: "40px", marginLeft: "5px"}}/><img src="https://hyugalife.com/_next/image?url=%2Fassets%2Fimages%2Ficons%2Fgpay-payment-icon.png&w=64&q=75" style={{ width: "20px", height: "20px", marginLeft: "5px"}}/> <img src="https://hyugalife.com/_next/image?url=%2Fassets%2Fimages%2Ficons%2Fphonepe-payment-icon.png&w=64&q=75" style={{  width: "20px", height: "20px", marginLeft: "5px"}}/> <img src="https://hyugalife.com/_next/image?url=%2Fassets%2Fimages%2Ficons%2Fpaytm-payment-icon.png&w=64&q=75" style={{  width: "20px", height: "20px", marginLeft: "5px"}}/></p>
+              
+              
+              
               <p  style={{
     display: "inline-flex",
-    marginRight: isMobile ? "0" : "2%",
+    marginRight: isMobile ? "0" : "1.5%",
     marginBottom: isMobile ? "8px" : "4px",
     padding: "8px",
     cursor: "pointer",
@@ -357,12 +404,14 @@ console.log(orderInfo)
     borderRadius: "4px",
     border:
       paymentMethod === "CARD"
-        && `2px solid ${theme.palette.primary.main}`,
-    backgroundColor: "#DCDCDC",
+        ? `2px solid ${theme.palette.primary.main}` : "1px solid lightgrey",
+    backgroundColor: paymentMethod === "CARD" ? "#EBF4FA" : "#F5F5F5",
   }} onClick={()=>setPaymentMethod("CARD")}>Debit/Credit Card <img src="/visa.svg" style={{ width: "40px", marginLeft: "5px"}}/><img src="/rupay.svg" style={{ width: "40px"}}/><img src="/master.svg"/></p>
+
+
+
               <p  style={{
     display: "inline-flex",
-    marginRight: isMobile ? "0" : "2%",
     marginBottom: isMobile ? "8px" : "0",
     padding: "8px",
     cursor: "pointer",
@@ -371,17 +420,16 @@ console.log(orderInfo)
     borderRadius: "4px",
     border:
       paymentMethod === "COD"
-        && `2px solid ${theme.palette.primary.main}`,
-    backgroundColor
-        : "#DCDCDC",
-  }} onClick={()=>setPaymentMethod("COD")}>Cash On Delivery <img src="/cash-money-svgrepo-com.svg" style={{ width: "20px", marginLeft: "5px"}}/></p>
+        ? `2px solid ${theme.palette.primary.main}`: "1px solid lightgrey",
+    backgroundColor : paymentMethod === "COD" ? "#EBF4FA" : "#F5F5F5",
+  }} onClick={()=>{setPaymentMethod("COD"), handleCOD()}}>Cash On Delivery <img src="/cash-money-svgrepo-com.svg" style={{ width: "20px", marginLeft: "5px"}}/></p>
 
               <Divider sx={{ backgroundColor: "black", marginBottom: "5%", marginTop:"2%"}}/>
 
               {paymentMethod === "UPI" &&
               <>
               <div className="row">
-                          <div className="col-9 col-md-10  py-0">
+                          <div className="col-8 col-md-8  py-0">
                             <TextField name="upi_id" value={UPI_Id} label="Please enter your UPI ID" variant="standard" size="small" fullWidth 
                             onChange={(e) => {setUPI_Id(e.target.value); setUpiError(""); setVerifyId(null); setDisabled(true)}}
                             error={verifyId === false}
@@ -391,8 +439,8 @@ console.log(orderInfo)
                              style: { color: verifyId === false ? "red" : "green" }
                            }}/>
                           </div>  
-                          <div className="col-3 col-md-2 my-2 py-0">
-                            <Button variant="outlined" size={isMobile ? "medium" : "large"} disabled={UPI_Id ? false : true} onClick={verify}>Verify</Button>
+                          <div className="col-4 col-md-4 my-2 py-0">
+                            <Button variant="outlined" size={isMobile ? "medium" : "large"} disabled={UPI_Id ? false : true} onClick={verify}>Verify UPI ID</Button>
                           </div>
               </div>
               <div>

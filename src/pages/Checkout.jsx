@@ -118,6 +118,7 @@ export default function Checkout() {
         }
         else{
           if(data.extraDetails){
+            console.log(data)
             setErrors(data.extraDetails[0].field)
             toast.error(data.extraDetails[0].message, {
                 position: "top-center",
@@ -602,7 +603,7 @@ export default function Checkout() {
 {showModal && 
       <div
         className="modal fade show"
-        style={{ display: "block", marginTop: "7%",backgroundColor: "rgba(0,0,0,0.40)"  }}
+        style={{ display: "block", backgroundColor: "rgba(0,0,0,0.40)"  }}
         tabIndex="-1"
       >
         <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -811,7 +812,7 @@ export default function Checkout() {
 {showEditModal && 
       <div
         className="modal fade show"
-        style={{ display: "block", marginTop: "2%",backgroundColor: "rgba(0,0,0,0.40)"  }}
+        style={{ display: "block", backgroundColor: "rgba(0,0,0,0.40)"  }}
         tabIndex="-1"
       >
         <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">

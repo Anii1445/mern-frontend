@@ -96,7 +96,8 @@ export default function ProductView() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [isLoading, setIsLoading] = useState(null);
- 
+  const [stock, setStock] = useState(null);
+
   const copyLink = () => {
      navigator.clipboard.writeText(window.location.href);
       toast.success("Link Copied!",{
@@ -324,6 +325,7 @@ useEffect(() => {
 
     setSelectWeight(product?.variant?.[0]?.weight);
     setSelectFlavour(product?.variant?.[0]?.flavour);
+    setStock(product?.variant?.[0]?.inStock);
     setVariantID(product?.variant?.[0]?._id);
   }, [product]);
 
@@ -803,6 +805,7 @@ useMemo(() => {
     setPrice(matchedVariant.price);
     setMRP(matchedVariant.mrp);
     setImage(matchedVariant.image);
+    setStock(matchedVariant.inStock);
     setVariantID(matchedVariant._id)
   }
 }, [selectFlavour, selectWeight, productJoin]);
@@ -822,7 +825,7 @@ const handleActionClick = (action) => {
   window.open(action.link, "_blank", "noopener,noreferrer");
 };
 
-
+const isDisabled = stock === 0;
 
 return (
     <>
@@ -941,7 +944,7 @@ return (
                   <span className="badge bg-success me-2 gap-1 d-inline-flex align-items-center" style={{ fontSize: "14px"}}>
                     {averageReview && Math.round(averageReview * 10)/10} <FaStar/>
                   </span>
-                  <strong style={{ color:"grey", fontSize: "14px" }}>({customerRating?.length} Ratings & Reviews)</strong>
+                  <strong style={{  color: "#797979", fontSize: "14px" }}>({customerRating?.length} Ratings & Reviews)</strong>
                 </div>
 
               <div>
@@ -950,13 +953,14 @@ return (
                   style={{ fontSize: "34px", cursor: "pointer" }}/>:
                 <PiHeartDuotone
                   className="me-3 bg-secondary-subtle rounded-circle p-2 "
-                  style={{ fontSize: "34px", cursor: "pointer", color: ApiWishlists?.some(a => a.variant_id === variantID)
+                  style={{ fontSize: "34px", cursor: stock === 0 ? "not-allowed":"pointer", 
+                          opacity: stock === 0 ? 0.5 : 1, pointerEvents: stock === 0 ? "none" : "auto",color: ApiWishlists?.some(a => a.variant_id === variantID)
                                 ? "red"
                                 : "grey" }}
-                  onClick={() => toggleWishlist(
+                  onClick={() =>{toggleWishlist(
                                 product?._id,
                                 variantID ? variantID : product?.variant?.[0]?._id,
-                              )}
+                              )}}
                               
                 />}
                 <span className="share-wrapper">
@@ -980,7 +984,7 @@ return (
 
               </div>
             </div>
-            <div style={{ marginBottom: isMobile ? "10px":"20px"}}>
+            <div style={{ marginBottom: isMobile ? "10px":"15px"}}>
               <div>
                 MRP:{" "}
                 <del style={{ fontSize: "17px", color: "grey" }}>{mrp ? `₹${mrp}` : `₹${product?.variant?.[0]?.mrp}`}.00</del>
@@ -1004,6 +1008,15 @@ return (
                 Inclusive of all taxes
               </div>
             </div>
+            <div style={{ fontWeight: "bold", fontSize: "20px",  color: isDisabled || stock < 10 ? "red": "green"}}>{
+  isDisabled
+    ? "Out of Stock!"
+    : stock > 10
+    ? "In Stock"
+    : `Only ${stock} Left, Hurry up!`
+}</div>
+
+
 
 <div
   style={{
@@ -1017,6 +1030,10 @@ return (
             <ButtonGroup
               variant="outlined"
               aria-label="Basic button group"
+              style={{
+                opacity: isDisabled ? 0.5 : 1,
+                pointerEvents: isDisabled ? "none" : "auto",
+              }}
             >
               <Button onClick={minus}>-</Button>
               <Button variant="outlined">{qty}</Button>
@@ -1027,6 +1044,10 @@ return (
            !isMobile &&
             <Button
               variant="outlined"
+              style={{
+                opacity: isDisabled ? 0.5 : 1,
+                pointerEvents: isDisabled ? "none" : "auto",
+              }}
               startIcon={<FaArrowRight />}
               onClick={() => {navigate("/carts")}}
             >
@@ -1035,6 +1056,10 @@ return (
             :
             !isMobile &&
             <Button
+              style={{
+                opacity: isDisabled ? 0.5 : 1,
+                pointerEvents: isDisabled ? "none" : "auto",
+              }}
               variant="outlined"
               disabled={loadingButton}
               startIcon={loadingButton ? <RiLoader2Line/> : <BsCart2 />}
@@ -1044,7 +1069,11 @@ return (
             </Button>}
 
             {!isMobile && 
-            <Button variant="contained" startIcon={<GiElectric />} onClick={BuyNow}>
+            <Button style={{
+                opacity: isDisabled ? 0.5 : 1,
+                pointerEvents: isDisabled ? "none" : "auto",
+              }}
+              variant="contained" startIcon={<GiElectric />} onClick={BuyNow}>
               Buy Now
             </Button>}
             </div>
@@ -1053,7 +1082,9 @@ return (
               Fullfilled By: <b style={{ color: "#625D5D"}}>{product?.supplier}</b>
             </div>
 
-           {product?.category !== "Workout Essentials" ? <><Divider sx={{ backgroundColor: "grey" }}/>
+           {product?.category !== "Workout Essentials" ? (
+           <>
+            <Divider sx={{ backgroundColor: "grey" }}/>
             <div className="mt-2">
               <h5
                 className="text-secondary"
@@ -1073,7 +1104,7 @@ return (
                 columnSpacing={{ xs: 1, sm: 2, md: 1 }}
               >
                 {allWeight?.map((w, index) => (
-                  <Grid xs={4} sm={3} md={2} key={index}>
+                  <Grid item xs={4} sm={3} md={2} key={index}>
                     <div
                       className={`card card-hover ${
                         selectWeight === w.weight ? "selected" : ""
@@ -1112,7 +1143,7 @@ return (
                   const isSelected = selectFlavour === f.flavour;
 
                   return(
-                  <Grid xs={4} sm={3} md={2} key={index}>
+                  <Grid item xs={4} sm={3} md={2} key={index}>
                     <div
                       className={`card card-hover ${isSelected ? "selected" : ""}
                       ${!isAvailable ? "disabled-card bg-secondary-subtle" : ""}` }
@@ -1126,7 +1157,8 @@ return (
                   </Grid>
                 )})}
               </Grid>
-            </div></> : <div>Quantity (N): <b style={{ color: "#625D5D"}}>{`${product?.variant?.[0].qty} Capsules`}</b> </div>}
+            </div>
+            </>) : (<div>Quantity (N): <b style={{ color: "#625D5D"}}>{`${product?.variant?.[0].qty} Capsules`}</b> </div>)}
           </div>
         </div>
 

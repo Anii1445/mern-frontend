@@ -94,32 +94,6 @@ export default function AdminDashboard() {
 console.log(orders)
 
 
-const getBestSellingProducts = (orders, limit = 5) => {
-  const map = {};
-
-  orders.forEach(order => {
-    order.items?.forEach(item => {
-      if (!map[item.productId]) {
-        map[item.productId] = {
-          productId: item.productId,
-          name: item.productName,
-          sold: 0,
-          revenue: 0
-        };
-      }
-
-      map[item.productId].sold += item.quantity;
-      map[item.productId].revenue += item.quantity * item.price;
-    });
-  });
-
-  return Object.values(map)
-    .sort((a, b) => b.sold - a.sold)
-    .slice(0, limit);
-};
-
-
-
   return (
     <div className="container">
       {loading ? (
@@ -216,7 +190,7 @@ const getBestSellingProducts = (orders, limit = 5) => {
   </div>
 </div>
 
-
+{console.log(orders)}
 
 <div className="card mt-3 shadow-sm">
   <div className="card-header d-flex justify-content-between align-items-center">
@@ -233,31 +207,48 @@ const getBestSellingProducts = (orders, limit = 5) => {
   <div className="card-body p-0">
     <div className="table-responsive">
       <table className="table table-hover mb-0">
-        <thead className="table-light">
+        <thead >
           <tr>
-            <th>Order ID</th>
-            <th>User</th>
-            <th>Date</th>
-            <th>Amount</th>
-            <th>Status</th>
-            <th>Action</th>
+            <th style={{ backgroundColor: "#EBF4FA", color: "#625D5D" }}>Order ID</th>
+            <th style={{ backgroundColor: "#EBF4FA", color: "#625D5D" }}>User</th>
+            <th style={{ backgroundColor: "#EBF4FA", color: "#625D5D" }}>Date</th>
+            <th style={{ backgroundColor: "#EBF4FA", color: "#625D5D" }}>Amount</th>
+            <th style={{ backgroundColor: "#EBF4FA", color: "#625D5D" }}>Payment Status</th>
+            <th style={{ backgroundColor: "#EBF4FA", color: "#625D5D" }}>Payment Mode</th>
+            <th style={{ backgroundColor: "#EBF4FA", color: "#625D5D" }}>Status</th>
+            <th style={{ backgroundColor: "#EBF4FA", color: "#625D5D" }}>Action</th>
           </tr>
         </thead>
         <tbody>
-          {orders.slice(0, 5).map((order) => (
+          {orders.slice(-5).map((order) => (
             <tr key={order._id}>
-              <td>#{isMobile ? order._id.substr(0,5).toUpperCase()+"...": order._id.toUpperCase()}</td>
-              <td>{order.deliverAddress?.full_name}</td>
-              <td>{new Date(order.createdAt).toLocaleDateString()}</td>
-              <td>₹{order.totalOrderPrice}</td>
+              <td style={{ color: "#454545"}}>#{isMobile ? order._id.substr(0,5).toUpperCase()+"...": order._id.toUpperCase()}</td>
+              <td style={{ color: "#454545"}}>{order.deliverAddress?.full_name}</td>
+              <td style={{ color: "#454545"}}>{new Date(order.createdAt).toLocaleDateString()}</td>
+              <td style={{ color: "#454545"}}>₹{order.totalOrderPrice}</td>
+              <td><Chip
+                          label={order.paymentStatus}
+                          size="small"
+                          sx={{
+                            height: 22,
+                            fontSize: 11,
+                            fontWeight: 700,
+                            bgcolor:  order.paymentStatus === "Pending" ? '#F8B4B1' : '#C3FDB8',
+                            color: order.paymentStatus === "Pending" ? 'error.main' : 'success.main'}}/></td>
+              <td style={{ color: "#454545"}}>{order.paymentMode}</td>
               <td>
-                <span className={`badge 
-                  ${order.status === "Delivered" ? "bg-success" :
-                    order.status === "Processing" ? "bg-warning text-dark" :
-                    order.status === "Cancelled" ? "bg-danger" :
-                    "bg-secondary"}`}>
-                  {order.orderStatus}
-                </span>
+                <Chip label={order?.orderStatus}
+                      size="small"
+                      sx={{ 
+                           height: 22,
+                            fontSize: 11,
+                            fontWeight: 700,
+                            backgroundColor: order.orderStatus === "Delivered" ? "#C3FDB8" :
+                                    order.orderStatus === "Processing" ? "#FAF884" :
+                                    order.orderStatus === "Cancelled" ? "#FAA596":"#DBE9FA",
+                            color: order.orderStatus === "Delivered" ? "success.main" :
+                                    order.orderStatus === "Processing" ? "warning.main" :
+                                    order.orderStatus === "Cancelled" ? "danger.main":"primary.main"}}/>
               </td>
               <td>
                 <Button

@@ -4,6 +4,7 @@ import "../css/category.css";
 import "../css/accordion.css";
 import "../css/product-img.css";
 import { Box } from "@mui/material";
+import { IoAlertCircleOutline } from "react-icons/io5";
 import InputAdornment from "@mui/material/InputAdornment";
 import "../css/underline.css";
 import { PiSortAscendingBold } from "react-icons/pi";
@@ -1403,9 +1404,13 @@ export default function Home() {
                                   </Button>
                                 ) : (
                                   <Button
+                                    style={{
+                                      opacity: p?.variant?.[0]?.inStock === 0 ? 0.5 : 1,
+                                      pointerEvents: p?.variant?.[0]?.inStock === 0 ? "none" : "auto"
+                                    }}
                                     variant="outlined"
                                     disabled={isLoading}
-                                    startIcon={
+                                    startIcon={p?.variant?.[0]?.inStock === 0 ? <IoAlertCircleOutline/> : 
                                       isLoading ? (
                                         <RiLoader2Line />
                                       ) : (
@@ -1436,10 +1441,14 @@ export default function Home() {
                                       );
                                     }}
                                   >
-                                    {isLoading ? "Adding..." : "Add To Cart"}
+                                    {p?.variant?.[0]?.inStock === 0 ? "Out of Stock" : isLoading ? "Adding..." : "Add To Cart"}
                                   </Button>
                                 )}
                                 <Button
+                                 style={{
+                                      opacity: p?.variant?.[0]?.inStock === 0 ? 0.5 : 1,
+                                      pointerEvents: p?.variant?.[0]?.inStock === 0 ? "none" : "auto"
+                                    }}
                                   variant="contained"
                                   startIcon={<GiElectric />}
                                   fullWidth

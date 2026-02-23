@@ -121,7 +121,6 @@ export default function AllProducts(){
         );
       };
     
-    console.log(allProducts);
      const columns = [
         {
           name: "Name",
@@ -151,21 +150,6 @@ export default function AllProducts(){
           selector: (row) => row.supplier,
           sortable: true,
           hide: "sm"
-        },
-        {
-          name: "Stock",
-          selector: (row) => <Chip
-                          label='InStock'
-                          size="small"
-                          sx={{
-                            height: 22,
-                            fontSize: 11,
-                            fontWeight: 700,
-                            bgcolor: '#C3FDB8',
-                            color: 'success.main',
-                          }}
-                        />,
-          sortable: true
         },
         {
               name: "Actions",
@@ -230,7 +214,7 @@ export default function AllProducts(){
        const customStyles = {
     headCells: {
       style: {
-        backgroundColor: "white",
+        backgroundColor: "#EBF4FA",
         color: "grey",
         fontWeight: "bold",
         fontSize: "16px",

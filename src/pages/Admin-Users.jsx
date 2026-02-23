@@ -201,7 +201,7 @@ export default function AdminUsers() {
   const customStyles = {
     headCells: {
       style: {
-        backgroundColor: "white",
+        backgroundColor: "#EBF4FA",
         color: "grey",
         fontWeight: "bold",
         fontSize: "16px",

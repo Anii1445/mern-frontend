@@ -12,6 +12,7 @@ import { FaEye } from "react-icons/fa";
 import { useTheme, useMediaQuery } from "@mui/material";
 import { FaArrowLeft } from "react-icons/fa6";
 import { Chip } from "@mui/material";
+import Grow from '@mui/material/Grow';
 
 
 export default function ProductVariants(){
@@ -89,17 +90,37 @@ export default function ProductVariants(){
         },
         {
           name: "Stock",
-          selector: (row) => <Chip
-                          label={`${row.inStock} Unit`}
+          selector: (row) => 
+                         <Chip
+                          label={ row.inStock < 10 ? `Only ${row.inStock} Unit Left!`:`${row.inStock} Unit`}
                           size="small"
                           sx={{
                             height: 22,
                             fontSize: 11,
                             fontWeight: 700,
-                            bgcolor: '#C3FDB8',
-                            color: 'success.main',
+                            bgcolor: row.inStock < 10 ? '#F8B4B1' : '#C3FDB8',
+                            color: row.inStock < 10 ? 'error.main' : 'success.main',
+animation: row.inStock < 10 && 'continuousPop 2s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+    '@keyframes continuousPop': {
+      '0%': {
+        transform: 'scale(1)',
+      },
+      '30%': {
+        transform: 'scale(1.15)',
+      },
+      '50%': {
+        transform: 'scale(0.95)',
+      },
+      '70%': {
+        transform: 'scale(1.05)',
+      },
+      '100%': {
+        transform: 'scale(1)',
+      },
+    },
                           }}
-                        />,
+                        />
+                       ,
           sortable: true,
         }
       ];
@@ -143,7 +164,7 @@ export default function ProductVariants(){
        const customStyles = {
     headCells: {
       style: {
-        backgroundColor: "white",
+        backgroundColor: "#EBF4FA",
         color: "grey",
         fontWeight: "bold",
         fontSize: "16px",

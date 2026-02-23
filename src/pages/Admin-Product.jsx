@@ -654,7 +654,7 @@ const API = import.meta.env.VITE_API_URL;
                       <div className="col-12 col-md-2 ">
                          <TextField
                           type="text"
-                          label="Qty (N)"
+                          label="Qyantity (N)"
                           variant="outlined"
                           value={field.qty}
                           onChange={(e) =>
