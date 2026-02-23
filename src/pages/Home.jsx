@@ -1299,7 +1299,7 @@ export default function Home() {
                                     }}
                                   >
                                     <span
-                                      className="px-2 py-1 bg-warning"
+                                      className="px-2 py-1 bg-success"
                                       style={{
                                         display: "inline-flex",
                                         alignItems: "center",

@@ -742,6 +742,8 @@ export default function Checkout() {
                       onChange={handleChange}
                       error={errors === "city"}
                       required
+                      disabled={!address.state}
+                      sx={{opacity: !address.state && 0.5}}
                       fullWidth
                     >
                       {cities

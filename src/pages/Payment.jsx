@@ -28,7 +28,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setDeliverAddress } from "../store/checkoutSlice";
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 import confetti from "canvas-confetti";
 const API = import.meta.env.VITE_API_URL;
 import { useTheme, useMediaQuery } from "@mui/material";
@@ -212,12 +212,14 @@ const handlePay = async() => {
     
          if(response.ok){
                fireConfetti();
-               swal({
+               Swal.fire({
                   title: "Order Placed🎉",
-                  text: "Thank You!! Your order has been placed successfully",
+                  html: `<b>Thank You!!</b> 
+                         <p>Your order has been placed successfully</p>`,
                   icon: "success",
+                  width: isMobile && "400px",
                   timer: 3500,        
-                  buttons: false, 
+                  showConfirmButton: true,
                 }).then(() => {
                  navigate("/");
               });
@@ -239,7 +241,7 @@ const handleUPIPay = async() => {
   }));
 
   try {
-      const response = await fetch(`http://localhost:5000/api/auth/createOrder`,{
+      const response = await fetch(`${API}/api/auth/createOrder`,{
       method: "POST",
       headers: {
                         Authorization: `Bearer ${token}`,
@@ -259,12 +261,14 @@ const handleUPIPay = async() => {
 
          if(response.ok){
                fireConfetti();
-               swal({
+               Swal.fire({
                   title: "Order Placed🎉",
-                  text: "Thank You!! Your order has been placed successfully",
+                  html: `<b>Thank You!!</b> 
+                         <p>Your order has been placed successfully</p>`,
                   icon: "success",
+                  width: isMobile && "400px",
                   timer: 3500,        
-                  buttons: false, 
+                  showConfirmButton: false,
                 }).then(() => {
                  navigate("/");
               });
@@ -285,7 +289,7 @@ const handleCOD = async() => {
   }));
 
   try {
-      const response = await fetch(`http://localhost:5000/api/auth/createOrder`,{
+      const response = await fetch(`${API}/api/auth/createOrder`,{
       method: "POST",
       headers: {
                         Authorization: `Bearer ${token}`,
@@ -305,13 +309,15 @@ const handleCOD = async() => {
 
          if(response.ok){
                fireConfetti();
-               swal({
+               Swal.fire({
                   title: "Order Placed🎉",
-                  text: "Thank You!! Your order has been placed successfully",
+                  html: `<b>Thank You!!</b><br/> 
+                         <p>Your order has been placed successfully</p>`,
                   icon: "success",
+                  width: isMobile && "400px",
                   timer: 3500,        
-                  buttons: false, 
-                }).then(() => {
+                  showConfirmButton: true,
+                  }).then(() => {
                  navigate("/");
               });
         }

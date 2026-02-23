@@ -621,6 +621,8 @@ useEffect(() => {
                                       name="city"
                                       onChange={handleChange}
                                       fullWidth
+                                      disabled={!address.state}
+                                      sx={{opacity: !address.state && 0.5}}
                                       error={errors === "city"}
                                       required
                                     >

@@ -1,6 +1,6 @@
 import { NavLink, useLocation, useParams } from "react-router-dom";
 import "../css/grid.css";
-import swal from 'sweetalert';
+import Swal from "sweetalert2";
 import { PiTelegramLogoDuotone } from "react-icons/pi";
 import { FaWhatsapp } from "react-icons/fa";
 import { FaSquareFacebook } from "react-icons/fa6";
@@ -459,7 +459,7 @@ useEffect(() => {
             product_weight: selectWeight
               ? selectWeight
               : product?.variant?.[0]?.weight,
-            product_qty: product?.variant?.[0]?.qty
+            quantity: product?.variant?.[0]?.qty
           }),
         }
       );
@@ -470,20 +470,20 @@ useEffect(() => {
       if (response.ok) {
         setShowModal(false);
         setLoadingReview(false);
-        swal({
-                          title: "Review Published🎉",
-                          text: "Thank You!! Your review has been submitted successfully",
-                          icon: "success",
-                          timer: 2500,        
-                          buttons: {
-    confirm: {
-      text: "OK",
-      value: true,
-      visible: true,
-      className: "btn-success",
-    }}  
-                        })
-        fetchReviews();
+        Swal.fire({
+  title: "Review Published",
+  html: `
+    <b>Thank You!!</b>
+    <p>Your review has been submitted successfully</p>
+  `,
+  icon: "success",
+  width: isMobile && "400px",
+  timer: 10000,
+  showConfirmButton: true,
+  confirmButtonText: "OK",
+  confirmButtonColor: "#28a745",
+});
+       fetchReviews();
         setRev_Description("");
         setRev_Title("");
         setValue("");
@@ -1609,7 +1609,7 @@ return (
                       {showModal && (
                         <div
                           className="modal fade show"
-                          style={{ display: "block", marginTop: "2%", backgroundColor: "rgba(0,0,0,0.40)"  }}
+                          style={{ display: "block", backgroundColor: "rgba(0,0,0,0.40)"  }}
                           tabIndex="-1"
                         >
                           <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -1832,7 +1832,7 @@ sx={{
                           display: "inline",
                         }}
                       >
-                        <span className="badge text-bg-success fs-6 d-inline-flex align-items-center"><b>{r.cust_rating}</b>
+                        <span className={`badge ${r.cust_rating < 3 ? `text-bg-danger` : `text-bg-success`} fs-6 d-inline-flex align-items-center`}><b>{r.cust_rating}</b>
                         <FaStar style={{ marginLeft: "6px"}}/></span>
                         <b style={{ marginRight: "1%", marginLeft: "1%", color: "#E0E5E5" }}>
                           <RxDotFilled />
@@ -1846,7 +1846,7 @@ sx={{
                           <RxDotFilled />
                         </b>
                         <b>
-                          {r.product_weight > 999 ? `${r.product_weight/1000}Kg` : `${r.product_weight}g`} {r.product_flavour}
+                          {r.quantity ? `${r.quantity} Capsules` : r.product_weight > 999 ? `${r.product_weight/1000}Kg` : `${r.product_weight}g`} {r?.product_flavour}
                         </b>
                       </div>
                     </div>
