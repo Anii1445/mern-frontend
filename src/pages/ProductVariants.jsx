@@ -92,7 +92,7 @@ export default function ProductVariants(){
           name: "Stock",
           selector: (row) => 
                          <Chip
-                          label={ row.inStock < 10 ? `Only ${row.inStock} Unit Left!`:`${row.inStock} Unit`}
+                          label={ row.inStock === 0 ? "Out of Stock!" : row.inStock < 10 ? `Only ${row.inStock} Unit Left!`:`${row.inStock} Unit`}
                           size="small"
                           sx={{
                             height: 22,
