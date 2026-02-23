@@ -29,7 +29,7 @@ if(!user || !user.isAdmin){
   if(path.includes(location.pathname)){
     return(
         <>
-        <footer style={{ paddingTop: "5rem"}}>
+        <footer style={{ paddingTop: isMobile ? "5rem":"8rem"}}>
                  <div className="payment-bar text-secondary p-4 bg-secondary-subtle">
     <div className="payment-text">
       <p className="text-dark">
@@ -125,10 +125,10 @@ if(!user || !user.isAdmin){
                 </div>
 
                 {isMobile && 
-    <>
-    <div style={{ padding: "7%" }}></div>
+                <>
+                 <div style={{ padding: "7%" }}></div>
     
-    </>}
+                </>}
                 </div>
                  
             </footer>

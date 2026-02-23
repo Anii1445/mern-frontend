@@ -85,12 +85,12 @@ footer h6::after {
   }
 }
 
-  .img{
+.img{
     height: 25px;
-  }
+}
 
 @media (min-width: 576px) {
   .img{
     height: 35px;
   }
-  }
+}
