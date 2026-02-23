@@ -1,5 +1,6 @@
 import { NavLink, useLocation, useParams } from "react-router-dom";
 import "../css/grid.css";
+import swal from 'sweetalert';
 import { PiTelegramLogoDuotone } from "react-icons/pi";
 import { FaWhatsapp } from "react-icons/fa";
 import { FaSquareFacebook } from "react-icons/fa6";
@@ -469,15 +470,19 @@ useEffect(() => {
       if (response.ok) {
         setShowModal(false);
         setLoadingReview(false);
-        toast.success(<div><b>Thankyou!</b> Your review has been submitted successfully</div>, {
-                position: "top-center",
-                autoClose: 3000,
-                 style: {
-                 maxWidth: '80px',  
-                 width: "auto",
-                 textAlign: "center",     
-                } 
-             });
+        swal({
+                          title: "Review Published🎉",
+                          text: "Thank You!! Your review has been submitted successfully",
+                          icon: "success",
+                          timer: 2500,        
+                          buttons: {
+    confirm: {
+      text: "OK",
+      value: true,
+      visible: true,
+      className: "btn-success",
+    }}  
+                        })
         fetchReviews();
         setRev_Description("");
         setRev_Title("");
