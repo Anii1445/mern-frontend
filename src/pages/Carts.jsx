@@ -379,7 +379,7 @@ export default function Carts() {
     <div className="text-muted">Loading...</div>
                 </div> : 
           carts.length === 0 ? (
-            <div className="text-center">
+            <div className="text-center mb-2">
               <img
                 src="/empty-cart.svg"
                 className="img-fluid mx-auto d-block rounded-4"
