@@ -3,7 +3,7 @@ import { MdEmail, MdPhone } from "react-icons/md";
 export default function ContactUs() {
   return (
     <div className="container my-5">
-      <h2 className="text-dark text-center mb-4" style={{ marginTop: "10%", fontWeight: "bold" }}>
+      <h2 className="text-dark text-center mb-4" style={{ paddingTop: "10%", fontWeight: "bold" }}>
         Contact Us
       </h2>
 
