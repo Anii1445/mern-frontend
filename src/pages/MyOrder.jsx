@@ -73,8 +73,6 @@ const theme = useTheme();
       }
     },[user, token, order]);
 
-
-
      const copyLink = (a) => {
              navigator.clipboard.writeText(a);
               toast.success("Copied",{
@@ -155,22 +153,24 @@ const theme = useTheme();
                                 <div><small>Order ID: <strong>{`FF-${o?._id?.toString().slice(0,13).toUpperCase()}`}</strong></small> <MdOutlineContentCopy style={{ cursor: "pointer" }}onClick={() => copyLink(o?._id)}/></div>
                                 <div><strong style={{ fontSize: "15px" }}>{o.items.length} Item | ₹{o.totalOrderPrice}</strong></div>
                                 <div style={{ marginBottom: "10px", fontSize: "15px"}}><NavLink to={`/myaccount/orderDetails/${o._id}`}>View Details</NavLink></div>
-                                {o.items.map((i) => (
+                                {console.log(o)}
+                                {o.items.map((i) => {
+                                  return(
                                 <div className="card mb-2">
                                     <div className="card-body">
                                 <div className="row align-items-center">
                                     <div className="col-3 col-md-1 text-center">
-                                        <img className="img-fluid" src={i.variant.image[0]} style={{ maxwidth: "50px", cursor: "pointer"}} onClick={ ()=> {navigate(`/product/view/${i?.product?._id}`)}}/>
+                                        <img className="img-fluid" src={i?.variant?.image?.[0]} style={{ maxwidth: "50px", cursor: "pointer"}} onClick={ ()=> {navigate(`/product/view/${i?.product?._id}`)}}/>
                                     </div>
                                     <div className="col-9 col-md-11">
-                                        <div><small  className="d-block">{i.product.name}</small></div>
-                                        <div><small className="text-muted">{i.variant.qty ? `${i.variant.qty} Capsules` : i.variant.weight > 999 ? `${i.variant.weight/1000}Kg` : `${i.variant.weight}g`}{!i.variant.qty && `, ${i.variant.flavour}`}</small></div>
+                                        <div><small  className="d-block">{i?.product?.name}</small></div>
+                                        <div><small className="text-muted">{i?.variant?.qty ? `${i?.variant?.qty} Capsules` : i?.variant?.weight > 999 ? `${i?.variant?.weight/1000}Kg` : `${i?.variant?.weight}g`}{!i?.variant?.qty && `, ${i?.variant?.flavour}`}</small></div>
                                     </div>    
                                 </div>
                                 </div>
                                 </div>
                                 
-                                ))}
+                              )})}
                             </div>
                         </div>
                        
