@@ -175,18 +175,3 @@ npm start
 | 📦 Order Status Tracking | 🔄 Planned |
 | 📧 Email Notifications | 🔄 Planned |
 | ⚡ Performance Optimization | 🔄 Planned |
-
----
-
-## 👨‍💻 Author
-
-**Ankit Gupta**
-
-| Platform | Link |
-|---------|------|
-| 🐙 GitHub | [github.com/Anii1445](https://github.com/Anii1445) |
-<<<<<<< HEAD
-| 💼 LinkedIn | [linkedin.com/in/yourprofile](https://linkedin.com/in/yourprofile) |
-=======
-| 💼 LinkedIn | [linkedin.com/in/yourprofile](https://linkedin.com/in/yourprofile) |
->>>>>>> 2a9f99a889c2bf67361f3c29570c94c6dc7c61cc
